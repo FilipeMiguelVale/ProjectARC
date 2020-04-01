@@ -1,0 +1,42 @@
+{
+  "files": {
+    "main.css": "/static/react/css/main.2c2529f9.chunk.css",
+    "main.js": "/static/react/js/main.7be891bb.chunk.js",
+    "main.js.map": "/static/react/js/main.7be891bb.chunk.js.map",
+    "runtime-main.js": "/static/react/js/runtime-main.f1e2b9dc.js",
+    "runtime-main.js.map": "/static/react/js/runtime-main.f1e2b9dc.js.map",
+    "css/2.400840fd.chunk.css": "/static/react/css/2.400840fd.chunk.css",
+    "js/2.8b0abc3b.chunk.js": "/static/react/js/2.8b0abc3b.chunk.js",
+    "js/2.8b0abc3b.chunk.js.map": "/static/react/js/2.8b0abc3b.chunk.js.map",
+    "../../templates/index.html": "/static/react/../../templates/index.html",
+    "css/2.400840fd.chunk.css.map": "/static/react/css/2.400840fd.chunk.css.map",
+    "css/main.2c2529f9.chunk.css.map": "/static/react/css/main.2c2529f9.chunk.css.map",
+    "js/2.8b0abc3b.chunk.js.LICENSE.txt": "/static/react/js/2.8b0abc3b.chunk.js.LICENSE.txt",
+    "js/main.7be891bb.chunk.js.LICENSE.txt": "/static/react/js/main.7be891bb.chunk.js.LICENSE.txt",
+    "media/angular.jpg": "/static/react/media/angular.368685db.jpg",
+    "media/argon-react-white.png": "/static/react/media/argon-react-white.275a2629.png",
+    "media/argon-react.png": "/static/react/media/argon-react.f38ddea9.png",
+    "media/bootstrap.jpg": "/static/react/media/bootstrap.ab904daa.jpg",
+    "media/all.min.css": "/static/react/media/fa-solid-900.cdfec5cf.woff",
+    "media/github.svg": "/static/react/media/github.4ffd4fe7.svg",
+    "media/google.svg": "/static/react/media/google.87be59a1.svg",
+    "media/nucleo.css": "/static/react/media/nucleo-icons.f82ec6ba.ttf",
+    "media/profile-cover.jpg": "/static/react/media/profile-cover.e2582654.jpg",
+    "media/react.jpg": "/static/react/media/react.c4eb3d0b.jpg",
+    "media/sketch.jpg": "/static/react/media/sketch.e7c82e5c.jpg",
+    "media/team-1-800x800.jpg": "/static/react/media/team-1-800x800.53033970.jpg",
+    "media/team-2-800x800.jpg": "/static/react/media/team-2-800x800.dcfcf3b7.jpg",
+    "media/team-3-800x800.jpg": "/static/react/media/team-3-800x800.497bb359.jpg",
+    "media/team-4-800x800.jpg": "/static/react/media/team-4-800x800.23007132.jpg",
+    "media/vue.jpg": "/static/react/media/vue.9378e368.jpg",
+    "precache-manifest.06da90c7ab6b5894bf6cab0eb90e9671.js": "/static/react/precache-manifest.06da90c7ab6b5894bf6cab0eb90e9671.js",
+    "service-worker.js": "/static/react/service-worker.js"
+  },
+  "entrypoints": [
+    "js/runtime-main.f1e2b9dc.js",
+    "css/2.400840fd.chunk.css",
+    "js/2.8b0abc3b.chunk.js",
+    "css/main.2c2529f9.chunk.css",
+    "js/main.7be891bb.chunk.js"
+  ]
+}
