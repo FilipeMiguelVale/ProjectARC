@@ -1,25 +1,24 @@
 {
   "files": {
     "main.css": "/static/react/css/main.2c2529f9.chunk.css",
-    "main.js": "/static/react/js/main.f6a50236.chunk.js",
-    "main.js.map": "/static/react/js/main.f6a50236.chunk.js.map",
+    "main.js": "/static/react/js/main.0dfa402a.chunk.js",
+    "main.js.map": "/static/react/js/main.0dfa402a.chunk.js.map",
     "runtime-main.js": "/static/react/js/runtime-main.f1e2b9dc.js",
     "runtime-main.js.map": "/static/react/js/runtime-main.f1e2b9dc.js.map",
     "css/2.400840fd.chunk.css": "/static/react/css/2.400840fd.chunk.css",
-    "js/2.3dcf29c5.chunk.js": "/static/react/js/2.3dcf29c5.chunk.js",
-    "js/2.3dcf29c5.chunk.js.map": "/static/react/js/2.3dcf29c5.chunk.js.map",
+    "js/2.edb723ac.chunk.js": "/static/react/js/2.edb723ac.chunk.js",
+    "js/2.edb723ac.chunk.js.map": "/static/react/js/2.edb723ac.chunk.js.map",
     "../../templates/index.html": "/static/react/../../templates/index.html",
     "css/2.400840fd.chunk.css.map": "/static/react/css/2.400840fd.chunk.css.map",
     "css/main.2c2529f9.chunk.css.map": "/static/react/css/main.2c2529f9.chunk.css.map",
-    "js/2.3dcf29c5.chunk.js.LICENSE.txt": "/static/react/js/2.3dcf29c5.chunk.js.LICENSE.txt",
-    "js/main.f6a50236.chunk.js.LICENSE.txt": "/static/react/js/main.f6a50236.chunk.js.LICENSE.txt",
+    "js/2.edb723ac.chunk.js.LICENSE.txt": "/static/react/js/2.edb723ac.chunk.js.LICENSE.txt",
+    "js/main.0dfa402a.chunk.js.LICENSE.txt": "/static/react/js/main.0dfa402a.chunk.js.LICENSE.txt",
+    "media/Logo-white.png": "/static/react/media/Logo-white.6037d81b.png",
+    "media/Logo.png": "/static/react/media/Logo.a0a7d255.png",
     "media/angular.jpg": "/static/react/media/angular.368685db.jpg",
-    "media/argon-react-white.png": "/static/react/media/argon-react-white.275a2629.png",
     "media/argon-react.png": "/static/react/media/argon-react.f38ddea9.png",
     "media/bootstrap.jpg": "/static/react/media/bootstrap.ab904daa.jpg",
     "media/all.min.css": "/static/react/media/fa-solid-900.cdfec5cf.woff",
-    "media/github.svg": "/static/react/media/github.4ffd4fe7.svg",
-    "media/google.svg": "/static/react/media/google.87be59a1.svg",
     "media/nucleo.css": "/static/react/media/nucleo-icons.f82ec6ba.ttf",
     "media/profile-cover.jpg": "/static/react/media/profile-cover.e2582654.jpg",
     "media/react.jpg": "/static/react/media/react.c4eb3d0b.jpg",
@@ -29,14 +28,14 @@
     "media/team-3-800x800.jpg": "/static/react/media/team-3-800x800.497bb359.jpg",
     "media/team-4-800x800.jpg": "/static/react/media/team-4-800x800.23007132.jpg",
     "media/vue.jpg": "/static/react/media/vue.9378e368.jpg",
-    "precache-manifest.909906686fb9c53d62b6c0fefccb1ed0.js": "/static/react/precache-manifest.909906686fb9c53d62b6c0fefccb1ed0.js",
+    "precache-manifest.298bac86152072c09c368625f9bf7dd6.js": "/static/react/precache-manifest.298bac86152072c09c368625f9bf7dd6.js",
     "service-worker.js": "/static/react/service-worker.js"
   },
   "entrypoints": [
     "js/runtime-main.f1e2b9dc.js",
     "css/2.400840fd.chunk.css",
-    "js/2.3dcf29c5.chunk.js",
+    "js/2.edb723ac.chunk.js",
     "css/main.2c2529f9.chunk.css",
-    "js/main.f6a50236.chunk.js"
+    "js/main.0dfa402a.chunk.js"
   ]
 }

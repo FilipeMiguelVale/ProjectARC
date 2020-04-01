@@ -1,43 +1,47 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0d0a369290bcf7e971c32b25d078075f",
+    "revision": "dc3633a21894a193a8039338f289b99e",
     "url": "/static/react/../../templates/index.html"
   },
   {
-    "revision": "2afaa9641f5eb9f0ef89",
+    "revision": "9dcb087734f8038ad80d",
     "url": "/static/react/css/2.400840fd.chunk.css"
   },
   {
-    "revision": "a137bdb0d7c6d7cbf2e1",
+    "revision": "1b4b274281d7b8763fb4",
     "url": "/static/react/css/main.2c2529f9.chunk.css"
   },
   {
-    "revision": "2afaa9641f5eb9f0ef89",
-    "url": "/static/react/js/2.3dcf29c5.chunk.js"
+    "revision": "9dcb087734f8038ad80d",
+    "url": "/static/react/js/2.edb723ac.chunk.js"
   },
   {
     "revision": "237f09d544ec52f8d1018e3f3332bf75",
-    "url": "/static/react/js/2.3dcf29c5.chunk.js.LICENSE.txt"
+    "url": "/static/react/js/2.edb723ac.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "a137bdb0d7c6d7cbf2e1",
-    "url": "/static/react/js/main.f6a50236.chunk.js"
+    "revision": "1b4b274281d7b8763fb4",
+    "url": "/static/react/js/main.0dfa402a.chunk.js"
   },
   {
     "revision": "8d0d562f4ec3c131ac27d52de65ecd17",
-    "url": "/static/react/js/main.f6a50236.chunk.js.LICENSE.txt"
+    "url": "/static/react/js/main.0dfa402a.chunk.js.LICENSE.txt"
   },
   {
     "revision": "6234b06a4ce590fcf50e",
     "url": "/static/react/js/runtime-main.f1e2b9dc.js"
   },
   {
-    "revision": "368685db949cddcd901ba54559a727d9",
-    "url": "/static/react/media/angular.368685db.jpg"
+    "revision": "6037d81bcc16a10dde25f4c05c15512b",
+    "url": "/static/react/media/Logo-white.6037d81b.png"
   },
   {
-    "revision": "275a2629582aa2af3469364c6748cf38",
-    "url": "/static/react/media/argon-react-white.275a2629.png"
+    "revision": "a0a7d25595d98cee72b3cff71dfc5d68",
+    "url": "/static/react/media/Logo.a0a7d255.png"
+  },
+  {
+    "revision": "368685db949cddcd901ba54559a727d9",
+    "url": "/static/react/media/angular.368685db.jpg"
   },
   {
     "revision": "f38ddea9dedadea03c5d43c596dac13f",
@@ -106,14 +110,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "cdfec5cf5e9840889790bcf2c4042583",
     "url": "/static/react/media/fa-solid-900.cdfec5cf.woff"
-  },
-  {
-    "revision": "4ffd4fe7945af123788bf5888296c696",
-    "url": "/static/react/media/github.4ffd4fe7.svg"
-  },
-  {
-    "revision": "87be59a1f7061fc6021876aad6fee028",
-    "url": "/static/react/media/google.87be59a1.svg"
   },
   {
     "revision": "0b8a30b10cbe7708d5f3a4b007c1d665",
