@@ -72,6 +72,13 @@ var routes = [
     icon: "ni ni-circle-08 text-pink",
     component: Register,
     layout: "/auth"
+  },
+  {
+    path: "/accidents",
+    name: "Accidents",
+    icon:"ni ni-ambulance text-purple",
+    component: Accidents,
+    layout "/admin"
   }
 ];
 export default routes;
