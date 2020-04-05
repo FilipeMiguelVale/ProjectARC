@@ -22,7 +22,6 @@ import Register from "views/examples/Register.js";
 import Login from "views/examples/Login.js";
 import Tables from "views/examples/Tables.js";
 import Icons from "views/examples/Icons.js";
-import Accidents from "views/examples/Accidents.js"
 
 var routes = [
   {
@@ -55,8 +54,8 @@ var routes = [
   },
   {
     path: "/tables",
-    name: "Tables",
-    icon: "ni ni-bullet-list-67 text-red",
+    name: "Accidents",
+    icon: "ni ni-ambulance text-purple",
     component: Tables,
     layout: "/admin"
   },
@@ -73,13 +72,7 @@ var routes = [
     icon: "ni ni-circle-08 text-pink",
     component: Register,
     layout: "/auth"
-  },
-  {
-    path: "/accidents",
-    name: "Accidents",
-    icon:"ni ni-ambulance text-purple",
-    component: Accidents,
-    layout "/admin"
   }
+
 ];
 export default routes;
