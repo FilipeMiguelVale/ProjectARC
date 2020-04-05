@@ -53,10 +53,10 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/tables",
+    path: "/accidents",
     name: "Accidents",
     icon: "ni ni-ambulance text-purple",
-    component: Tables,
+    component: Accidents,
     layout: "/admin"
   },
   {
