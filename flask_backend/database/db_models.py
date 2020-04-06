@@ -9,7 +9,8 @@ class Accident(db.Model):
     n_cars_involved = db.Column(db.Integer, nullable=False)
     damage = db.Column(db.Float, default=0.0)
     n_people_injured = db.Column(db.Integer, default=0)
-    images_folder = db.Column(db.String, unique=True)
+    video_location = db.Column(db.String, unique=True, default=1)
+    video_id = db.Column(db.Integer, nullable=False, default=1)
     date = db.Column(db.DateTime, default=datetime.utcnow)
 
     cars = db.relationship('Car', backref='car', lazy=True)
