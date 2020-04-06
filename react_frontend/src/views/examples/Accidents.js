@@ -52,15 +52,15 @@ class Tables extends React.Component {
             <div className="col">
               <Card className="shadow">
                 <CardHeader className="border-0">
-                  <h3 className="mb-0">Card tables</h3>
+                  <h3 className="mb-0">Acidentes</h3>
                 </CardHeader>
                 <Table className="align-items-center table-flush" responsive>
                   <thead className="thead-light">
                     <tr>
-                      <th scope="col">Project</th>
-                      <th scope="col">Budget</th>
-                      <th scope="col">Status</th>
-                      <th scope="col">Users</th>
+                      <th scope="col">Data e hora</th>
+                      <th scope="col">Número de carros</th>
+                      <th scope="col">Número de pessoas</th>
+                      <th scope="col">Número de feridos</th>
                       <th scope="col">Completion</th>
                       <th scope="col" />
                     </tr>
@@ -878,7 +878,7 @@ class Tables extends React.Component {
             <div className="col">
               <Card className="bg-default shadow">
                 <CardHeader className="bg-transparent border-0">
-                  <h3 className="text-white mb-0">Card tables</h3>
+                  <h3 className="text-white mb-0">Acidentes</h3>
                 </CardHeader>
                 <Table
                   className="align-items-center table-dark table-flush"
@@ -886,10 +886,10 @@ class Tables extends React.Component {
                 >
                   <thead className="thead-dark">
                     <tr>
-                      <th scope="col">Project</th>
-                      <th scope="col">Budget</th>
-                      <th scope="col">Status</th>
-                      <th scope="col">Users</th>
+                      <th scope="col">Data e hora</th>
+                      <th scope="col">Número de carros</th>
+                      <th scope="col">Número de pessoas</th>
+                      <th scope="col">Número de feridos</th>
                       <th scope="col">Completion</th>
                       <th scope="col" />
                     </tr>
