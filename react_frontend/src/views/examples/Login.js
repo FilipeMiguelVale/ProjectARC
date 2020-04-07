@@ -32,8 +32,12 @@ import {
   Row,
   Col
 } from "reactstrap";
+import {Redirect} from "react-router-dom";
 
 class Login extends React.Component {
+  onCreateAccount = () => {
+    return <Redirect to="/auth/Register"/>
+  }
   render() {
     return (
       <>
@@ -98,8 +102,8 @@ class Login extends React.Component {
             <Col className="text-right" xs="6">
               <a
                 className="text-light"
-                href="#pablo"
-                onClick={e => e.preventDefault()}
+                href="/#auth/register"
+                onClick={this.onCreateAccount}
               >
                 <small>Create new account</small>
               </a>
