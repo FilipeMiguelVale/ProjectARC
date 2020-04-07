@@ -19,19 +19,15 @@ import React from "react";
 
 // reactstrap components
 import { Button, Container, Row, Col } from "reactstrap";
-import {Redirect} from 'react-router-dom'
 
 class UserHeader extends React.Component {
-  onEditProfile = () => {
-      return <Redirect to="/admin/edit_profile"/>
-  }
   render() {
     return (
       <>
         <div
           className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
           style={{
-            minHeight: "600px",
+            minHeight: "300px",
             backgroundImage:
               "url(" + require("../../assets/img/theme/fundo.jpg") + ")",
             backgroundSize: "cover",
@@ -45,13 +41,6 @@ class UserHeader extends React.Component {
             <Row>
               <Col lg="7" md="10">
                 <h1 className="display-2 text-white">Hello Jessica</h1>
-                  <Button
-                  color="info"
-                  href="#pablo"
-                  onClick= {this.onEditProfile}
-                >
-                  Edit profile
-                </Button>
               </Col>
             </Row>
           </Container>

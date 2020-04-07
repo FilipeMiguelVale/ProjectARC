@@ -32,8 +32,12 @@ import {
 } from "reactstrap";
 // core components
 import UserHeader from "../../components/Headers/UserHeader.js";
+import {Redirect} from "react-router-dom";
 
 class Profile extends React.Component {
+  onEditProfile = () => {
+      return <Redirect to="/admin/edit_profile"/>
+  }
   render() {
     return (
       <>
@@ -57,6 +61,16 @@ class Profile extends React.Component {
                   </Col>
                 </Row>
                 <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                  <div className="d-flex justify-content-between">
+                    <Button
+                      color="default"
+                      href="#pablo"
+                      onClick= {this.onEditProfile}
+                      size="sm"
+                    >
+                      Edit profile
+                    </Button>
+                  </div>
                 </CardHeader>
                 <CardBody className="pt-0 pt-md-4">
                   <Row>
