@@ -64,7 +64,7 @@ class Profile extends React.Component {
                   <div className="d-flex justify-content-between">
                     <Button
                       color="default"
-                      href="#pablo"
+                      href="/#admin/edit_profile"
                       onClick= {this.onEditProfile}
                       size="sm"
                     >

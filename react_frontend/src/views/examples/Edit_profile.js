@@ -32,8 +32,12 @@ import {
 } from "reactstrap";
 // core components
 import UserHeader from "../../components/Headers/UserHeader.js";
+import {Redirect} from "react-router-dom";
 
 class Edit_profile extends React.Component {
+   onSaveChanges = () => {
+      return <Redirect to="/#admin/user-profile"/>
+  }
   render() {
     return (
       <>
@@ -231,6 +235,17 @@ class Edit_profile extends React.Component {
                           type="textarea"
                         />
                       </FormGroup>
+                    </div>
+                    <div className="pl-lg-4">
+                      <Row className="justify-content-center">
+                        <Button
+                          color="info"
+                          href="/#admin/user-profile"
+                          onClick= {this.onSaveChanges}
+                        >
+                          Save Changes
+                        </Button>
+                      </Row>
                     </div>
                   </Form>
                 </CardBody>
