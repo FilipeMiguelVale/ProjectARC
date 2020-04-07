@@ -61,6 +61,7 @@ class Tables extends React.Component {
                   <thead className="thead-dark">
                     <tr>
                       <th scope="col">Data e hora</th>
+                      <th scope="col">Local</th>
                       <th scope="col">Número de carros</th>
                       <th scope="col">Número de pessoas</th>
                       <th scope="col">Número de feridos</th>
@@ -79,17 +80,35 @@ class Tables extends React.Component {
                           >
                             <img
                               alt="..."
-                              src={require("../../assets/img/theme/bootstrap.jpg")}
+                              src={require("../../assets/img/theme/DateHour.jpg")}
                             />
                           </a>
                           <Media>
                             <span className="mb-0 text-sm">
-                              Argon Design System
+                              (Inserir data e hora)
                             </span>
                           </Media>
                         </Media>
                       </th>
-                      <td>$2,500 USD</td>
+                      <th scope="row">
+                        <Media className="align-items-center">
+                          <a
+                            className="avatar rounded-circle mr-3"
+                            href="#pablo"
+                            onClick={e => e.preventDefault()}
+                          >
+                            <img
+                              alt="..."
+                              src={require("../../assets/img/theme/car.jpg")}
+                            />
+                          </a>
+                          <Media>
+                            <span className="mb-0 text-sm">
+                              (Inserir número de carros)
+                            </span>
+                          </Media>
+                        </Media>
+                      </th>
                       <td>
                         <Badge color="" className="badge-dot mr-4">
                           <i className="bg-warning" />
@@ -229,7 +248,7 @@ class Tables extends React.Component {
                           >
                             <img
                               alt="..."
-                              src={require("../../assets/img/theme/angular.jpg")}
+                              src={require("../../assets/img/theme/DateHour.jpg")}
                             />
                           </a>
                           <Media>
