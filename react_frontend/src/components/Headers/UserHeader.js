@@ -19,8 +19,12 @@ import React from "react";
 
 // reactstrap components
 import { Button, Container, Row, Col } from "reactstrap";
+import {Redirect} from 'react-router-dom'
 
 class UserHeader extends React.Component {
+  onEditProfile = () => {
+      return <Redirect to="/admin/edit_profile"/>
+  }
   render() {
     return (
       <>
@@ -29,7 +33,7 @@ class UserHeader extends React.Component {
           style={{
             minHeight: "600px",
             backgroundImage:
-              "url(" + require("../../assets/img/theme/profile-cover.jpg") + ")",
+              "url(" + require("../../assets/img/theme/fundo.jpg") + ")",
             backgroundSize: "cover",
             backgroundPosition: "center top"
           }}
@@ -40,15 +44,11 @@ class UserHeader extends React.Component {
           <Container className="d-flex align-items-center" fluid>
             <Row>
               <Col lg="7" md="10">
-                <h1 className="display-2 text-white">Hello Jesse</h1>
-                <p className="text-white mt-0 mb-5">
-                  This is your profile page. You can see the progress you've
-                  made with your work and manage your projects or assigned tasks
-                </p>
-                <Button
+                <h1 className="display-2 text-white">Hello Jessica</h1>
+                  <Button
                   color="info"
                   href="#pablo"
-                  onClick={e => e.preventDefault()}
+                  onClick= {this.onEditProfile}
                 >
                   Edit profile
                 </Button>
