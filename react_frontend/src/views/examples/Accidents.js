@@ -92,6 +92,15 @@ class Tables extends React.Component {
                       </th>
                       <th scope="row">
                         <Media className="align-items-center">
+                          <Media>
+                            <span className="mb-0 text-sm">
+                              (Inserir local)
+                            </span>
+                          </Media>
+                        </Media>
+                      </th>
+                      <th scope = "row">
+                        <Media className="align-items-center">
                           <a
                             className="avatar rounded-circle mr-3"
                             href="#pablo"
@@ -109,12 +118,6 @@ class Tables extends React.Component {
                           </Media>
                         </Media>
                       </th>
-                      <td>
-                        <Badge color="" className="badge-dot mr-4">
-                          <i className="bg-warning" />
-                          pending
-                        </Badge>
-                      </td>
                       <td>
                         <div className="avatar-group">
                           <a
