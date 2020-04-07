@@ -61,15 +61,15 @@ class Profile extends React.Component {
                   </Col>
                 </Row>
                 <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-                  <div className="d-flex justify-content-between">
-                    <Button
-                      color="default"
-                      href="/#admin/edit_profile"
-                      onClick= {this.onEditProfile}
-                      size="sm"
-                    >
-                      Edit profile
-                    </Button>
+                  <div className="d-flex justify-content-end">
+                      <Button
+                        color="default"
+                        href="/#admin/edit_profile"
+                        onClick= {this.onEditProfile}
+                        size="sm"
+                      >
+                        Edit profile
+                      </Button>
                   </div>
                 </CardHeader>
                 <CardBody className="pt-0 pt-md-4">
