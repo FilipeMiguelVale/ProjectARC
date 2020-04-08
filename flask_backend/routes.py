@@ -1,7 +1,18 @@
-from flask import request, jsonify, render_template
-from flask_backend import app, db
+from flask import request, jsonify, render_template, flash, redirect # flask
+
+from flask_backend import app, db   # app and database
+
+# database objects and queries
 from flask_backend.database.db_schemas import accident_schema, accidents_schema
 from flask_backend.database.db_models import Accident, Car
+from flask_backend.database.queries import *
+from flask_backend.erros import *
+
+# video adding 
+from werkzeug.utils import secure_filename
+import os
+
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','avi'])
 
 
 @app.route('/')
@@ -13,44 +24,63 @@ def home():
 @app.route('/add_video', methods=['POST'])
 def add_video():
 
-    #add video to data-base
+    # if 'file' not in request.files:
+    #     return jsonify(no_file)
+    
+    # if 'id' not in request.values:
+    #     return jsonify(no_id_video)
 
-    return None
+    file = request.files['file']
+    id = request.values["id"]
+    
+    # if file.filename == '':
+    #     return jsonify(no_file_selected)
+
+    # if not allowed_file(file.filename):
+    #     return jsonify(type_not_allowed)
+
+    filename = file.filename.split(".")
+    name = filename[0] + "_" + id
+    file_type = filename[1]
+    filename = secure_filename(name+"."+file_type)
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    file.save(file_path)
+    return add_video_to_database(file_path,id)
+
+def allowed_file(filename):
+	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 # Create a Accident
 @app.route('/add_accident', methods=['POST'])
 def add_accident():
-    number_cars = request.json['n_cars']
-
     location = request.json['location']
+    video_id = int(request.json['video_id'])
 
-    new_accident = Accident(location, number_cars)
+    accident = get_accident_by_location(location)
 
-    n_total_people = 0
+    if not accident:
+        accident = Accident(location,video_id)
 
-    # cars
-    cars = []
-    for car_id in [1, number_cars]:
-        n_people = request.json['car'][str(car_id)]['n_people']
-        car = Car(0.0, n_people, 0.0, False, False, 0.0)
-        car.n_people = n_people
-        n_total_people += n_people
-        cars.append(car)
+    accident.n_cars_involved += 1
 
-    new_accident.n_people = n_total_people
+    n_people = request.json["n_people"]
+    accident.n_people += request.json["n_people"] 
 
-    db.session.add(new_accident)
+    velocity = request.json["velocity"]
+    ABS = request.json["ABS"]
+    temperature = request.json["temperature"]
+    airbag = request.json["airbag"]
+    overturned = request.json["overturned"]
+    damage = request.json["damage"]
+    accident.damage += damage
+    
+    car = Car(velocity,n_people,temperature,airbag,
+    ABS,overturned,damage)
 
-    db.session.commit()
-
-    for car_cl in cars:
-        car_cl.accident_id = new_accident.id
-        db.session.add(car_cl)
-
-    db.session.commit()
-
-    return accident_schema.jsonify(new_accident)
+    add_accident_to_database(accident,car)
+    
+    return accident_schema.jsonify(accident)
 
 
 # See Accident

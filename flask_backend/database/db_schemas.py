@@ -3,7 +3,7 @@ from flask_backend import ma
 
 class AccidentSchema(ma.Schema):
     class Meta:
-        fields = ('id','location', 'n_cars_involved', 'n_people', 'n_people_injured')
+        fields = ('id','location', 'n_cars_involved', 'n_people', 'n_people_injured','video_location')
 
 
 class CarSchema(ma.Schema):
