@@ -60,19 +60,8 @@ class Tables extends React.Component {
                 >
                   <thead className="thead-dark">
                     <tr>
-                      <th scope="col">Data e hora</th>
-                      <th scope="col">Local</th>
-                      <th scope="col">Número de carros</th>
-                      <th scope="col">Número de pessoas</th>
-                      <th scope="col">Número de feridos</th>
-                      <th scope="col">Gravidade do acidente</th>
-                      <th scope="col" />
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">
-                        <Media className="align-items-center">
+                      <th scope="col">
+                       <Media className="align-items-center">
                           <a
                             className="avatar rounded-circle mr-3"
                             href="#pablo"
@@ -83,6 +72,77 @@ class Tables extends React.Component {
                               src={require("../../assets/img/theme/DateHour.jpg")}
                             />
                           </a>
+                      </Media>
+                       Data e hora
+                      </th>
+                      <th scope="col">
+                       <Media className="align-items-center">
+                          <a
+                            className="avatar rounded-circle mr-3"
+                            href="#pablo"
+                            onClick={e => e.preventDefault()}
+                          >
+                            <img
+                              alt="..."
+                              src={require("../../assets/img/theme/pinout.jpg")}
+                            />
+                          </a>
+                        </Media>
+                       Local
+                      </th>
+                      <th scope="col">
+                       <Media className="align-items-center">
+                          <a
+                            className="avatar rounded-circle mr-3"
+                            href="#pablo"
+                            onClick={e => e.preventDefault()}
+                          >
+                            <img
+                              alt="..."
+                              src={require("../../assets/img/theme/car.jpg")}
+                            />
+                          </a>
+                        </Media>
+                       Número de carros
+                      </th>
+                      <th scope="col">
+                       <Media className="align-items-center">
+                          <a
+                            className="avatar rounded-circle mr-3"
+                            href="#pablo"
+                            onClick={e => e.preventDefault()}
+                          >
+                            <img
+                              alt="..."
+                              src={require("../../assets/img/theme/people.jpg")}
+                            />
+                          </a>
+                        </Media> 
+                       Número de pessoas
+                      </th>
+                      <th scope="col">
+                       <Media className="align-items-center">
+                          <a
+                            className="avatar rounded-circle mr-3"
+                            href="#pablo"
+                            onClick={e => e.preventDefault()}
+                          >
+                            <img
+                              alt="..."
+                              src={require("../../assets/img/theme/injuredpeople.jpg")}
+                            />
+                          </a>
+                       </Media>
+                       Número de feridos
+                      </th>
+                      <th scope="col">Gravidade do acidente</th>
+                      <th scope="col" />
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">
+                        <Media className="align-items-center">
                           <Media>
                             <span className="mb-0 text-sm">
                               (Inserir data e hora)
@@ -101,16 +161,6 @@ class Tables extends React.Component {
                       </th>
                       <th scope = "row">
                         <Media className="align-items-center">
-                          <a
-                            className="avatar rounded-circle mr-3"
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                          >
-                            <img
-                              alt="..."
-                              src={require("../../assets/img/theme/car.jpg")}
-                            />
-                          </a>
                           <Media>
                             <span className="mb-0 text-sm">
                               (Inserir número de carros)
@@ -244,30 +294,19 @@ class Tables extends React.Component {
                     <tr>
                       <th scope="row">
                         <Media className="align-items-center">
-                          <a
-                            className="avatar rounded-circle mr-3"
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                          >
-                            <img
-                              alt="..."
-                              src={require("../../assets/img/theme/DateHour.jpg")}
-                            />
-                          </a>
                           <Media>
                             <span className="mb-0 text-sm">
-                              Angular Now UI Kit PRO
+                              (Inserir data e hora)
                             </span>
                           </Media>
                         </Media>
                       </th>
-                      <td>$1,800 USD</td>
                       <td>
-                        <Badge color="" className="badge-dot">
-                          <i className="bg-success" />
-                          completed
-                        </Badge>
+                       <span className="mb-0 text-sm">
+                        (Inserir local)
+                       </span>
                       </td>
+                      <td>(Inserir número de carros</td>
                       <td>
                         <div className="avatar-group">
                           <a
@@ -394,30 +433,19 @@ class Tables extends React.Component {
                     <tr>
                       <th scope="row">
                         <Media className="align-items-center">
-                          <a
-                            className="avatar rounded-circle mr-3"
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                          >
-                            <img
-                              alt="..."
-                              src={require("../../assets/img/theme/sketch.jpg")}
-                            />
-                          </a>
                           <Media>
                             <span className="mb-0 text-sm">
-                              Black Dashboard
+                              (Inserir data e hora)
                             </span>
                           </Media>
                         </Media>
                       </th>
-                      <td>$3,150 USD</td>
                       <td>
-                        <Badge color="" className="badge-dot mr-4">
-                          <i className="bg-danger" />
-                          delayed
-                        </Badge>
+                       <span className="mb-0 text-sm">
+                        (Inserir local)
+                       </span>
                       </td>
+                      <td>(Inserir número de carros)</td>
                       <td>
                         <div className="avatar-group">
                           <a
@@ -544,30 +572,19 @@ class Tables extends React.Component {
                     <tr>
                       <th scope="row">
                         <Media className="align-items-center">
-                          <a
-                            className="avatar rounded-circle mr-3"
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                          >
-                            <img
-                              alt="..."
-                              src={require("../../assets/img/theme/react.jpg")}
-                            />
-                          </a>
                           <Media>
                             <span className="mb-0 text-sm">
-                              React Material Dashboard
+                              (Inserir data e hora)
                             </span>
                           </Media>
                         </Media>
                       </th>
-                      <td>$4,400 USD</td>
                       <td>
-                        <Badge color="" className="badge-dot">
-                          <i className="bg-info" />
-                          on schedule
-                        </Badge>
+                       <span className="mb-0 text-sm">
+                        (Inserir local)
+                       </span>
                       </td>
+                      <td>(Inserir número de carros)</td>
                       <td>
                         <div className="avatar-group">
                           <a
@@ -694,30 +711,19 @@ class Tables extends React.Component {
                     <tr>
                       <th scope="row">
                         <Media className="align-items-center">
-                          <a
-                            className="avatar rounded-circle mr-3"
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                          >
-                            <img
-                              alt="..."
-                              src={require("../../assets/img/theme/vue.jpg")}
-                            />
-                          </a>
                           <Media>
                             <span className="mb-0 text-sm">
-                              Vue Paper UI Kit PRO
+                              (Inserir data e hora)
                             </span>
                           </Media>
                         </Media>
                       </th>
-                      <td>$2,200 USD</td>
                       <td>
-                        <Badge color="" className="badge-dot mr-4">
-                          <i className="bg-success" />
-                          completed
-                        </Badge>
+                       <span className="mb-0 text-sm">
+                        (Inserir local)
+                       </span>
                       </td>
+                      <td>(Inserir número de carros)</td>
                       <td>
                         <div className="avatar-group">
                           <a
