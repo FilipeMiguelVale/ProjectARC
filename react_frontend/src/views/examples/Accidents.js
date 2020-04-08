@@ -52,7 +52,7 @@ class Tables extends React.Component {
             <div className="col">
               <Card className="bg-default shadow">
                 <CardHeader className="bg-transparent border-0">
-                  <h3 className="text-white mb-0">Acidentes</h3>
+                  <h3 className="text-white mb-0">Accidents</h3>
                 </CardHeader>
                 <Table
                   className="align-items-center table-dark table-flush"
@@ -73,7 +73,7 @@ class Tables extends React.Component {
                             />
                           </a>
                       </Media>
-                       Data e hora
+                       Date/Hour
                       </th>
                       <th scope="col">
                        <Media className="align-items-center">
@@ -103,7 +103,7 @@ class Tables extends React.Component {
                             />
                           </a>
                         </Media>
-                       Número de carros
+                       Number of cars
                       </th>
                       <th scope="col">
                        <Media className="align-items-center">
@@ -118,7 +118,7 @@ class Tables extends React.Component {
                             />
                           </a>
                         </Media> 
-                       Número de pessoas
+                       Number of people
                       </th>
                       <th scope="col">
                        <Media className="align-items-center">
@@ -133,13 +133,119 @@ class Tables extends React.Component {
                             />
                           </a>
                        </Media>
-                       Número de feridos
+                       Number of injured
                       </th>
-                      <th scope="col">Gravidade do acidente</th>
+                      <th scope="col">Severity</th>
                       <th scope="col" />
                     </tr>
                   </thead>
                   <tbody>
+                    <tr>
+                      <th scope="row">
+                        <Media className="align-items-center">
+                          <Media>
+                            <span className="mb-0 text-sm">
+                              (Inserir data e hora)
+                            </span>
+                          </Media>
+                        </Media>
+                      </th>
+                      <th scope="row">
+                        <Media className="align-items-center">
+                          <Media>
+                            <span className="mb-0 text-sm">
+                              (Inserir local)
+                            </span>
+                          </Media>
+                        </Media>
+                      </th>
+                      <th scope = "row">
+                        <Media className="align-items-center">
+                          <Media>
+                            <span className="mb-0 text-sm">
+                              (Inserir número de carros)
+                            </span>
+                          </Media>
+                        </Media>
+                      </th>
+                      <th scope = "row">
+                       <Media className="align-items-center">
+                          <Media>
+                            <span className="mb-0 text-sm">
+                              (Inserir número de pessoas)
+                            </span>
+                          </Media>
+                        </Media>
+                      </th>
+                      <th scope = "row">
+                       <Media className="align-items-center">
+                          <Media>
+                            <span className="mb-0 text-sm">
+                              (Inserir número de feridos)
+                            </span>
+                          </Media>
+                        </Media>
+                      </th>
+                      <td>
+                        <Badge color="" className="badge-dot mr-4">
+                          <i className="bg-warning" />
+                          VERY SERIOUS
+                        </Badge>
+                      </td>  
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <Media className="align-items-center">
+                          <Media>
+                            <span className="mb-0 text-sm">
+                              (Inserir data e hora)
+                            </span>
+                          </Media>
+                        </Media>
+                      </th>
+                      <th scope="row">
+                        <Media className="align-items-center">
+                          <Media>
+                            <span className="mb-0 text-sm">
+                              (Inserir local)
+                            </span>
+                          </Media>
+                        </Media>
+                      </th>
+                      <th scope = "row">
+                        <Media className="align-items-center">
+                          <Media>
+                            <span className="mb-0 text-sm">
+                              (Inserir número de carros)
+                            </span>
+                          </Media>
+                        </Media>
+                      </th>
+                      <th scope = "row">
+                       <Media className="align-items-center">
+                          <Media>
+                            <span className="mb-0 text-sm">
+                              (Inserir número de pessoas)
+                            </span>
+                          </Media>
+                        </Media>
+                      </th>
+                       
+                      <th scope = "row">
+                       <Media className="align-items-center">
+                          <Media>
+                            <span className="mb-0 text-sm">
+                              (Inserir número de feridos)
+                            </span>
+                          </Media>
+                        </Media>
+                      </th>
+                      <td>
+                        <Badge color="" className="badge-dot mr-4">
+                          <i className="bg-warning" />
+                        </Badge>
+                      </td>  
+                    </tr>
                     <tr>
                       <th scope="row">
                         <Media className="align-items-center">
@@ -202,53 +308,24 @@ class Tables extends React.Component {
                           </Media>
                         </Media>
                       </th>
-                      <td>
-                       <span className="mb-0 text-sm">
-                        (Inserir local)
-                       </span>
-                      </td>
-                      <td>(Inserir número de carros</td>
-                      <th scope = "row">
-                       <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de pessoas)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                       
-                      <th scope = "row">
-                       <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de feridos)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <td>
-                        <Badge color="" className="badge-dot mr-4">
-                          <i className="bg-warning" />
-                        </Badge>
-                      </td>  
-                    </tr>
-                    <tr>
                       <th scope="row">
                         <Media className="align-items-center">
                           <Media>
                             <span className="mb-0 text-sm">
-                              (Inserir data e hora)
+                              (Inserir local)
                             </span>
                           </Media>
                         </Media>
                       </th>
-                      <td>
-                       <span className="mb-0 text-sm">
-                        (Inserir local)
-                       </span>
-                      </td>
-                      <td>(Inserir número de carros)</td>
+                      <th scope = "row">
+                        <Media className="align-items-center">
+                          <Media>
+                            <span className="mb-0 text-sm">
+                              (Inserir número de carros)
+                            </span>
+                          </Media>
+                        </Media>
+                      </th>
                       <th scope = "row">
                        <Media className="align-items-center">
                           <Media>
@@ -283,52 +360,24 @@ class Tables extends React.Component {
                           </Media>
                         </Media>
                       </th>
-                      <td>
-                       <span className="mb-0 text-sm">
-                        (Inserir local)
-                       </span>
-                      </td>
-                      <td>(Inserir número de carros)</td>
-                      <th scope = "row">
-                       <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de pessoas)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope = "row">
-                       <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de feridos)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <td>
-                        <Badge color="" className="badge-dot mr-4">
-                          <i className="bg-warning" />
-                        </Badge>
-                      </td>  
-                    </tr>
-                    <tr>
                       <th scope="row">
                         <Media className="align-items-center">
                           <Media>
                             <span className="mb-0 text-sm">
-                              (Inserir data e hora)
+                              (Inserir local)
                             </span>
                           </Media>
                         </Media>
                       </th>
-                      <td>
-                       <span className="mb-0 text-sm">
-                        (Inserir local)
-                       </span>
-                      </td>
-                      <td>(Inserir número de carros)</td>
+                      <th scope = "row">
+                        <Media className="align-items-center">
+                          <Media>
+                            <span className="mb-0 text-sm">
+                              (Inserir número de carros)
+                            </span>
+                          </Media>
+                        </Media>
+                      </th>
                       <th scope = "row">
                        <Media className="align-items-center">
                           <Media>
