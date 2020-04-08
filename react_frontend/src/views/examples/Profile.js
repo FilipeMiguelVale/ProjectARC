@@ -54,7 +54,7 @@ class Profile extends React.Component {
                         <img
                           alt="..."
                           className="rounded-circle"
-                          src={require("../../assets/img/theme/team-4-800x800.jpg")}
+                          src={require("../../assets/img/theme/administrative.png")}
                         />
                       </a>
                     </div>
@@ -81,20 +81,20 @@ class Profile extends React.Component {
                   </Row>
                   <div className="text-center">
                     <h3>
-                      Jessica Jones
+                      Rose
                       <span className="font-weight-light">, 27</span>
                     </h3>
                     <div className="h5 font-weight-300">
                       <i className="ni location_pin mr-2" />
-                      Bucharest, Romania
+                      Aveiro
                     </div>
                     <div className="h5 mt-4">
                       <i className="ni business_briefcase-24 mr-2" />
-                      Solution Manager - Creative Tim Officer
+                      System Manager
                     </div>
                     <div>
                       <i className="ni education_hat mr-2" />
-                      University of Computer Science
+                      University of Aveiro
                     </div>
                     <hr className="my-4" />
                     <p>
