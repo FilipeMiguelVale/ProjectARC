@@ -1,3 +1,4 @@
+
 from flask_backend.database.db_schemas import accident_schema, accidents_schema
 from flask_backend.database.db_models import Accident, Car
 from flask import jsonify
