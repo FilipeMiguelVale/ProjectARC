@@ -21,7 +21,7 @@ import Maps from "views/examples/Maps.js";
 import Register from "views/examples/Register.js";
 import Login from "views/examples/Login.js";
 import Accidents from "views/examples/Accidents.js";
-import Icons from "views/examples/Icons.js";
+import AccidentDetails from "views/examples/AccidentDetails";
 import Edit_profile from "views/examples/Edit_profile";
 
 var routes = [
@@ -33,10 +33,10 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/icons",
-    name: "Icons",
+    path: "/accident_details",
+    name: "Accident Details",
     icon: "ni ni-planet text-blue",
-    component: Icons,
+    component: AccidentDetails,
     layout: "/admin"
   },
   {
