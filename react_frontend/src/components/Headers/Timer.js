@@ -25,7 +25,7 @@ import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 class Timer extends React.Component {
   constructor(props) {
     super(props);
-    static int a ++;
+    //static int a ++;
     this.state = { seconds: 0 , accidents:Math.floor(Math.random() * 1000),type:"ACCIDENTS", name_view:"Month", variation:(Math.random() * 20 - 10).toFixed(2)};
   }
 
