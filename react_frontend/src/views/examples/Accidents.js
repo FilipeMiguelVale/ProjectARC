@@ -22,25 +22,108 @@ import {
   Badge,
   Card,
   CardHeader,
-  CardFooter,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  DropdownToggle,
   Media,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Progress,
   Table,
   Container,
   Row,
-  UncontrolledTooltip
 } from "reactstrap";
 // core components
 import Header from "../../components/Headers/Header.js";
 
+
+function fix_date(st) {
+  let date = st.split('T');
+  let year = date[0];
+  let time  = date[1].split('.')[0];
+  return year + " " + time;
+}
+
 class Tables extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      table_data : []
+    }
+  }
+
+  getData = async () => {
+    const response = await fetch(
+      '/list_accidents'
+    );
+
+    const result = await response.json();
+    this.setState(
+      prevState => (
+        {
+          table_data : result
+        }
+      )
+    );
+  }
+
+  renderArray = (value,index) => {
+    return(
+      <tr key={index}>
+        <th scope="row">
+          <Media className="align-items-center">
+            <Media>
+              <span className="mb-0 text-sm">
+                {fix_date(value["date"])}
+              </span>
+            </Media>
+          </Media>
+        </th>
+        <th scope="row">
+          <Media className="align-items-center">
+            <Media>
+              <span className="mb-0 text-sm">
+                {value["location"]["address"]}
+              </span>
+            </Media>
+          </Media>
+        </th>
+        <th scope = "row">
+          <Media className="align-items-center">
+            <Media>
+              <span className="mb-0 text-sm">
+                {value["n_cars_involved"]}
+              </span>
+            </Media>
+          </Media>
+        </th>
+        <th scope = "row">
+          <Media className="align-items-center">
+            <Media>
+              <span className="mb-0 text-sm">
+                {value["n_people"]}
+              </span>
+            </Media>
+          </Media>
+        </th>
+        <th scope = "row">
+          <Media className="align-items-center">
+            <Media>
+              <span className="mb-0 text-sm">
+                {value["n_people_injured"]}
+              </span>
+            </Media>
+          </Media>
+        </th>
+        <td>
+          <Badge color="" className="badge-dot mr-4">
+            <i className="bg-warning" />
+            {value["damage"]}
+          </Badge>
+        </td>  
+      </tr>
+    )
+  }
+
+  componentDidMount(): void {
+    this.getData();
+  }
+
   render() {
     return (
       <>
@@ -55,8 +138,8 @@ class Tables extends React.Component {
                   <h3 className="text-white mb-0">Accidents</h3>
                 </CardHeader>
                 <Table
-                  className="align-items-center table-dark table-flush"
-                  responsive
+                  className="align-items-center table-dark table-responsive"
+                  hover
                 >
                   <thead className="thead-dark">
                     <tr>
@@ -139,271 +222,8 @@ class Tables extends React.Component {
                       <th scope="col" />
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">
-                        <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir data e hora)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope="row">
-                        <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir local)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope = "row">
-                        <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de carros)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope = "row">
-                       <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de pessoas)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope = "row">
-                       <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de feridos)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <td>
-                        <Badge color="" className="badge-dot mr-4">
-                          <i className="bg-warning" />
-                          VERY SERIOUS
-                        </Badge>
-                      </td>  
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir data e hora)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope="row">
-                        <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir local)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope = "row">
-                        <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de carros)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope = "row">
-                       <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de pessoas)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                       
-                      <th scope = "row">
-                       <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de feridos)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <td>
-                        <Badge color="" className="badge-dot mr-4">
-                          <i className="bg-warning" />
-                        </Badge>
-                      </td>  
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir data e hora)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope="row">
-                        <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir local)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope = "row">
-                        <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de carros)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope = "row">
-                       <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de pessoas)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope = "row">
-                       <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de feridos)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <td>
-                        <Badge color="" className="badge-dot mr-4">
-                          <i className="bg-warning" />
-                        </Badge>
-                      </td>  
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir data e hora)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope="row">
-                        <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir local)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope = "row">
-                        <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de carros)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope = "row">
-                       <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de pessoas)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope = "row">
-                       <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de feridos)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <td>
-                        <Badge color="" className="badge-dot mr-4">
-                          <i className="bg-warning" />
-                        </Badge>
-                      </td>  
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir data e hora)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope="row">
-                        <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir local)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope = "row">
-                        <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de carros)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope = "row">
-                       <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de pessoas)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope = "row">
-                       <Media className="align-items-center">
-                          <Media>
-                            <span className="mb-0 text-sm">
-                              (Inserir número de feridos)
-                            </span>
-                          </Media>
-                        </Media>
-                      </th>
-                      <th scope = "row">
-                       <Media className="align-items-center">
-                        <Badge color="" className="badge-dot mr-4">
-                          <i className="bg-warning" />
-                        </Badge>
-                       </Media>
-                      </th>  
-                    </tr>
+                  <tbody
+                    {this.state["table_data"].map(this.renderArray)}
                   </tbody>
                 </Table>
               </Card>
