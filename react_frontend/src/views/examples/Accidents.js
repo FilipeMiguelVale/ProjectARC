@@ -222,7 +222,7 @@ class Tables extends React.Component {
                       <th scope="col" />
                     </tr>
                   </thead>
-                  <tbody
+                  <tbody>
                     {this.state["table_data"].map(this.renderArray)}
                   </tbody>
                 </Table>

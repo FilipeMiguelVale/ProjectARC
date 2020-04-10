@@ -1,14 +1,31 @@
 from flask_backend import ma
+from flask_backend.database.db_models import Accident, Car
 
-
-class AccidentSchema(ma.Schema):
+class CarSchema(ma.SQLAlchemySchema):
     class Meta:
-        fields = ('id','location', 'n_cars_involved', 'n_people', 'n_people_injured')
+        model = Car
+    
+    velocity = ma.auto_field()
+    n_people = ma.auto_field()
+    temperature = ma.auto_field()
+    airbag = ma.auto_field()
+    ABS = ma.auto_field()
+    overturned = ma.auto_field()
+    damage = ma.auto_field()
 
-
-class CarSchema(ma.Schema):
+class AccidentSchema(ma.SQLAlchemySchema):
     class Meta:
-        fields = ('id', 'velocity', 'n_people', 'temperature', 'ABS', 'overturned', 'damage', 'accident_id')
+        model = Accident
+
+    id = ma.auto_field()
+    location = ma.auto_field()
+    n_cars_involved = ma.auto_field()
+    n_people = ma.auto_field()
+    n_people_injured = ma.auto_field()
+    damage = ma.auto_field()
+    video_location = ma.auto_field()
+    date = ma.auto_field()
+    cars = ma.Nested(CarSchema, many=True)
 
 
 # init schema
