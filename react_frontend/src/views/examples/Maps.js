@@ -95,6 +95,8 @@ class Maps extends React.Component {
     }
   }
 
+  
+
   getLocation = async () => {
     const response = await fetch(
         '/accident/1');
@@ -104,7 +106,8 @@ class Maps extends React.Component {
         ...prevState.markerLatLng,
         lat: result["location"]["lat"],
         lng: result["location"]["lng"]
-      }
+      },
+      currentLatLng: prevState.currentLatLng
     }))
   };
 
@@ -112,22 +115,22 @@ class Maps extends React.Component {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
           position => {
+            
             this.setState(prevState => ({
               currentLatLng: {
                 ...prevState.currentLatLng,
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
               },
-              isMarkerShown: true
             }))
           }
       )
-    }
+    }    
   };
 
-  componentDidMount(): void {
+  componentWillMount(): void {
     this.showCurrentLocation();
-    this.getLocation()
+    this.getLocation();
   }
 
   render() {
@@ -139,6 +142,7 @@ class Maps extends React.Component {
         <Container className="mt--7" fluid>
           <Row>
             <div className="col">
+              <button onClick={this.showCurrentLocation}>GET position</button>
               <Card className="shadow border-0">
                 <MapWrapper
                   currentLocation={this.state.currentLatLng}

@@ -21,8 +21,12 @@ def get_location_address(lat,lng):
     if location_object is None or location_object.address is None:
         return "ADDRESS NOT FOUND"
     
-    if ["address"] in list(location_object.raw):
-        if ["city"] in list(location_object.raw["address"]):
-            return location_object.raw["address"]["city"]
+    if "address" in list(location_object.raw):
+        if "city" in list(location_object.raw["address"]):
+            if "road" in list(location_object.raw["address"]):
+                return location_object.raw["address"] + ", " + location_object.raw["address"]["city"]
+            else:
+                return location_object.raw["address"]["city"]
 
-    return location_object.address
+
+    return location_object.raw
