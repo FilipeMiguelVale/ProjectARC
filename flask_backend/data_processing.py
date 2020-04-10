@@ -14,15 +14,6 @@ def isClose(point1,point2):
 
 def get_location_address(lat,lng):
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    geolocator = Nominatim()
-    coordenates = str(lat) + "," + str(lng)
-    location = geolocator.reverse(coordenates)
-    return location.address
-=======
-=======
->>>>>>> Stashed changes
     geolocator = Nominatim(user_agent="my-application")
     # coordenates = str(lat) + "," + str(lng)
     location_object = geolocator.reverse((lat,lng),exactly_one=True,language="en-US",addressdetails=True)
@@ -34,9 +25,4 @@ def get_location_address(lat,lng):
         if ["city"] in list(location_object.raw["address"]):
             return location_object.raw["address"]["city"]
 
-<<<<<<< Updated upstream
     return location_object.address
->>>>>>> Stashed changes
-=======
-    return location_object.address
->>>>>>> Stashed changes
