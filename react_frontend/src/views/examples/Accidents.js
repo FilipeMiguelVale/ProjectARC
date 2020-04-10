@@ -74,7 +74,7 @@ class Tables extends React.Component {
             </Media>
           </Media>
         </th>
-        <th scope="row">
+        <th scope="row" width="5%">
           <Media className="align-items-center">
             <Media>
               <span className="mb-0 text-sm">
@@ -171,7 +171,7 @@ class Tables extends React.Component {
                             />
                           </a>
                         </Media>
-                       Local
+                       Location
                       </th>
                       <th scope="col">
                        <Media className="align-items-center">
