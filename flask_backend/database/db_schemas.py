@@ -17,6 +17,14 @@ class AccidentSchema(ma.SQLAlchemySchema):
     class Meta:
         model = Accident
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+    id = ma.auto_field()
+>>>>>>> Stashed changes
+=======
+    id = ma.auto_field()
+>>>>>>> Stashed changes
     location = ma.auto_field()
     n_cars_involved = ma.auto_field()
     n_people = ma.auto_field()

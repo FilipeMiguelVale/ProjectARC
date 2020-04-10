@@ -11,7 +11,15 @@ class Accident(db.Model):
     n_people_injured = db.Column(db.Integer, default=0)
     video_location = db.Column(db.String, nullable=True)
     video_id = db.Column(db.Integer, nullable=False)
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     date = db.Column(db.DateTime, default=datetime.utcnow)
+=======
+    date = db.Column(db.DateTime, default=datetime.now)
+>>>>>>> Stashed changes
+=======
+    date = db.Column(db.DateTime, default=datetime.now)
+>>>>>>> Stashed changes
 
     cars = db.relationship('Car', backref='car', lazy=True)
 
