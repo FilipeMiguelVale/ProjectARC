@@ -20,6 +20,7 @@ import React from "react";
 // reactstrap components
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 import Timer from "./Timer";
+import Example from "./Example"
 
 
 
@@ -35,70 +36,34 @@ class Header extends React.Component {
               <Row>
                 <Col lg="6" xl="3">
                   <Card className="card-stats mb-4 mb-xl-0">
-                    <Timer />
+                    <Example title={"Reports"}
+                             icon_name={"icon icon-shape bg-purple text-white rounded-circle shadow"}
+                             icon={"fas fa-chart-bar"}
+                    />
                   </Card>
                 </Col>
                 <Col lg="6" xl="3">
                   <Card className="card-stats mb-4 mb-xl-0">
-                    <Timer />
+                    <Example title={"Accidents"}
+                             icon_name={"icon icon-shape bg-red text-white rounded-circle shadow"}
+                             icon={"fas fa-car-crash"}
+                    />
                   </Card>
                 </Col>
                 <Col lg="6" xl="3">
                   <Card className="card-stats mb-4 mb-xl-0">
-                    <CardBody>
-                      <Row>
-                        <div className="col">
-                          <CardTitle
-                            tag="h5"
-                            className="text-uppercase text-muted mb-0"
-                          >
-                            Today
-                          </CardTitle>
-                          <span className="h2 font-weight-bold mb-0">24</span>
-                        </div>
-                        <Col className="col-auto">
-                          <div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                            <i className="fas fa-users" />
-                          </div>
-                        </Col>
-                      </Row>
-                      <p className="mt-3 mb-0 text-muted text-sm">
-                        <span className="text-warning mr-2">
-                          <i className="fas fa-arrow-down" /> 1.10%
-                        </span>{" "}
-                        <span className="text-nowrap">Since yesterday</span>
-                      </p>
-                    </CardBody>
+                    <Example title={"Users"}
+                             icon_name={"icon icon-shape bg-yellow text-white rounded-circle shadow"}
+                             icon={"fas fa-users"}
+                    />
                   </Card>
                 </Col>
                 <Col lg="6" xl="3">
                   <Card className="card-stats mb-4 mb-xl-0">
-                    <CardBody>
-                      <Row>
-                        <div className="col">
-                          <CardTitle
-                            tag="h5"
-                            className="text-uppercase text-muted mb-0"
-                          >
-                            Performance
-                          </CardTitle>
-                          <span className="h2 font-weight-bold mb-0">
-                            49,65%
-                          </span>
-                        </div>
-                        <Col className="col-auto">
-                          <div className="icon icon-shape bg-info text-white rounded-circle shadow">
-                            <i className="fas fa-percent" />
-                          </div>
-                        </Col>
-                      </Row>
-                      <p className="mt-3 mb-0 text-muted text-sm">
-                        <span className="text-success mr-2">
-                          <i className="fas fa-arrow-up" /> 12%
-                        </span>{" "}
-                        <span className="text-nowrap">Since last month</span>
-                      </p>
-                    </CardBody>
+                    <Example title={"Medical care"}
+                             icon_name={"icon icon-shape bg-blue text-white rounded-circle shadow"}
+                             icon={"fas fa-ambulance"}
+                    />
                   </Card>
                 </Col>
               </Row>
