@@ -23,6 +23,7 @@ import Login from "views/examples/Login.js";
 import Accidents from "views/examples/Accidents.js";
 import AccidentDetails from "views/examples/AccidentDetails";
 import Edit_profile from "views/examples/Edit_profile";
+import Tentativa2 from "./views/examples/Tentativa2";
 
 var routes = [
   {
@@ -80,7 +81,13 @@ var routes = [
     icon: "ni ni-single-02 text-yellow",
     component: Edit_profile,
     layout: "/admin"
+  },
+  {
+    path: "/tentativa2",
+    name: "Tentativa2",
+    icon: "ni ni-single-02 text-yellow",
+    component: Tentativa2,
+    layout: "/admin"
   }
-
 ];
 export default routes;
