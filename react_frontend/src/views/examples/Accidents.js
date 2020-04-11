@@ -137,7 +137,7 @@ class Tables extends React.Component {
                 <CardHeader className="bg-transparent border-0">
                   <h3 className="text-white mb-0">Accidents</h3>
                 </CardHeader>
-                <Table
+                <Table bordered
                   className="align-items-center table-dark table-responsive"
                   hover
                 >
