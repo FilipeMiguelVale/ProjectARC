@@ -218,7 +218,21 @@ class Tables extends React.Component {
                        </Media>
                        Number of injured
                       </th>
-                      <th scope="col">Severity</th>
+                      <th scope="col">
+                       <Media className="align-items-center">
+                          <a
+                            className="avatar rounded-circle mr-3"
+                            href="#pablo"
+                            onClick={e => e.preventDefault()}
+                          >
+                            <img
+                              alt="..."
+                              src={require("../../assets/img/theme/severity.png")}
+                            />
+                          </a>
+                       </Media>
+                       Severity
+                      </th>
                       <th scope="col" />
                     </tr>
                   </thead>
