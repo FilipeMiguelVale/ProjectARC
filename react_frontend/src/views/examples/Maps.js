@@ -15,9 +15,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, {useEffect, useState} from "react";
+import React from "react";
 // react plugin used to create google maps
-import {GoogleMap, Marker, withGoogleMap, withScriptjs, MarkerProps} from "react-google-maps";
+import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 // reactstrap components
 import {Card, Container, Row} from "reactstrap";
 // core components
@@ -26,8 +26,9 @@ import Header from "../../components/Headers/Header.js";
 
 const MapWrapper = withScriptjs(
     withGoogleMap(props => <GoogleMap
-            defaultZoom={12}
-            defaultCenter={{ lat: props.currentLocation.lat, lng: props.currentLocation.lng }}
+            center = {{lat: props.Location.lat, lng: props.Location.lng}}
+            defaultZoom={18}
+            //defaultCenter={{ lat: props.Location.lat, lng: props.Location.lng }}
             defaultOptions={{
               scrollwheel: false,
               styles: [
@@ -64,7 +65,7 @@ const MapWrapper = withScriptjs(
                 {
                   featureType: "transit",
                   elementType: "all",
-                  stylers: [{visibility: "off"}]
+                  stylers: [{visibility: "on"}]
                 },
                 {
                   featureType: "water",
@@ -74,7 +75,7 @@ const MapWrapper = withScriptjs(
               ]
             }}
         >
-        <Marker position={{ lat: props.markerLocation.lat, lng: props.markerLocation.lng }}/>
+        <Marker position={{ lat: props.Location.lat, lng: props.Location.lng }}/>
         </GoogleMap>
     ));
 
@@ -84,57 +85,27 @@ class Maps extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      markerLatLng: {
-        lat: 0,
-        lng: 0
-      },
-      currentLatLng:{
-        lat: 0,
-        lng: 0
+      lat: 0,
+      lng: 0
       }
-    }
   }
-
-  
 
   getLocation = async () => {
     const response = await fetch(
         '/accident/1');
     const result = await response.json();
     this.setState(prevState => ({
-      markerLatLng: {
-        ...prevState.markerLatLng,
-        lat: result["location"]["lat"],
-        lng: result["location"]["lng"]
-      },
-      currentLatLng: prevState.currentLatLng
+      lat: result["location"]["lat"],
+      lng: result["location"]["lng"]
     }))
   };
 
-  showCurrentLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-          position => {
-            
-            this.setState(prevState => ({
-              currentLatLng: {
-                ...prevState.currentLatLng,
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-              },
-            }))
-          }
-      )
-    }    
+  componentWillMount(): void {
+    this.getLocation();
   };
 
-  componentWillMount(): void {
-    this.showCurrentLocation();
-    this.getLocation();
-  }
-
-  render() {
-
+  render() 
+  {
     return (
       <>
         <Header />
@@ -142,13 +113,12 @@ class Maps extends React.Component {
         <Container className="mt--7" fluid>
           <Row>
             <div className="col">
-              <button onClick={this.showCurrentLocation}>GET position</button>
               <Card className="shadow border-0">
                 <MapWrapper
-                  currentLocation={this.state.currentLatLng}
-                  markerLocation={this.state.markerLatLng}
+                  Location={this.state}
                   googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aWR3SBGaa1oB0CuDf2vptnJfSMSguZU"
                   loadingElement={<div style={{ height: `100%` }} />}
+                  center = {this.state}
                   containerElement={
                     <div
                       style={{ height: `600px` }}
@@ -159,7 +129,6 @@ class Maps extends React.Component {
                   mapElement={
                     <div style={{ height: `100%`, borderRadius: "inherit" }} />
                   }
-                 /* markers={<Marker position={this.state.location}/>}*/
                 />
               </Card>
             </div>
