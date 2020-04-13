@@ -16,6 +16,7 @@
 
 */
 import React from "react";
+import {Link, Redirect} from "react-router-dom";
 
 // reactstrap components
 import {
@@ -26,6 +27,7 @@ import {
   Table,
   Container,
   Row,
+  Button,
 } from "reactstrap";
 // core components
 import Header from "../../components/Headers/Header.js";
@@ -47,6 +49,10 @@ class Tables extends React.Component {
     }
   }
 
+  redirect_to_details = (index) => {
+    return <Redirect to={`/admin/accident_details/${index}`}/>
+  }
+
   getData = async () => {
     const response = await fetch(
       '/list_accidents'
@@ -64,7 +70,7 @@ class Tables extends React.Component {
 
   renderArray = (value,index) => {
     return(
-      <tr key={index}>
+      <tr key={index} > 
         <th scope="row">
           <Media className="align-items-center">
             <Media>
@@ -115,7 +121,10 @@ class Tables extends React.Component {
             <i className="bg-warning" />
             {value["damage"]}
           </Badge>
-        </td>  
+        </td>
+        <Button  href={`/#admin/accident_details/${value["id"]}`} onClick={this.redirect_to_details.bind(this,value['id'])}>
+          DETAILS
+        </Button>
       </tr>
     )
   }

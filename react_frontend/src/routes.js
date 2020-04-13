@@ -34,7 +34,7 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/accident_details",
+    path: "/accident_details/:id",
     name: "Accident Details",
     icon: "ni ni-planet text-blue",
     component: AccidentDetails,

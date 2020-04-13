@@ -36,7 +36,7 @@ import {Redirect} from "react-router-dom";
 
 class Edit_profile extends React.Component {
    onSaveChanges = () => {
-      return <Redirect to="/#admin/user-profile"/>
+      return <Redirect to="/admin/user-profile"/>
   }
   render() {
     return (

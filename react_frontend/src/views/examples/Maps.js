@@ -28,7 +28,6 @@ const MapWrapper = withScriptjs(
     withGoogleMap(props => <GoogleMap
             center = {{lat: props.Location.lat, lng: props.Location.lng}}
             defaultZoom={18}
-            //defaultCenter={{ lat: props.Location.lat, lng: props.Location.lng }}
             defaultOptions={{
               scrollwheel: false,
               styles: [
@@ -100,7 +99,7 @@ class Maps extends React.Component {
     }))
   };
 
-  componentWillMount(): void {
+  componentDidMount(): void {
     this.getLocation();
   };
 
