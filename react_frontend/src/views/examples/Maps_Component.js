@@ -8,7 +8,7 @@ import {Card} from "reactstrap";
 
 const MapWrapper = withScriptjs(
     withGoogleMap(props => <GoogleMap
-            center = {{lat: props.Location.lat, lng: props.Location.lng}}
+            center = {{lat: props.center.lat, lng: props.center.lng}}
             defaultZoom={18}
             defaultOptions={{
               scrollwheel: false,
@@ -56,7 +56,7 @@ const MapWrapper = withScriptjs(
               ]
             }}
         >
-        <Marker position={{ lat: props.Location.lat, lng: props.Location.lng }}/>
+        <Marker position={{lat: props.Location.lat, lng: props.Location.lng}}/>
         </GoogleMap>
     ));
 
@@ -65,35 +65,18 @@ class Maps extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      lat: 0,
-      lng: 0
-      }
-  }
-
-  getLocation = async () => {
-    const response = await fetch(
-        '/accident/1');
-    const result = await response.json();
-    this.setState(prevState => ({
-      lat: result["location"]["lat"],
-      lng: result["location"]["lng"]
-    }))
-  };
-
-  componentDidMount(): void {
-    this.getLocation();
-  };
+    }
 
   render() 
   {
+    console.log(this.children)
     return (
     <Card className="shadow border-0">
     <MapWrapper
-        Location={this.state}
+        Location={this.props.Location}
         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aWR3SBGaa1oB0CuDf2vptnJfSMSguZU"
         loadingElement={<div style={{ height: `100%` }} />}
-        center = {this.state}
+        center = {this.props.center}
         containerElement={
         <div
             style={{ height: `600px` }}

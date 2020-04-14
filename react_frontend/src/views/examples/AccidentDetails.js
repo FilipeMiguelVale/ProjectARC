@@ -82,7 +82,7 @@ class AccidentDetails extends React.Component {
       {
         thumbnail: `${PREFIX_URL}4v.jpg`,
         original: `${PREFIX_URL}4v.jpg`,
-        embedUrl: 'https://www.youtube.com/embed/4pSzhZ76GdM?autoplay=1&showinfo=0',
+        source: '',
         renderItem: this._renderVideo.bind(this)
       },
       {
@@ -130,7 +130,7 @@ class AccidentDetails extends React.Component {
         }
       }
     ));
-    this.images[0]['embedUrl'] = result['video_location']
+    this.images[0]['source'] = 'video/' + result['video_location']
   }
 
   componentDidMount() {
@@ -268,24 +268,28 @@ class AccidentDetails extends React.Component {
     return (
       <div>
         {
-          this.state.showVideo[item.embedUrl] ?
+          this.state.showVideo[item.source] ?
             <div className='video-wrapper'>
                 <a
                   className='close-video'
-                  onClick={this._toggleShowVideo.bind(this, item.embedUrl)}
+                  onClick={this._toggleShowVideo.bind(this, item.source)}
                 >
                 </a>
-                <iframe
-                  width='560'
-                  height='315'
-                  src={item.embedUrl}
-                  frameBorder='0'
-                  allowFullScreen
+                <video autoPlay controls>
+                  // width='100%'
+                  // height='100%'
+                  <source 
+                  src={item.source}
+                  type="video/mp4">
+
+                  </source>
+                  // frameBorder='0'
+                  // allowFullScreen
                 >
-                </iframe>
+                </video>
             </div>
           :
-            <a onClick={this._toggleShowVideo.bind(this, item.embedUrl)}>
+            <a onClick={this._toggleShowVideo.bind(this, item.source)}>
               <div className='play-button'/>
               <img className='image-gallery-image' src={item.original} />
               {
