@@ -1,4 +1,4 @@
-from flask import request, jsonify, render_template, flash, redirect # flask
+from flask import request, jsonify, render_template, flash, redirect, send_from_directory # flask
 
 from flask_backend import app, db   # app and database
 
@@ -27,7 +27,6 @@ def home():
 @app.route('/add_video', methods=['POST'])
 def add_video():
 
-
     file = request.files['file']
     id = request.values["id"]
     
@@ -37,11 +36,15 @@ def add_video():
     filename = secure_filename(name+"."+file_type) 
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename) # create path for file
     file.save(file_path) # save file on directory
-
-    return add_video_to_database(file_path,id) # add path of file to database
+    return add_video_to_database(filename,id) # add path of file to database
 
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# Get Video
+@app.route('/video/<path:path_to_file>', methods=['GET'])
+def get_video(path_to_file):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],filename=path_to_file, as_attachment=True)
 
 
 # Create a Accident
