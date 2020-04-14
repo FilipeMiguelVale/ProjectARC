@@ -6,10 +6,11 @@ from flask_backend.data_processing import isClose
 
 from flask_backend import db
 
-def add_video_to_database(url,video_id):
-    accident = Accident.query.get(video_id)
+def add_video_to_database(url,id=3):
+    accident = Accident.query.filter_by(video_id=id).first()
+
     if not accident:
-        return jsonify({"Error": "NO_ACCIDENT_IN_DATABASE"})
+     return jsonify({"Error": "NO_ACCIDENT_IN_DATABASE"})
     
     accident.video_location = url
 

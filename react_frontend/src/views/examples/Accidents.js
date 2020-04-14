@@ -31,6 +31,7 @@ import {
 } from "reactstrap";
 // core components
 import Header from "../../components/Headers/Header.js";
+import Maps from "./Maps_Component.js"
 
 
 function fix_date(st) {

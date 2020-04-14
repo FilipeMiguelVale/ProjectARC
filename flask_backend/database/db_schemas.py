@@ -18,6 +18,7 @@ class AccidentSchema(ma.SQLAlchemySchema):
         model = Accident
 
     id = ma.auto_field()
+    video_id = ma.auto_field()
     location = ma.auto_field()
     n_cars_involved = ma.auto_field()
     n_people = ma.auto_field()

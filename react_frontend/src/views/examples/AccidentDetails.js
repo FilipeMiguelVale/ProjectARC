@@ -32,12 +32,22 @@ import {
 } from "reactstrap";
 // core components
 import Header from "../../components/Headers/Header.js";
+import Maps from "./Maps_Component.js";
+import { valid } from "semver";
 
 const PREFIX_URL = 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/';
 
+
+function fix_date(st) {
+  let date = st.split('T');
+  let year = date[0];
+  let time  = date[1].split('.')[0];
+  return year + " " + time;
+}
+
 class AccidentDetails extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       showIndex: false,
       showBullets: true,
@@ -54,6 +64,18 @@ class AccidentDetails extends React.Component {
       slideOnThumbnailOver: false,
       thumbnailPosition: 'left',
       showVideo: {},
+      accident_data: {
+        car: [],
+        location: {
+          addres: " ",
+          coords: {lat: 40, lng: 30 },
+        },
+        damage: 0.0,
+        date: " ",
+        n_cars_involved: 0,
+        n_people_involved: 0,
+        n_people_injured: 0, 
+      }
     };
 
     this.images = [
@@ -86,13 +108,82 @@ class AccidentDetails extends React.Component {
     ].concat(this._getStaticImages());
   }
 
+
+  get_data = async (id) => {
+    const response = await fetch(
+      `/accident/${id}`);
+    const result = await response.json();
+    this.setState(prevState => (
+      {
+        accident_data:  {
+          car: result['cars'],
+          location: 
+          {
+            addres: result['location']['address'],
+            coords: {lat: result['location']['lat'],lng: result['location']['lng']}
+          },
+          damage: result['damage'],
+          date: fix_date(result['date']),
+          n_cars_involved: result['n_cars_involved'],
+          n_people_involved: result['n_people'],
+          n_people_injured: result['n_people_injured'],
+        }
+      }
+    ));
+    this.images[0]['embedUrl'] = result['video_location']
+  }
+
+  componentDidMount() {
+    let id = this.props.match.params['id']
+    this.get_data(id)
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.slideInterval !== prevState.slideInterval ||
         this.state.slideDuration !== prevState.slideDuration) {
       // refresh setInterval
       this._imageGallery.pause();
       this._imageGallery.play();
-    }
+    };
+  }
+
+  renderCars = (value,index) => {
+    return(
+      <CardBody className="border rounded">
+        <CardTitle
+          tag="h4"
+          className="text-uppercase text-muted mb-0"
+        >
+          Car {index + 1}
+        </CardTitle>
+        <CardBody className="align-content-center">
+          <Row>
+            <span className="font-weight-bold">Activated ABS:</span>
+            <span>{String(value['ABS'])}</span>
+          </Row>
+          <Row>
+            <span className="font-weight-bold">Fired Airbag</span>
+            <span>: {String(value['airbag'])}</span>
+          </Row>
+          <Row>
+            <span className="font-weight-bold">Passengers</span>
+            <span>: {value['n_people']} </span>
+          </Row>
+          <Row>
+            <span className="font-weight-bold">Overturned</span>
+            <span>: {String(value['overturned'])}</span>
+          </Row>
+          <Row>
+            <span className="font-weight-bold">Temperature</span>
+            <span>: {value['temperature']}</span>
+          </Row>
+          <Row>
+            <span className="font-weight-bold">Collision velocity</span>
+            <span>: {value['velocity']}</span>
+          </Row>
+        </CardBody>
+      </CardBody>
+    )
   }
 
   _onImageClick(event) {
@@ -201,7 +292,7 @@ class AccidentDetails extends React.Component {
                 item.description &&
                   <span
                     className='image-gallery-description'
-                    style={{right: '0', left: 'initial'}}
+                    style={{right: '0', left: 'initial', height:'100%'}}
                   >
                     {item.description}
                   </span>
@@ -215,7 +306,6 @@ class AccidentDetails extends React.Component {
     return (
       <>
         <Header />
-
         <Container className=" mt--7" fluid>
           <Row>
             <div className=" col">
@@ -226,24 +316,36 @@ class AccidentDetails extends React.Component {
                 <CardBody>
                     <Row>
                       <div className="col-lg-6">
-                        <CardBody>
-                          <Row>
-                            <h1> INSERT MAP HERE </h1>
-                          </Row>
+                          <Maps
+                            Location={this.state.accident_data.location.coords}
+                            googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aWR3SBGaa1oB0CuDf2vptnJfSMSguZU"
+                            loadingElement={<div style={{ height: `100%` }} />}
+                            center = {this.state.accident_data.location.coords}
+                            zoom = {10}
+                            containerElement={
+                              <div
+                                style={{ height: `600px` }}
+                                className="map-canvas"
+                                id="map-canvas"
+                              />
+                            }
+                            mapElement={
+                              <div style={{ height: `100%`, borderRadius: "inherit" }} />
+                            }
+                          />
                           <Row>
                             <div className="col">
-                              <p>Address: Tigouga</p>
+                              <p>Address: {this.state.accident_data.location.addres}</p>
                             </div>
                           </Row>
                           <Row>
                             <div className="col-sm">
-                              <p>Lat: 30.86</p>
+                              <p>Lat: {this.state.accident_data.location.coords.lat}</p>
                             </div>
                             <div className="col-sm">
-                              <p>Lng: -8.62</p>
+                              <p>Lng: {this.state.accident_data.location.coords.lng}</p>
                             </div>
-                          </Row>
-                        </CardBody>
+                            </Row>
                       </div>
                       <div className="col-lg-6">
                         <CardBody>
@@ -289,7 +391,7 @@ class AccidentDetails extends React.Component {
                                   >
                                     Nº of cars involved
                                   </CardTitle>
-                                  <span className="h2 font-weight-bold mb-0">1</span>
+                                  <span className="h2 font-weight-bold mb-0">{this.state.accident_data.n_cars_involved}</span>
                                 </div>
                                   <Col className="col-auto">
                                     <Button className="icon icon-shape bg-success text-dark rounded-circle shadow" id="toggler">
@@ -312,7 +414,9 @@ class AccidentDetails extends React.Component {
                                   >
                                     Nº of persons involved
                                   </CardTitle>
-                                  <span className="h2 font-weight-bold mb-0">2</span>
+                                  <span className="h2 font-weight-bold mb-0">
+                                    {this.state.accident_data.n_people_involved}
+                                  </span>
                                 </div>
                                 <Col className="col-auto">
                                   <div className="icon icon-shape bg-info text-dark rounded-circle shadow">
@@ -335,7 +439,9 @@ class AccidentDetails extends React.Component {
                                 >
                                   Nº of persons injured
                                 </CardTitle>
-                                <span className="h2 font-weight-bold mb-0">0</span>
+                                <span className="h2 font-weight-bold mb-0">
+                                  {this.state.accident_data.n_people_injured}
+                                </span>
                               </div>
                               <Col className="col-auto">
                                 <div className="icon icon-shape bg-danger text-dark rounded-circle shadow">
@@ -357,7 +463,9 @@ class AccidentDetails extends React.Component {
                                 >
                                   Severity of the accident
                                 </CardTitle>
-                                <span className="h2 font-weight-bold mb-0 text-success">NOT VERY SERIOUS</span>
+                                <span className="h2 font-weight-bold mb-0 text-success">
+                                  {this.state.accident_data.damage}
+                                </span>
                               </div>
                               <Col className="col-auto">
                                 <div className="icon icon-shape bg-yellow text-dark rounded-circle shadow">
@@ -374,40 +482,7 @@ class AccidentDetails extends React.Component {
                         <CardBody>
                           <Row>
                             <div className="col-lg-3">
-                              <CardBody className="border rounded">
-                                <CardTitle
-                                  tag="h4"
-                                  className="text-uppercase text-muted mb-0"
-                                >
-                                  Car 1
-                                </CardTitle>
-                                <CardBody className="align-content-center">
-                                  <Row>
-                                    <span className="font-weight-bold">Activated ABS:</span>
-                                    <span>True</span>
-                                  </Row>
-                                  <Row>
-                                    <span className="font-weight-bold">Fired Airbag</span>
-                                    <span>: False</span>
-                                  </Row>
-                                  <Row>
-                                    <span className="font-weight-bold">Passengers</span>
-                                    <span>: 2</span>
-                                  </Row>
-                                  <Row>
-                                    <span className="font-weight-bold">Overturned</span>
-                                    <span>: False</span>
-                                  </Row>
-                                  <Row>
-                                    <span className="font-weight-bold">Temperature</span>
-                                    <span>: 35.0</span>
-                                  </Row>
-                                  <Row>
-                                    <span className="font-weight-bold">Collision velocity</span>
-                                    <span>: 30.0</span>
-                                  </Row>
-                                </CardBody>
-                              </CardBody>
+                              {this.state.accident_data["car"].map(this.renderCars)}
                             </div>
                           </Row>
                         </CardBody>

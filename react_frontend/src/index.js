@@ -31,7 +31,7 @@ ReactDOM.render(
     <Switch>
       <Route strict path="/admin" render={props => <AdminLayout {...props} />} />
       <Route strict path="/auth" render={props => <AuthLayout {...props} />} />
-      <Redirect to="/admin/index" />
+      <Redirect to="/admin/index"/>
     </Switch>
 
   </HashRouter>,

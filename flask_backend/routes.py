@@ -29,7 +29,7 @@ def add_video():
 
 
     file = request.files['file']
-    id = int(request.values["id"])
+    id = request.values["id"]
     
     filename = file.filename.split(".")
     name = filename[0] + "_" + id # get file name

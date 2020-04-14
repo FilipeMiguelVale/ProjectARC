@@ -24,9 +24,9 @@ def get_location_address(lat,lng):
     if "address" in list(location_object.raw):
         if "city" in list(location_object.raw["address"]):
             if "road" in list(location_object.raw["address"]):
-                return location_object.raw["address"] + ", " + location_object.raw["address"]["city"]
+                return location_object.raw["address"]["road"] + ", " + location_object.raw["address"]["city"]
             else:
                 return location_object.raw["address"]["city"]
 
 
-    return location_object.raw
+    return location_object.address
