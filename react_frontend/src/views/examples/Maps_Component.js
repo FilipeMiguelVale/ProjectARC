@@ -74,7 +74,7 @@ class Maps extends React.Component {
     <Card className="shadow border-0">
     <MapWrapper
         Location={this.props.Location}
-        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aWR3SBGaa1oB0CuDf2vptnJfSMSguZU"
+        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcLG_2KgktdQJXLaeyQZHJzmvcSjNwoPM"
         loadingElement={<div style={{ height: `100%` }} />}
         center = {this.props.center}
         containerElement={
