@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from flask_login import LoginManager, UserMixin
 
 import os
 
@@ -22,12 +23,13 @@ app.secret_key = "secret key"
 
 db = SQLAlchemy(app)
 
+
 # init ma
 
 ma = Marshmallow(app)
 
+#Login stuff
+login_manager = LoginManager()
+login_manager.init_app(app)
+
 from flask_backend import routes
-
-
-
-

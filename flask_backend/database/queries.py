@@ -1,10 +1,10 @@
 
-from flask_backend.database.db_schemas import accident_schema, accidents_schema, car_schemas, car_schema
-from flask_backend.database.db_models import Accident, Car
+from flask_backend.database.db_schemas import *
+from flask_backend.database.db_models import *
 from flask import jsonify
 from flask_backend.data_processing import isClose
+from flask_backend import db, login_manager
 
-from flask_backend import db
 
 def add_video_to_database(url,id=3):
     accident = Accident.query.filter_by(video_id=id).first()
@@ -54,3 +54,8 @@ def get_all_accidents():
     return jsonify(result)
 
 
+#Login queries
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))

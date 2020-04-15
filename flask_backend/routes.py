@@ -7,7 +7,7 @@ from flask_backend.database.db_schemas import accident_schema, accidents_schema
 from flask_backend.database.db_models import Accident, Car
 from flask_backend.database.queries import *
 from flask_backend.erros import *
-
+from flask_login import login_user, login_required, logout_user, current_user
 # data processing
 from flask_backend.data_processing import get_location_address
 
@@ -18,9 +18,39 @@ import os
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','avi'])
 
 
-@app.route('/')
-def home():
+
+@app.route('/login/request', methods=['POST'])
+def login():
+    email = request.json['email']
+    password = request.json['passwd']
+    print(email)
+    print(password)
+    if email == "admin@admin" and password == "admin" :
+        return jsonify({"response":"Done"})
+    else:
+        return jsonify({"error":"Invalid username or password"})
+
+@app.route('/admin')
+@login_required
+def web():
     return render_template("index.html")
+
+@app.route('/')
+def index():
+    user = User.query.filter_by(username='admin').first()
+    login_user(user)
+    return render_template("index.html")
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return "you are logged out"
+
+@app.route('/home')
+@login_required
+def home():
+    return "The current user is " + current_user.username
 
 
 # Add video

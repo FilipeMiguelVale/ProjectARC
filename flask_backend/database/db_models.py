@@ -1,5 +1,6 @@
 from flask_backend import db
 from datetime import datetime
+from flask_login import UserMixin
 
 
 class Accident(db.Model):
@@ -45,3 +46,7 @@ class Car(db.Model):
         self.ABS = ABS
         self.overturned = overturned
         self.damage = damage
+
+class User(UserMixin,db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(30), unique=True)
