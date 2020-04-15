@@ -53,9 +53,6 @@ def home():
     return "The current user is " + current_user.username
 
 #convert format
-def convert_avi_to_mp4(avi_file_path):
-    os.popen("ffmpeg -i '{input}'.avi -ac 2 -b:v 2000k -c:a aac -c:v libx264 -b:a 160k -vprofile high -bf 0 -strict experimental -f mp4 '{input}.mp4'".format(input = avi_file_path))
-    return True
 
 # Add video
 @app.route('/add_video', methods=['POST'])
@@ -63,13 +60,14 @@ def add_video():
 
     file = request.files['file']
     id = request.values["id"]
-    
+
     if  file.filename.split(".")[1] != "avi":
         return jsonify(video_type_not_allowed)
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], id + ".avi") # create path for file
     file.save(file_path) # save file on directory
     convert_avi_to_mp4(id)
     return add_video_to_database(id + ".mp4",id) # add path of file to database
+
 
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -78,7 +76,6 @@ def allowed_file(filename):
 @app.route('/video/<path:path_to_file>', methods=['GET'])
 def get_video(path_to_file):
     return send_from_directory(app.config['UPLOAD_FOLDER'],filename=path_to_file, as_attachment=True)
-
 
 # Create a Accident
 @app.route('/add_accident', methods=['POST'])

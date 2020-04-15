@@ -1,5 +1,6 @@
 from geopy import distance
 from geopy.geocoders import Nominatim
+import os
 
 #Comparar distancia 
 def isClose(point1,point2):
@@ -10,6 +11,11 @@ def isClose(point1,point2):
         return False
     
     return True
+
+def convert_avi_to_mp4(avi_file_path):
+    os.popen("ffmpeg -i '{input}'.avi -ac 2 -b:v 2000k -c:a aac -c:v libx264 -b:a 160k -vprofile high -bf 0 -strict experimental -f mp4 '{input}.mp4'".format(input = avi_file_path))
+    return True
+
 
 
 def get_location_address(lat,lng):
