@@ -69,19 +69,10 @@ class AdminNavbar extends React.Component {
               </div>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink className="nav-link-icon" to="/" tag={Link}>
+                  <NavLink className="nav-link-icon" href="https://projectarc.pt/"
+                    target="_blank">
                     <i className="ni ni-planet" />
-                    <span className="nav-link-inner--text">Dashboard</span>
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                    className="nav-link-icon"
-                    to="/auth/register"
-                    tag={Link}
-                  >
-                    <i className="ni ni-circle-08" />
-                    <span className="nav-link-inner--text">Register</span>
+                    <span className="nav-link-inner--text">Site</span>
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -97,13 +88,14 @@ class AdminNavbar extends React.Component {
                 <NavItem>
                   <NavLink
                     className="nav-link-icon"
-                    to="/admin/user-profile"
+                    to="/auth/register"
                     tag={Link}
                   >
-                    <i className="ni ni-single-02" />
-                    <span className="nav-link-inner--text">Profile</span>
+                    <i className="ni ni-circle-08" />
+                    <span className="nav-link-inner--text">Register</span>
                   </NavLink>
                 </NavItem>
+
               </Nav>
             </UncontrolledCollapse>
           </Container>
