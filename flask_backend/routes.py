@@ -1,5 +1,5 @@
 from flask import request, jsonify, render_template, flash, redirect, send_from_directory # flask
-
+from flask_login import login_user, login_required, logout_user, current_user
 from flask_backend import app, db   # app and database
 
 # database objects and queries
@@ -7,17 +7,14 @@ from flask_backend.database.db_schemas import accident_schema, accidents_schema
 from flask_backend.database.db_models import Accident, Car
 from flask_backend.database.queries import *
 from flask_backend.erros import *
-from flask_login import login_user, login_required, logout_user, current_user
+
 # data processing
 from flask_backend.data_processing import get_location_address, convert_avi_to_mp4
 
 # video adding 
-from werkzeug.utils import secure_filename
 import os
 
 ALLOWED_EXTENSIONS = set(['avi'])
-
-
 
 @app.route('/login/request', methods=['POST'])
 def login():
@@ -37,8 +34,8 @@ def web():
 
 @app.route('/')
 def index():
-    user = User.query.filter_by(username='admin').first()
-    login_user(user)
+    # user = User.query.filter_by(username='admin').first()
+    # login_user(user)
     return render_template("index.html")
 
 @app.route('/logout')
@@ -52,25 +49,35 @@ def logout():
 def home():
     return "The current user is " + current_user.username
 
-#convert format
 
 # Add video
 @app.route('/add_video', methods=['POST'])
 def add_video():
 
-    file = request.files['file']
-    id = request.values["id"]
+    if "file" not in request.files:
+        return jsonify(no_file)
+
+    if "id" not in request.values:
+        return jsonify(no_id_video)
+
+    file = request.files['file'] # retira o file do request
+    video_id = request.values["id"] # retira o video_id para pesquisa
 
     if  file.filename.split(".")[1] != "avi":
         return jsonify(video_type_not_allowed)
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], id + ".avi") # create path for file
-    file.save(file_path) # save file on directory
-    convert_avi_to_mp4(os.path.join(app.config['UPLOAD_FOLDER'], id))
-    return add_video_to_database(id + ".mp4",id) # add path of file to database
 
+    accident = get_accident_by(video_id,filter="video_id") # devolve accident que contem o video_id
 
-def allowed_file(filename):
-	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    if not accident:
+        return jsonify(no_accident)
+
+    accident_id = str(accident.id) # get id do accident
+
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], accident_id + ".avi") # create path for file
+    file.save(file_path) # save temporary file on directory
+    convert_avi_to_mp4(os.path.join(app.config['UPLOAD_FOLDER'], accident_id)) # convert file to a mp4
+
+    return add_video_to_database(video_id,accident_id + ".mp4") # add path of file to database
 
 # Get Video
 @app.route('/video/<path:path_to_file>', methods=['GET'])
@@ -83,7 +90,7 @@ def add_accident():
     location = request.json['location']
     video_id = int(request.json['video_id'])
 
-    accident = get_accident_by_location(location)
+    accident = get_accident_by(location, filter="belongs")
 
     if not accident:
         location["address"] = get_location_address(location["lat"],location["lng"])
@@ -113,10 +120,10 @@ def add_accident():
 # See Accident
 @app.route('/accident/<id>', methods=['GET'])
 def get_accident(id):
-    return get_accident_by_id(id)
+    return get_accident_by(id, filter="id")
 
 
 # See All Accident
 @app.route('/list_accidents', methods=['GET'])
 def get_accidents():
-    return get_all_accidents()
+    return get_accident_by(None, filter="all")

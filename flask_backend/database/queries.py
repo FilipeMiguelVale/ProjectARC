@@ -2,16 +2,14 @@
 from flask_backend.database.db_schemas import *
 from flask_backend.database.db_models import *
 from flask import jsonify
-from flask_backend.data_processing import isClose
+from flask_backend.data_processing import isClose, same_timestamp
 from flask_backend import db, login_manager
 
 
-def add_video_to_database(url,id=3):
-    accident = Accident.query.filter_by(video_id=id).first()
+def add_video_to_database(id,url):
 
-    if not accident:
-     return jsonify({"Error": "NO_ACCIDENT_IN_DATABASE"})
-    
+    accident = get_accident_by(id,filter="video_id")
+       
     accident.video_location = url
 
     db.session.commit()
@@ -27,31 +25,37 @@ def add_accident_to_database(accident,car):
     db.session.commit()
     
 
-def get_accident_by_location(location):
+def get_accident_by(value,**options):
 
-    location = (float(location["lat"]),float(location["lng"]))
+    filter = options.get("filter")
 
-    accidents = Accident.query.all()
-    result = accidents_schema.dump(accidents)
-    for accident in result:
-        lat = float(accident["location"]["lat"])
-        lng = float(accident["location"]["lng"])
-        if isClose(location,(lat,lng)):
-            return Accident.query.get(accident["id"])
-    
-    return None
+    if filter == "belongs":
+        result = Accident.query.all()
+        for accident in result:
+            lat = float(accident["location"]["lat"])
+            lng = float(accident["location"]["lng"])
+            timestamp = accident["date"]
+            if isClose(value,(lat,lng)) and same_timestamp(timestamp):
+                return Accident.query.filter_by(location=value).first() 
 
+        return None
 
-def get_accident_by_id(id):
-    accident = Accident.query.get(id)
-    
-    return accident_schema.jsonify(accident)
+    if filter == "video_id":
+        accident = Accident.query.filter_by(video_id=value).first()
 
+        if not accident:
+            return None
+        
+        return accident
 
-def get_all_accidents():
-    all_accidents = Accident.query.all()
-    result = accidents_schema.dump(all_accidents)
-    return jsonify(result)
+    if filter == "all":
+        all_accidents = Accident.query.all()
+        result = accidents_schema.dump(all_accidents)
+        return jsonify(result)
+        
+    if filter == "id":
+        accident = Accident.query.get(value)
+        return accident_schema.jsonify(accident)
 
 
 #Login queries
