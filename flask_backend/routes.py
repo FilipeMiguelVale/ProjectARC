@@ -65,7 +65,7 @@ def add_video():
         return jsonify(video_type_not_allowed)
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], id + ".avi") # create path for file
     file.save(file_path) # save file on directory
-    convert_avi_to_mp4(id)
+    convert_avi_to_mp4(os.path.join(app.config['UPLOAD_FOLDER'], id))
     return add_video_to_database(id + ".mp4",id) # add path of file to database
 
 
