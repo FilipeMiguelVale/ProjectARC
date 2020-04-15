@@ -71,24 +71,23 @@ class Maps extends React.Component {
   {
     console.log(this.children)
     return (
-    <Card className="shadow border-0">
+
     <MapWrapper
         Location={this.props.Location}
         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcLG_2KgktdQJXLaeyQZHJzmvcSjNwoPM"
         loadingElement={<div style={{ height: `100%` }} />}
         center = {this.props.center}
         containerElement={
-        <div
-            style={{ height: `600px` }}
-            className="map-canvas"
-            id="map-canvas"
-        />
+            <div
+                className="map-canvas"
+                id="map-canvas"
+            />
         }
         mapElement={
-        <div style={{ height: `100%`, borderRadius: "inherit" }} />
+            <div style={{ height: `85%`, borderRadius: "inherit" }} />
         }
     />
-    </Card>
+
     );
   }
 }

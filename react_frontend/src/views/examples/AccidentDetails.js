@@ -34,6 +34,7 @@ import {
 import Header from "../../components/Headers/Header.js";
 import Maps from "./Maps_Component.js";
 import { valid } from "semver";
+import {Redirect} from "react-router-dom";
 
 const PREFIX_URL = 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/';
 
@@ -306,80 +307,93 @@ class AccidentDetails extends React.Component {
       </div>
     );
   }
+
+  onGoBack = () => {
+      return <Redirect to="/admin/accidents"/>
+  }
+
   render() {
     return (
       <>
         <Header />
         <Container className=" mt--7" fluid>
           <Row>
-            <div className=" col">
+            <Col className=" col">
               <Card className=" shadow">
                 <CardHeader className=" bg-transparent">
-                  <h2 className=" mb-0">Accident Details</h2>
+                  <div className="d-flex">
+                    <Button
+                      className="icon icon-shape bg-info text-white rounded-circle shadow"
+                      href="/#admin/accidents"
+                      onClick= {this.onGoBack()}
+                    >
+                      <i className="fas fa-angle-left"/>
+                    </Button>
+                    <h2 className=" mb-0 ml-4 ">Accident Details</h2>
+                  </div>
                 </CardHeader>
                 <CardBody>
-                    <Row>
-                      <div className="col-lg-6">
-                          <Maps
-                            Location={this.state.accident_data.location.coords}
-                            googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aWR3SBGaa1oB0CuDf2vptnJfSMSguZU"
-                            loadingElement={<div style={{ height: `100%` }} />}
-                            center = {this.state.accident_data.location.coords}
-                            zoom = {10}
-                            containerElement={
-                              <div
-                                style={{ height: `600px` }}
-                                className="map-canvas"
-                                id="map-canvas"
-                              />
-                            }
-                            mapElement={
-                              <div style={{ height: `100%`, borderRadius: "inherit" }} />
-                            }
+                  <Row className="h-75 ">
+                    <Col>
+                      <Maps
+                        Location={this.state.accident_data.location.coords}
+                        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aWR3SBGaa1oB0CuDf2vptnJfSMSguZU"
+                        loadingElement={<div style={{ height: `100%` }} />}
+                        center = {this.state.accident_data.location.coords}
+                        zoom = {10}
+                        containerElement={
+                          <div
+                            className="map-canvas"
+                            id="map-canvas"
                           />
-                          <Row>
-                            <div className="col">
-                              <p>Address: {this.state.accident_data.location.addres}</p>
-                            </div>
-                          </Row>
-                          <Row>
-                            <div className="col-sm">
-                              <p>Lat: {this.state.accident_data.location.coords.lat}</p>
-                            </div>
-                            <div className="col-sm">
-                              <p>Lng: {this.state.accident_data.location.coords.lng}</p>
-                            </div>
-                            </Row>
-                      </div>
-                      <div className="col-lg-6">
-                        <CardBody>
-                          <ImageGallery
-                            ref={i => this._imageGallery = i}
-                            items={this.images}
-                            lazyLoad={false}
-                            onClick={this._onImageClick.bind(this)}
-                            onImageLoad={this._onImageLoad}
-                            onSlide={this._onSlide.bind(this)}
-                            onPause={this._onPause.bind(this)}
-                            onScreenChange={this._onScreenChange.bind(this)}
-                            onPlay={this._onPlay.bind(this)}
-                            infinite={this.state.infinite}
-                            showBullets={this.state.showBullets}
-                            showFullscreenButton={this.state.showFullscreenButton && this.state.showGalleryFullscreenButton}
-                            showPlayButton={this.state.showPlayButton && this.state.showGalleryPlayButton}
-                            showThumbnails={this.state.showThumbnails}
-                            showIndex={this.state.showIndex}
-                            showNav={this.state.showNav}
-                            isRTL={this.state.isRTL}
-                            thumbnailPosition={this.state.thumbnailPosition}
-                            slideDuration={parseInt(this.state.slideDuration)}
-                            slideInterval={parseInt(this.state.slideInterval)}
-                            slideOnThumbnailOver={this.state.slideOnThumbnailOver}
-                            additionalClass="app-image-gallery"
-                          />
-                        </CardBody>
-                      </div>
-                    </Row>
+                        }
+                        mapElement={
+                          <div style={{ height: `75%`, borderRadius: "inherit" }} />
+                        }
+                      />
+                      <Row>
+                        <div className="col">
+                          <p>Address: {this.state.accident_data.location.addres}</p>
+                        </div>
+                      </Row>
+                      <Row>
+                        <div className="col-sm">
+                          <p>Lat: {this.state.accident_data.location.coords.lat}</p>
+                        </div>
+                        <div className="col-sm">
+                          <p>Lng: {this.state.accident_data.location.coords.lng}</p>
+                        </div>
+                      </Row>
+                    </Col>
+                    <Col>
+                      <CardBody>
+                        <ImageGallery
+                          ref={i => this._imageGallery = i}
+                          items={this.images}
+                          lazyLoad={false}
+                          onClick={this._onImageClick.bind(this)}
+                          onImageLoad={this._onImageLoad}
+                          onSlide={this._onSlide.bind(this)}
+                          onPause={this._onPause.bind(this)}
+                          onScreenChange={this._onScreenChange.bind(this)}
+                          onPlay={this._onPlay.bind(this)}
+                          infinite={this.state.infinite}
+                          showBullets={this.state.showBullets}
+                          showFullscreenButton={this.state.showFullscreenButton && this.state.showGalleryFullscreenButton}
+                          showPlayButton={this.state.showPlayButton && this.state.showGalleryPlayButton}
+                          showThumbnails={this.state.showThumbnails}
+                          showIndex={this.state.showIndex}
+                          showNav={this.state.showNav}
+                          isRTL={this.state.isRTL}
+                          thumbnailPosition={this.state.thumbnailPosition}
+                          slideDuration={parseInt(this.state.slideDuration)}
+                          slideInterval={parseInt(this.state.slideInterval)}
+                          slideOnThumbnailOver={this.state.slideOnThumbnailOver}
+                          additionalClass="app-image-gallery"
+                        />
+                      </CardBody>
+                    </Col>
+                  </Row>
                   <CardHeader>
                     <h3> MORE DETAILS... </h3>
                   </CardHeader>
@@ -494,7 +508,7 @@ class AccidentDetails extends React.Component {
                     </UncontrolledCollapse>
                 </CardBody>
               </Card>
-            </div>
+            </Col>
           </Row>
         </Container>
       </>
