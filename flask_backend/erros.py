@@ -13,3 +13,6 @@ no_file_selected = {
 type_not_allowed = {
     "erro": "Allowed file types are txt, pdf, png, jpg, jpeg, gif"
 }
+video_type_not_allowed = {
+    "error": "video format nor allowed"
+}
