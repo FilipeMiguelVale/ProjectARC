@@ -9,13 +9,13 @@ from flask_backend.database.queries import *
 from flask_backend.erros import *
 from flask_login import login_user, login_required, logout_user, current_user
 # data processing
-from flask_backend.data_processing import get_location_address
+from flask_backend.data_processing import get_location_address, convert_avi_to_mp4
 
 # video adding 
 from werkzeug.utils import secure_filename
 import os
 
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','avi'])
+ALLOWED_EXTENSIONS = set(['avi'])
 
 
 
@@ -63,9 +63,10 @@ def add_video():
     filename = file.filename.split(".")
     name = filename[0] + "_" + id # get file name
     file_type = filename[1] #get file type
-    filename = secure_filename(name+"."+file_type) 
+    filename = name+".mp4"
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename) # create path for file
     file.save(file_path) # save file on directory
+    #COLOCA AQUI O CONVERSOR 
     return add_video_to_database(filename,id) # add path of file to database
 
 def allowed_file(filename):
