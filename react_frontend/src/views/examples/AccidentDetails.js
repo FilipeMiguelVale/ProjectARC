@@ -33,7 +33,6 @@ import {
 // core components
 import Header from "../../components/Headers/Header.js";
 import Maps from "./Maps_Component.js";
-import { valid } from "semver";
 import {Redirect} from "react-router-dom";
 
 const PREFIX_URL = 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/';
@@ -68,7 +67,7 @@ class AccidentDetails extends React.Component {
       accident_data: {
         car: [],
         location: {
-          addres: " ",
+          address: " ",
           coords: {lat: 40, lng: 30 },
         },
         damage: 0.0,
@@ -120,7 +119,7 @@ class AccidentDetails extends React.Component {
           car: result['cars'],
           location: 
           {
-            addres: result['location']['address'],
+            address: result['location']['address'],
             coords: {lat: result['location']['lat'],lng: result['location']['lng']}
           },
           damage: result['damage'],
@@ -210,18 +209,6 @@ class AccidentDetails extends React.Component {
 
   _onPlay(index) {
     console.debug('playing from index', index);
-  }
-
-  _handleInputChange(state, event) {
-    this.setState({[state]: event.target.value});
-  }
-
-  _handleCheckboxChange(state, event) {
-    this.setState({[state]: event.target.checked});
-  }
-
-  _handleThumbnailPositionChange(event) {
-    this.setState({thumbnailPosition: event.target.value});
   }
 
   _getStaticImages() {
@@ -348,12 +335,12 @@ class AccidentDetails extends React.Component {
                           />
                         }
                         mapElement={
-                          <div style={{ height: `75%`, borderRadius: "inherit" }} />
+                          <div style={{ height: `85%`, borderRadius: "inherit" }} />
                         }
                       />
                       <Row>
                         <div className="col">
-                          <p>Address: {this.state.accident_data.location.addres}</p>
+                          <p>Address: {this.state.accident_data.location.address}</p>
                         </div>
                       </Row>
                       <Row>
