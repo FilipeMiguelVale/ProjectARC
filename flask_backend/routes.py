@@ -23,19 +23,20 @@ def login():
     print(email)
     print(password)
     if email == "admin@admin" and password == "admin" :
+        user = User.query.filter_by(username='admin').first()
+        login_user(user)
         return jsonify({"response":"Done"})
     else:
         return jsonify({"error":"Invalid username or password"})
 
-@app.route('/admin')
+@app.route('/#admin')
 @login_required
 def web():
     return render_template("index.html")
 
 @app.route('/')
 def index():
-    # user = User.query.filter_by(username='admin').first()
-    # login_user(user)
+
     return render_template("index.html")
 
 @app.route('/logout')
