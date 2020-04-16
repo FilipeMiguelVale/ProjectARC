@@ -17,11 +17,14 @@
 */
 /*eslint-disable*/
 import React from "react";
+import "../../assets/css/custom.css"
 
 // reactstrap components
-import { Container, Row, Col, Nav, NavItem, NavLink } from "reactstrap";
+import { Row, Col } from "reactstrap";
+
 
 class Footer extends React.Component {
+  
   render() {
     return (
       <footer className="footer">
@@ -36,6 +39,43 @@ class Footer extends React.Component {
                 target="_blank"
               >
                 Project ARC
+              </a>
+            </div>
+          </Col>
+          <Col xl="2">
+            <div className="copyright text-center  text-muted">
+              <a href="https://www.bosch.pt/" target="_blank">
+              <img
+                id = "grayscale"
+                alt="..."
+                className="grayscale"
+                 height={50}
+                src={require("../../assets/img/brand/bosch.png")}
+              />
+              </a>
+            </div>
+          </Col>
+          <Col xl="2" >
+            <div className="copyright text-center  text-muted">
+              <a href="https://www.it.pt" target="_blank">
+              <img
+                alt="..."
+                className="grayscale"
+                 height={50}
+                src={require("../../assets/img/brand/IT.png")}
+              />
+              </a>
+            </div>
+          </Col>
+          <Col xl="2">
+            <div className="copyright text-center  text-muted">
+              <a href="https://www.ua.pt" target="_blank">
+              <img
+                alt="..."
+                className="grayscale"
+                 height={50}
+                src={require("../../assets/img/brand/UA.png")}
+              />
               </a>
             </div>
           </Col>
