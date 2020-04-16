@@ -50,6 +50,7 @@ class Footer extends React.Component {
                 alt="..."
                 className="grayscale"
                  height={50}
+                width={125}
                 src={require("../../assets/img/brand/bosch.png")}
               />
               </a>
@@ -62,6 +63,7 @@ class Footer extends React.Component {
                 alt="..."
                 className="grayscale"
                  height={50}
+                width={125}
                 src={require("../../assets/img/brand/IT.png")}
               />
               </a>
@@ -74,6 +76,7 @@ class Footer extends React.Component {
                 alt="..."
                 className="grayscale"
                  height={50}
+                width={125}
                 src={require("../../assets/img/brand/UA.png")}
               />
               </a>

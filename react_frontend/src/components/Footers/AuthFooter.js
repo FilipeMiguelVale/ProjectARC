@@ -47,7 +47,8 @@ class Login extends React.Component {
                 id = "grayscale"
                 alt="..."
                 className="grayscale"
-                 height={50}
+                height={50}
+                width={125}
                 src={require("../../assets/img/brand/bosch.png")}
               />
               </a>
@@ -59,7 +60,8 @@ class Login extends React.Component {
               <img
                 alt="..."
                 className="grayscale"
-                 height={50}
+                height={50}
+                width={125}
                 src={require("../../assets/img/brand/IT.png")}
               />
               </a>
@@ -71,7 +73,8 @@ class Login extends React.Component {
               <img
                 alt="..."
                 className="grayscale"
-                 height={50}
+                height={50}
+                width={125}
                 src={require("../../assets/img/brand/UA.png")}
               />
               </a>
