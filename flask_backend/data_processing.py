@@ -15,7 +15,7 @@ def same_timestamp(timestamp):
     current_time = datetime.now()
     delta = timedelta(minutes=2)
 
-    if current_time - timestamp > delta :
+    if current_time - delta > timestamp:
         return False
     
     return True

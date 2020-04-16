@@ -30,13 +30,17 @@ def get_accident_by(value,**options):
     filter = options.get("filter")
 
     if filter == "belongs":
-        result = Accident.query.all()
-        for accident in result:
-            lat = float(accident["location"]["lat"])
-            lng = float(accident["location"]["lng"])
-            timestamp = accident["date"]
-            if isClose(value,(lat,lng)) and same_timestamp(timestamp):
-                return Accident.query.filter_by(location=value).first() 
+        location = (float(value["lat"]),float(value["lng"]))
+        accidents = Accident.query.all()
+        result = accidents_schema.dump(accidents)
+        for accident in list(accidents):
+            lat = float(accident.location["lat"])
+            lng = float(accident.location["lng"])
+            timestamp = accident.date
+            loc = isClose(location,(lat,lng))
+            tim = same_timestamp(timestamp)
+            if loc and tim:
+                return accident
 
         return None
 
