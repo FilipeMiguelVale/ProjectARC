@@ -158,8 +158,8 @@ class AccidentDetails extends React.Component {
         </CardTitle>
         <CardBody className="align-content-center">
           <Row>
-            <span className="font-weight-bold">Activated ABS:</span>
-            <span>{String(value['ABS'])}</span>
+            <span className="font-weight-bold">Activated ABS</span>
+            <span>: {String(value['ABS'])}</span>
           </Row>
           <Row>
             <span className="font-weight-bold">Fired Airbag</span>
@@ -486,9 +486,7 @@ class AccidentDetails extends React.Component {
                       <Card>
                         <CardBody>
                           <Row>
-                            <div className="col-lg-3">
-                              {this.state.accident_data["car"].map(this.renderCars)}
-                            </div>
+                            {this.state.accident_data["car"].map(this.renderCars)}
                           </Row>
                         </CardBody>
                       </Card>
