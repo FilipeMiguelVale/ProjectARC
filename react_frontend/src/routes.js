@@ -40,13 +40,13 @@ var routes = [
     component: AccidentDetails,
     layout: "/admin"
   },
-  // {
-  //   path: "/maps",
-  //   name: "Maps",
-  //   icon: "ni ni-pin-3 text-orange",
-  //   component: Maps,
-  //   layout: "/admin"
-  // },
+   {
+    path: "/maps",
+    name: "Maps",
+    icon: "ni ni-pin-3 text-orange",
+    component: Maps,
+    layout: "/admin"
+  },
   {
     path: "/user-profile",
     name: "User Profile",

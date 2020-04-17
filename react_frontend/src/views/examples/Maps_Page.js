@@ -26,6 +26,46 @@ import Maps from "./Maps_Component.js";
 
 class Maps_Page extends React.Component {
 
+  constructor(props){
+    super(props)
+
+    this.state = {
+      markers: [],
+      initial_position: {
+        lat: 0,
+        lng: 0
+      }
+    } 
+  }
+
+  getAllLocations = async () => {
+    let response = await fetch(
+      `/list_accidents`);
+    let result = await response.json();
+    let all_locations = [];
+    for (let i=0; i < result.length; i++){
+      all_locations.push(
+        {
+          lat: result[i]["location"]["lat"],
+          lng: result[i]["location"]["lng"],
+          id: result[i]["id"]
+        }
+      )
+    }
+    this.setState(prevState => (
+      {
+        markers: all_locations,
+        initial_position: {
+          lat: result[0]["location"]["lat"],
+          lng: result[0]["location"]["lng"]
+        }
+      }))
+  }
+
+  componentDidMount() {
+    this.getAllLocations();
+  }
+
   render() 
   {
     return (
@@ -37,10 +77,12 @@ class Maps_Page extends React.Component {
             <div className="col">
               <Card className="shadow border-0">
                 <Maps
-                  Location={this.state}
+                  markers={this.state.markers}
+                  Location={this.state.initial_position}
                   googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aWR3SBGaa1oB0CuDf2vptnJfSMSguZU"
                   loadingElement={<div style={{ height: `100%` }} />}
-                  center = {this.state}
+                  center = {this.state.initial_position}
+                  zoom = {10}
                   containerElement={
                     <div
                       style={{ height: `600px` }}
