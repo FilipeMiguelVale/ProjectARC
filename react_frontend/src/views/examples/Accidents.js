@@ -38,7 +38,7 @@ function fix_date(st) {
   let date = st.split('T');
   let year = date[0];
   let time  = date[1].split('.')[0];
-  return year + " " + time;
+  return [year,time];
 }
 
 class Tables extends React.Component {
@@ -73,57 +73,37 @@ class Tables extends React.Component {
     return(
       <tr key={index} >
         <th scope="row">
-          <Media className="align-items-center">
-            <Media>
-              <span className="mb-0 text-sm">
-                {fix_date(value["date"])}
-              </span>
-            </Media>
-          </Media>
+          <span className="mb-0 text-sm">
+            {fix_date(value["date"])[0]}<br/>{fix_date(value["date"])[1]}
+          </span>
         </th>
         <th scope="row" width="5%">
-          <Media className="align-items-center">
-            <Media>
-              <span className="mb-0 text-sm">
-                {value["location"]["address"]}
-              </span>
-            </Media>
-          </Media>
+          <span className="mb-0 text-sm">
+            {value["location"]["address"]}
+          </span>
         </th>
-        <th scope = "row">
-          <Media className="align-items-center">
-            <Media>
-              <span className="mb-0 text-sm">
-                {value["n_cars_involved"]}
-              </span>
-            </Media>
-          </Media>
+        <th scope = "row" style={{textAlign:"center"}}>
+          <span className="mb-0 text-sm">
+            {value["n_cars_involved"]}
+          </span>
         </th>
-        <th scope = "row">
-          <Media className="align-items-center">
-            <Media>
-              <span className="mb-0 text-sm">
-                {value["n_people"]}
-              </span>
-            </Media>
-          </Media>
+        <th scope = "row" style={{textAlign:"center"}}>
+          <span className="mb-0 text-sm">
+            {value["n_people"]}
+          </span>
         </th>
-        <th scope = "row">
-          <Media className="align-items-center">
-            <Media>
-              <span className="mb-0 text-sm">
-                {value["n_people_injured"]}
-              </span>
-            </Media>
-          </Media>
+        <th scope = "row" style={{textAlign:"center"}}>
+          <span className="mb-0 text-sm">
+            {value["n_people_injured"]}
+          </span>
         </th>
-        <td>
+       <th scope = "row" style={{textAlign:"center"}}>
           <Badge color="" className="badge-dot mr-4">
             <i className="bg-warning" />
             {value["damage"]}
           </Badge>
-        </td>
-        <td>
+        </th>
+        <th scope = "row" style={{textAlign:"center"}}>
             <Button
                 className="icon icon-shape bg-transparent border-default text-white rounded-circle"
                 href={`/#admin/accident_details/${value["id"]}`}
@@ -131,7 +111,7 @@ class Tables extends React.Component {
             >
               <i className="fas fa-ellipsis-h"/>
             </Button>
-        </td>
+        </th>
       </tr>
     )
   }
@@ -158,45 +138,58 @@ class Tables extends React.Component {
                   hover
                 >
                   <thead className="thead-dark">
-                    <tr>
-                      <th scope="col-lg-3">
-                       <div className="icon icon-shape bg-transparent text-white rounded-circle">
+                    <tr >
+                      <th scope="col-lg-3 " style={{textAlign:"center"}}>
+                       <div align="center" className="icon icon-shape bg-transparent text-white rounded-circle">
                            <i className="fas fa-calendar-alt"/>
                        </div>
-                       <span className="ml-1">Date/Hour</span>
+                      <div >
+                           <span className="ml-1">Date/Hour</span>
+                      </div>
+
                       </th>
-                      <th scope="col">
-                       <div className="icon icon-shape bg-transparent text-white rounded-circle">
-                           <i className="fas fa-map-marked-alt"/>
+                      <th scope="col-lg-3"  style={{textAlign:"center"}}>
+                       <div  className="icon icon-shape bg-transparent text-white rounded-circle" >
+                           <i  className="fas fa-map-marked-alt"/>
                        </div>
-                       <span className="ml-1">Location</span>
+                       <div >
+                           <span className="ml-1">Location</span>
+                       </div>
                       </th>
-                      <th scope="col">
+                      <th scope="col" style={{textAlign:"center"}}>
                        <div className="icon icon-shape bg-transparent text-white rounded-circle">
                            <i className="fas fa-car"/>
                        </div>
-                       <span className="ml-1">Number of cars</span>
+                          <div>
+                           <span className="ml-1">Nº cars</span>
+                       </div>
+
                       </th>
-                      <th scope="col">
+                      <th scope="col" style={{textAlign:"center"}}>
                        <div className="icon icon-shape bg-transparent text-white rounded-circle">
                            <i className="fas fa-users"/>
                        </div>
-                       <span className="ml-1">Number of persons</span>
+                      <div>
+                           <span className="ml-1">Nº persons</span>
+                       </div>
                       </th>
-                      <th scope="col">
+                      <th scope="col" style={{textAlign:"center"}}>
                         <div className="icon icon-shape bg-transparent text-white rounded-circle">
                            <i className="fas fa-user-injured"/>
                        </div>
-                       <span className="ml-1">Number of injured</span>
+                      <div>
+                       <span className="ml-1">Nºinjured</span>
+                      </div>
                       </th>
-                      <th scope="col">
+                      <th scope="col"style={{textAlign:"center"}}>
                        <div className="icon icon-shape bg-transparent text-white rounded-circle">
                            <i className="fas fa-exclamation-triangle"/>
                        </div>
+                      <div>
                        <span className="ml-1">Severity</span>
-
+                      </div>
                       </th>
-                      <th scope="col" />
+                      <th scope="col" style={{textAlign:"center"}}   />
                     </tr>
                   </thead>
                   <tbody>
