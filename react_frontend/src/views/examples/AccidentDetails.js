@@ -340,15 +340,15 @@ class AccidentDetails extends React.Component {
                       />
                       <Row>
                         <div className="col">
-                          <p>Address: {this.state.accident_data.location.address}</p>
+                          <p><strong>Address:</strong> {this.state.accident_data.location.address}</p>
                         </div>
                       </Row>
                       <Row>
                         <div className="col-sm">
-                          <p>Lat: {this.state.accident_data.location.coords.lat}</p>
+                          <p><strong>Lat:</strong> {this.state.accident_data.location.coords.lat}</p>
                         </div>
                         <div className="col-sm">
-                          <p>Lng: {this.state.accident_data.location.coords.lng}</p>
+                          <p><strong>Lng:</strong> {this.state.accident_data.location.coords.lng}</p>
                         </div>
                       </Row>
                     </Col>
@@ -394,7 +394,7 @@ class AccidentDetails extends React.Component {
                                     tag="h5"
                                     className="text-uppercase text-muted mb-0"
                                   >
-                                    Nº of cars involved
+                                    Number of cars involved
                                   </CardTitle>
                                   <span className="h2 font-weight-bold mb-0">{this.state.accident_data.n_cars_involved}</span>
                                 </div>
@@ -417,7 +417,7 @@ class AccidentDetails extends React.Component {
                                     tag="h5"
                                     className="text-uppercase text-muted mb-0"
                                   >
-                                    Nº of persons involved
+                                    Number of persons involved
                                   </CardTitle>
                                   <span className="h2 font-weight-bold mb-0">
                                     {this.state.accident_data.n_people_involved}
@@ -442,7 +442,7 @@ class AccidentDetails extends React.Component {
                                   tag="h5"
                                   className="text-uppercase text-muted mb-0"
                                 >
-                                  Nº of persons injured
+                                  Number of persons injured
                                 </CardTitle>
                                 <span className="h2 font-weight-bold mb-0">
                                   {this.state.accident_data.n_people_injured}
