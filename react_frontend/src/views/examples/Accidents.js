@@ -20,14 +20,14 @@ import {Link, Redirect} from "react-router-dom";
 
 // reactstrap components
 import {
-  Badge,
-  Card,
-  CardHeader,
-  Media,
-  Table,
-  Container,
-  Row,
-  Button,
+    Badge,
+    Card,
+    CardHeader,
+    Media,
+    Table,
+    Container,
+    Row,
+    Button, Col,
 } from "reactstrap";
 // core components
 import Header from "../../components/Headers/Header.js";
@@ -71,7 +71,7 @@ class Tables extends React.Component {
 
   renderArray = (value,index) => {
     return(
-      <tr key={index} > 
+      <tr key={index} >
         <th scope="row">
           <Media className="align-items-center">
             <Media>
@@ -130,7 +130,7 @@ class Tables extends React.Component {
     )
   }
 
-  componentDidMount(): void {
+  componentDidMount() {
     this.getData();
   }
 
@@ -153,101 +153,48 @@ class Tables extends React.Component {
                 >
                   <thead className="thead-dark">
                     <tr>
-                      <th scope="col">
-                       <Media className="align-items-center">
-                          <a
-                            className="avatar rounded-circle mr-3"
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                          >
-                            <img
-                              alt="..."
-                              src={require("../../assets/img/theme/DateHour.jpg")}
-                            />
-                          </a>
-                      </Media>
-                       Date/Hour
+                      <th scope="col-lg-3">
+                       <div className="icon icon-shape bg-transparent text-white rounded-circle">
+                           <i className="fas fa-calendar-alt"/>
+                       </div>
+                       <span className="ml-1">Date/Hour</span>
                       </th>
                       <th scope="col">
-                       <Media className="align-items-center">
-                          <a
-                            className="avatar rounded-circle mr-3"
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                          >
-                            <img
-                              alt="..."
-                              src={require("../../assets/img/theme/pinout.jpg")}
-                            />
-                          </a>
-                        </Media>
-                       Location
+                       <div className="icon icon-shape bg-transparent text-white rounded-circle">
+                           <i className="fas fa-map-marked-alt"/>
+                       </div>
+                       <span className="ml-1">Location</span>
                       </th>
                       <th scope="col">
-                       <Media className="align-items-center">
-                          <a
-                            className="avatar rounded-circle mr-3"
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                          >
-                            <img
-                              alt="..."
-                              src={require("../../assets/img/theme/car.jpg")}
-                            />
-                          </a>
-                        </Media>
-                       Number of cars
+                       <div className="icon icon-shape bg-transparent text-white rounded-circle">
+                           <i className="fas fa-car"/>
+                       </div>
+                       <span className="ml-1">Number of cars</span>
                       </th>
                       <th scope="col">
-                       <Media className="align-items-center">
-                          <a
-                            className="avatar rounded-circle mr-3"
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                          >
-                            <img
-                              alt="..."
-                              src={require("../../assets/img/theme/people.jpg")}
-                            />
-                          </a>
-                        </Media> 
-                       Number of people
+                       <div className="icon icon-shape bg-transparent text-white rounded-circle">
+                           <i className="fas fa-users"/>
+                       </div>
+                       <span className="ml-1">Number of persons</span>
                       </th>
                       <th scope="col">
-                       <Media className="align-items-center">
-                          <a
-                            className="avatar rounded-circle mr-3"
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                          >
-                            <img
-                              alt="..."
-                              src={require("../../assets/img/theme/injured.jpg")}
-                            />
-                          </a>
-                       </Media>
-                       Number of injured
+                        <div className="icon icon-shape bg-transparent text-white rounded-circle">
+                           <i className="fas fa-user-injured"/>
+                       </div>
+                       <span className="ml-1">Number of injured</span>
                       </th>
                       <th scope="col">
-                       <Media className="align-items-center">
-                          <a
-                            className="avatar rounded-circle mr-3"
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                          >
-                            <img
-                              alt="..."
-                              src={require("../../assets/img/theme/severity.png")}
-                            />
-                          </a>
-                       </Media>
-                       Severity
+                       <div className="icon icon-shape bg-transparent text-white rounded-circle">
+                           <i className="fas fa-exclamation-triangle"/>
+                       </div>
+                       <span className="ml-1">Severity</span>
+
                       </th>
                       <th scope="col" />
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state["table_data"].map(this.renderArray)}
+                    {this.state["table_data"].reverse().map(this.renderArray)}
                   </tbody>
                 </Table>
               </Card>
