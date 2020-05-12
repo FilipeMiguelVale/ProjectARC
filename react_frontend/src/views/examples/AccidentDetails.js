@@ -36,7 +36,7 @@ import Maps from "./Maps_Component.js";
 import {Redirect} from "react-router-dom";
 
 const PREFIX_URL = 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/';
-
+const MEDIA_URL='/media/'
 
 function fix_date(st) {
   let date = st.split('T');
@@ -77,7 +77,7 @@ class AccidentDetails extends React.Component {
         n_people_injured: 0, 
       }
     };
-
+    this.numImg=0
     this.images = [
       {
         thumbnail: `${PREFIX_URL}4v.jpg`,
@@ -104,8 +104,21 @@ class AccidentDetails extends React.Component {
         thumbnail: `${PREFIX_URL}1t.jpg`,
         originalClass: 'featured-slide',
         thumbnailClass: 'featured-thumb',
+
       },
-    ].concat(this._getStaticImages());
+      {
+        original: `${PREFIX_URL}1.jpg`,
+        thumbnail: `${PREFIX_URL}1t.jpg`,
+        originalClass: 'featured-slide',
+        thumbnailClass: 'featured-thumb',
+      },
+      {
+        original: `${PREFIX_URL}1.jpg`,
+        thumbnail: `${PREFIX_URL}1t.jpg`,
+        originalClass: 'featured-slide',
+        thumbnailClass: 'featured-thumb',
+      },
+    ]
   }
 
 
@@ -130,7 +143,17 @@ class AccidentDetails extends React.Component {
         }
       }
     ));
-    this.images[0]['source'] = 'video/' + result['video_location']
+    this.images[0]['source'] = `/media/${id}/video/1.mp4`
+     const resp =await fetch(
+      `/Nmedia/${id}/photos`);
+    const res = await resp.json();
+    this.numImg = res
+    for (let i = 0; i < parseInt(this.numImg); i++) {
+      this.images[i+1]['original']= `/media/${id}/photos/${i}.jpeg`
+      this.images[i+1]['thumbnail']= `/media/${id}/photos/${i}.jpeg`
+      ;
+    }
+    //this.images.concat(this._getStaticImages(id));
   }
 
   componentDidMount() {
@@ -211,12 +234,12 @@ class AccidentDetails extends React.Component {
     console.debug('playing from index', index);
   }
 
-  _getStaticImages() {
+  _getStaticImages(id){
     let images = [];
-    for (let i = 2; i < 12; i++) {
+    for (let i = 0; i < parseInt(this.numImg); i++) {
       images.push({
-        original: `${PREFIX_URL}${i}.jpg`,
-        thumbnail:`${PREFIX_URL}${i}t.jpg`
+        original: `/media/${id}/photos/${i}.jpeg`,
+        thumbnail: `${PREFIX_URL}image_set_thumb.jpg`
       });
     }
 
@@ -324,10 +347,11 @@ class AccidentDetails extends React.Component {
                     <Col>
                       <Maps
                         Location={this.state.accident_data.location.coords}
+                        markers = {[this.state.accident_data.location.coords]}
                         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aWR3SBGaa1oB0CuDf2vptnJfSMSguZU"
                         loadingElement={<div style={{ height: `100%` }} />}
                         center = {this.state.accident_data.location.coords}
-                        zoom = {10}
+                        zoom = {17}
                         containerElement={
                           <div
                             className="map-canvas"
@@ -337,7 +361,9 @@ class AccidentDetails extends React.Component {
                         mapElement={
                           <div style={{ height: `85%`, borderRadius: "inherit" }} />
                         }
+
                       />
+
                       <Row>
                         <div className="col">
                           <p><strong>Address:</strong> {this.state.accident_data.location.address}</p>

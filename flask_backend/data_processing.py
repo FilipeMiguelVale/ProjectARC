@@ -5,10 +5,6 @@ import os
 from datetime import datetime, timedelta
 
 #conversor de video
-def convert_avi_to_mp4(avi_file_path):
-    print(avi_file_path)
-    os.popen("ffmpeg -i '{input}'.avi -ac 2 -b:v 2000k -c:a aac -c:v libx264 -b:a 160k -vprofile high -bf 0 -strict experimental -f mp4 '{input}.mp4'".format(input = avi_file_path))
-    return True
 
 #Comparar timestamps
 def same_timestamp(timestamp):

@@ -9,10 +9,13 @@ from flask_backend.database.queries import *
 from flask_backend.erros import *
 
 # data processing
-from flask_backend.data_processing import get_location_address, convert_avi_to_mp4
+from flask_backend.data_processing import get_location_address
+
+#media
+from flask_backend.media_processing import init_media,convert_avi_to_mp4
 
 # video adding 
-import os
+import os,re
 
 ALLOWED_EXTENSIONS = set(['avi'])
 
@@ -74,16 +77,11 @@ def add_video():
 
     accident_id = str(accident.id) # get id do accident
 
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], accident_id + ".avi") # create path for file
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], accident_id+"/video/1.avi") # create path for file
     file.save(file_path) # save temporary file on directory
-    convert_avi_to_mp4(os.path.join(app.config['UPLOAD_FOLDER'], accident_id)) # convert file to a mp4
+    convert_avi_to_mp4(os.path.join(app.config['UPLOAD_FOLDER'], accident_id+"/video/1")) # convert file to a mp4
 
-    return add_video_to_database(video_id,accident_id + ".mp4") # add path of file to database
-
-# Get Video
-@app.route('/video/<path:path_to_file>', methods=['GET'])
-def get_video(path_to_file):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],filename=path_to_file, as_attachment=True)
+    return add_video_to_database(video_id,accident_id+"/video/1.avi") # add path of file to database
 
 # Create a Accident
 @app.route('/add_accident', methods=['POST'])
@@ -91,16 +89,18 @@ def add_accident():
     location = request.json['location']
     video_id = int(request.json['video_id'])
 
+    
     accident = get_accident_by(location, filter="belongs")
 
     if not accident:
         location["address"] = get_location_address(location["lat"],location["lng"])
         accident = Accident(location,video_id)
 
+
     accident.n_cars_involved += 1
 
     n_people = request.json["n_people"]
-    accident.n_people += request.json["n_people"] 
+    accident.n_people += request.json["n_people"]
 
     velocity = request.json["velocity"]
     ABS = request.json["ABS"]
@@ -114,7 +114,7 @@ def add_accident():
     ABS,overturned,damage)
 
     add_accident_to_database(accident,car)
-    
+    init_media(accident.id, (location["lat"], location["lng"]))
     return accident_schema.jsonify(accident)
 
 
@@ -128,3 +128,14 @@ def get_accident(id):
 @app.route('/list_accidents', methods=['GET'])
 def get_accidents():
     return get_accident_by(None, filter="all")
+
+
+#accident media
+@app.route('/media/<path:path_to_file>', methods=['GET'])
+def get_media_photos_id(path_to_file):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename=path_to_file, as_attachment=True)
+
+@app.route('/Nmedia/<path:path_to_file>')
+def get_num_photos(path_to_file):
+    txt_or_csv = [f for f in os.listdir(os.path.join(app.config['UPLOAD_FOLDER'],path_to_file)) if re.search(r'.*\.(jpeg)$', f)]
+    return str(len(txt_or_csv))
