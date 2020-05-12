@@ -61,7 +61,11 @@ def get_accident_by(value,**options):
         accident = Accident.query.get(value)
         return accident_schema.jsonify(accident)
 
-
+    if filter == "between":
+        accident = Accident.query.all()
+        result = accidents_schema.dump(accident)
+        v = result[-value[1]:len(result)-value[0]]
+        return jsonify(v[::-1])
 #Login queries
 
 @login_manager.user_loader

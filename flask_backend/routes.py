@@ -129,6 +129,9 @@ def get_accident(id):
 def get_accidents():
     return get_accident_by(None, filter="all")
 
+@app.route('/range_accidents/<int:id>', methods=['GET'])
+def get_range_accidents(id):
+    return get_accident_by(((id-1)*10,id*10), filter="between")
 
 #accident media
 @app.route('/media/<path:path_to_file>', methods=['GET'])

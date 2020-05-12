@@ -56,7 +56,7 @@ class Tables extends React.Component {
 
   getData = async () => {
     const response = await fetch(
-      '/list_accidents'
+      '/range_accidents/1'
     );
 
     const result = await response.json();
@@ -212,7 +212,7 @@ class Tables extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state["table_data"].reverse().map(this.renderArray)}
+                    {this.state["table_data"].map(this.renderArray)}
                   </tbody>
                 </Table>
               </Card>
