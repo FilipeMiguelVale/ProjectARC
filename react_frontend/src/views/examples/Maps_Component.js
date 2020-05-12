@@ -8,50 +8,10 @@ const MapWrapper = withScriptjs(
     withGoogleMap(props => <GoogleMap
             center = {{lat: props.center.lat, lng: props.center.lng}}
             defaultZoom={props.zoom}
+
             defaultOptions={{
               scrollwheel: false,
-              styles: [
-                {
-                  featureType: "administrative",
-                  elementType: "labels.text.fill",
-                  stylers: [{color: "#444444"}]
-                },
-                {
-                  featureType: "landscape",
-                  elementType: "all",
-                  stylers: [{color: "#f2f2f2"}]
-                },
-                {
-                  featureType: "poi",
-                  elementType: "all",
-                  stylers: [{visibility: "off"}]
-                },
-                {
-                  featureType: "road",
-                  elementType: "all",
-                  stylers: [{saturation: -100}, {lightness: 45}]
-                },
-                {
-                  featureType: "road.highway",
-                  elementType: "all",
-                  stylers: [{visibility: "simplified"}]
-                },
-                {
-                  featureType: "road.arterial",
-                  elementType: "labels.icon",
-                  stylers: [{visibility: "off"}]
-                },
-                {
-                  featureType: "transit",
-                  elementType: "all",
-                  stylers: [{visibility: "on"}]
-                },
-                {
-                  featureType: "water",
-                  elementType: "all",
-                  stylers: [{color: "#5e72e4"}, {visibility: "on"}]
-                }
-              ]
+
             }}
         >
         {props.markers.map(props =>
