@@ -25,6 +25,9 @@ def add_accident_to_database(accident,car):
     db.session.commit()
     print(car.accident_id)
 
+def get_num_accidents():
+    return Accident.query.count()
+
 def get_accident_by(value,**options):
 
     filter = options.get("filter")

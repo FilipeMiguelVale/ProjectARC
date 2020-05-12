@@ -144,6 +144,8 @@ class AccidentDetails extends React.Component {
       }
     ));
     this.images[0]['source'] = `/media/${id}/video/1.mp4`
+    this.images[0]['thumbnail']= `/media/${id}/video/1T.jpg`
+    this.images[0]['original']= this.images[0]['thumbnail']
      const resp =await fetch(
       `/Nmedia/${id}/photos`);
     const res = await resp.json();
@@ -352,6 +354,7 @@ class AccidentDetails extends React.Component {
                         loadingElement={<div style={{ height: `100%` }} />}
                         center = {this.state.accident_data.location.coords}
                         zoom = {17}
+
                         containerElement={
                           <div
                             className="map-canvas"

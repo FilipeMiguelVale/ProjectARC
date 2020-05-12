@@ -133,6 +133,10 @@ def get_accidents():
 def get_range_accidents(id):
     return get_accident_by(((id-1)*10,id*10), filter="between")
 
+@app.route('/num_accidents', methods=['GET'])
+def get_number_accidents():
+    return str(get_num_accidents())
+
 #accident media
 @app.route('/media/<path:path_to_file>', methods=['GET'])
 def get_media_photos_id(path_to_file):
