@@ -8935,6 +8935,9 @@ button.bg-lighter:focus {
 .bg-gradient-lighter {
   background: linear-gradient(87deg, #e9ecef 0, #e9eaef 100%) !important; }
 
+.bg-gradient-severity {
+  background: linear-gradient(87deg, #28a745 0, #ac9739 ,#8c0615 100%) !important; }
+
 .bg-translucent-primary {
   background-color: rgba(63, 87, 223, 0.6) !important; }
 

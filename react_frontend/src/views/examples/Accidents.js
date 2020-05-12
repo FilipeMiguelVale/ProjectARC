@@ -27,7 +27,7 @@ import {
     Table,
     Container,
     Row,
-    Button, Col,
+    Button, Col, Progress,
 } from "reactstrap";
 // core components
 import Header from "../../components/Headers/Header.js";
@@ -98,9 +98,19 @@ class Tables extends React.Component {
           </span>
         </th>
        <th scope = "row" style={{textAlign:"center"}}>
+           <span className="mr-2">{value["damage"]}</span>
+           <div>
+               <Progress
+                  max="100"
+                  value={value["damage"]}
+                  barClassName="bg-gradient-severity"
+                />
+            </div>
+        </th>
+        <th scope = "row" style={{textAlign:"center"}}>
           <Badge color="" className="badge-dot mr-4">
-            <i className="bg-warning" />
-            {value["damage"]}
+            <i className="bg-red" />
+            {value[""]}
           </Badge>
         </th>
         <th scope = "row" style={{textAlign:"center"}}>
@@ -189,7 +199,16 @@ class Tables extends React.Component {
                        <span className="ml-1">Severity</span>
                       </div>
                       </th>
+                      <th scope="col"style={{textAlign:"center"}}>
+                       <div className="icon icon-shape bg-transparent text-white rounded-circle">
+                           <i className="fas fa-flag"/>
+                       </div>
+                      <div>
+                       <span className="ml-1">Status</span>
+                      </div>
+                      </th>
                       <th scope="col" style={{textAlign:"center"}}   />
+
                     </tr>
                   </thead>
                   <tbody>
