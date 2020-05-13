@@ -3,6 +3,8 @@ import React from "react";
 import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 // core components
 
+import {Redirect} from "react-router-dom";
+
 
 const MapWrapper = withScriptjs(
     withGoogleMap(props => <GoogleMap
@@ -15,27 +17,25 @@ const MapWrapper = withScriptjs(
             }}
         >
         {props.markers.map(props =>
-          <Marker position={{lat: props.lat, lng: props.lng}}/> )}
-        
+          <Marker position={{lat: props.lat, lng: props.lng}}
+           options={{icon:"http://maps.google.com/mapfiles/ms/icons/green.png"}}
+           onClick={(() => 
+            { if(props.id)
+                {window.location.href =`/#admin/accident_details/${props.id}`}
+              }
+              )}
+             />
+        )}
         </GoogleMap>
+
     ));
 
-
 class Maps extends React.Component {
-
-  constructor(props) {
-    super(props);  
-      this.state = {
-        bounds: null
-     }
-  }
 
   render() 
   {
     return (
     <MapWrapper
-        //onReady={this.handleMapLoad.bind(this.props.markers)}
-        //bounds={this.state.bounds}
         Location={this.props.Location}
         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcLG_2KgktdQJXLaeyQZHJzmvcSjNwoPM"
         loadingElement={<div style={{ height: `100%` }} />}

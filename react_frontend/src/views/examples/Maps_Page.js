@@ -24,6 +24,7 @@ import {Card, Container, Row} from "reactstrap";
 import Header from "../../components/Headers/Header.js";
 import Maps from "./Maps_Component.js";
 
+
 class Maps_Page extends React.Component {
 
   constructor(props){
@@ -39,6 +40,7 @@ class Maps_Page extends React.Component {
   }
 
   getAllLocations = async () => {
+    
     let response = await fetch(
       `/list_accidents`);
     let result = await response.json();
@@ -52,19 +54,38 @@ class Maps_Page extends React.Component {
         }
       )
     }
-    this.setState(prevState => (
-      {
-        markers: all_locations,
-        initial_position: {
-          lat: result[0]["location"]["lat"],
-          lng: result[0]["location"]["lng"]
-        }
-      }))
+    return all_locations;
+  }
+
+  get_my_location = function () {
+    if (navigator.geolocation) {
+      return new Promise(
+        (resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject)
+      )
+    } else {
+      return new Promise(
+        resolve => resolve({})
+      )
+    }
   }
 
   componentDidMount() {
-    this.getAllLocations();
+
+    Promise.all([this.get_my_location(),this.getAllLocations()]).then((
+      (values => 
+        {
+          this.setState(prevState => (
+            {
+              markers: values[1],
+              initial_position:{
+                lat: values[0].coords.latitude,
+                lng: values[0].coords.longitude
+              }
+            }))
+        }
+      )))
   }
+
 
   render() 
   {
