@@ -6,6 +6,13 @@ from flask_backend.data_processing import isClose, same_timestamp
 from flask_backend import db, login_manager
 
 
+def change_accident_status(id,status):
+    accident = get_accident_by(id, filter="id_only_accident")
+    accident.status = status
+    db.session.commit()
+    return accident_schema.jsonify(accident)
+
+
 def add_video_to_database(id,url):
 
     accident = get_accident_by(id,filter="video_id")
@@ -63,6 +70,10 @@ def get_accident_by(value,**options):
     if filter == "id":
         accident = Accident.query.get(value)
         return accident_schema.jsonify(accident)
+
+    if filter == "id_only_accident":
+        accident = Accident.query.get(value)
+        return accident
 
     if filter == "between":
         accident = Accident.query.all()

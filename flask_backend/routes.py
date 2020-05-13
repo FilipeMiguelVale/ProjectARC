@@ -123,6 +123,14 @@ def add_accident():
 def get_accident(id):
     return get_accident_by(id, filter="id")
 
+@app.route('/accident_status/<id>',methods=['GET'])
+def get_accident_status(id):
+    return jsonify(get_accident_by(id, filter="id_only_accident").status)
+
+@app.route('/set_accident_status/<id>',methods=['POST'])
+def set_accident_status(id):
+    status = int(request.json['status'])
+    return change_accident_status(id,status)
 
 # See All Accident
 @app.route('/list_accidents', methods=['GET'])
@@ -146,3 +154,4 @@ def get_media_photos_id(path_to_file):
 def get_num_photos(path_to_file):
     txt_or_csv = [f for f in os.listdir(os.path.join(app.config['UPLOAD_FOLDER'],path_to_file)) if re.search(r'.*\.(jpeg)$', f)]
     return str(len(txt_or_csv))
+
