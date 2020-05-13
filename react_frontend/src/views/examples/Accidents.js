@@ -17,6 +17,7 @@
 */
 import React from "react";
 import {Redirect} from "react-router-dom";
+import "../../assets/css/custom.css"
 
 // reactstrap components
 import {
@@ -69,6 +70,35 @@ class Tables extends React.Component {
     );
   }
 
+  /* Sets status colors
+  *     0 -> red (this accident was not answered yet)
+  *     1 -> yellow (emergency services are on their way)
+  *     2 -> green (accident resolved)
+  */
+  setStatus = (value) => {
+      if (value === 2) {
+          return (
+              <Badge color="" className="badge-dot badge-lg">
+                <i id="bg-lime" className="bg-lime" />
+              </Badge>
+          )
+      }
+      else if (value === 1){
+          return (
+              <Badge color="" className="badge-dot badge-lg">
+                <i className="bg-yellow" />
+              </Badge>
+          )
+      }
+      else {
+          return (
+              <Badge color="" className="badge-dot badge-lg">
+                <i className="bg-red" />
+              </Badge>
+          )
+      }
+  }
+
   renderArray = (value,index) => {
     return(
       <tr key={index} >
@@ -108,10 +138,7 @@ class Tables extends React.Component {
             </div>
         </th>
         <th scope = "row" style={{textAlign:"center"}}>
-          <Badge color="" className="badge-dot mr-4">
-            <i className="bg-red" />
-            {value[""]}
-          </Badge>
+            {this.setStatus(value["status"])}
         </th>
         <th scope = "row" style={{textAlign:"center"}}>
             <Button
