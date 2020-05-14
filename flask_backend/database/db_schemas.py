@@ -24,7 +24,7 @@ class AccidentSchema(ma.SQLAlchemySchema):
     n_people = ma.auto_field()
     n_people_injured = ma.auto_field()
     damage = ma.auto_field()
-    #video_total = ma.auto_field()
+    video_total = ma.auto_field()
     date = ma.auto_field()
     status = ma.auto_field()
     cars = ma.Nested(CarSchema, many=True)
