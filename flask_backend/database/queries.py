@@ -13,11 +13,11 @@ def change_accident_status(id,status):
     return accident_schema.jsonify(accident)
 
 
-def add_video_to_database(id,url):
+def add_video_to_database(id):
 
     accident = get_accident_by(id,filter="video_id")
        
-    accident.video_location = url
+    accident.video_total += 1
 
     db.session.commit()
 

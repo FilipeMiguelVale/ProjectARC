@@ -10,7 +10,7 @@ class Accident(db.Model):
     n_cars_involved = db.Column(db.Integer, nullable=False, default=0)
     damage = db.Column(db.Float, default=0.0)
     n_people_injured = db.Column(db.Integer, default=0)
-    video_location = db.Column(db.String, nullable=True)
+    video_total = db.Column(db.Integer, default=0)
     video_id = db.Column(db.String, nullable=False)
     date = db.Column(db.DateTime, default=datetime.now)
     status = db.Column(db.Integer, nullable=False, default=0)

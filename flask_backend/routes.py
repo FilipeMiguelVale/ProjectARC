@@ -17,7 +17,7 @@ from flask_backend.media_processing import init_media,convert_avi_to_mp4
 # video adding 
 import os,re
 
-ALLOWED_EXTENSIONS = set(['avi'])
+ALLOWED_EXTENSIONS = set(['avi','mp4'])
 
 @app.route('/login/request', methods=['POST'])
 def login():
@@ -66,8 +66,9 @@ def add_video():
 
     file = request.files['file'] # retira o file do request
     video_id = request.values["id"] # retira o video_id para pesquisa
+    type = file.filename.split(".")[1]
 
-    if  file.filename.split(".")[1] != "avi":
+    if  type not in ALLOWED_EXTENSIONS:
         return jsonify(video_type_not_allowed)
 
     accident = get_accident_by(video_id,filter="video_id") # devolve accident que contem o video_id
@@ -76,12 +77,15 @@ def add_video():
         return jsonify(no_accident)
 
     accident_id = str(accident.id) # get id do accident
+    video_number = str(accident.video_total + 1)
 
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], accident_id+"/video/1.avi") # create path for file
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], accident_id+"/video/" + video_number + "." + type) # create path for file
     file.save(file_path) # save temporary file on directory
-    convert_avi_to_mp4(os.path.join(app.config['UPLOAD_FOLDER'], accident_id+"/video/1")) # convert file to a mp4
 
-    return add_video_to_database(video_id,accident_id+"/video/1.avi") # add path of file to database
+    if type == "avi":
+        convert_avi_to_mp4(os.path.join(app.config['UPLOAD_FOLDER'], accident_id+"/video/" + video_number)) # convert file to a mp4
+
+    return add_video_to_database(video_id) # add path of file to database
 
 # Create a Accident
 @app.route('/add_accident', methods=['POST'])
