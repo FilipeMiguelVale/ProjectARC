@@ -167,9 +167,35 @@ class Tables extends React.Component {
           <Row className="mt-5">
             <div className="col">
               <Card className="bg-default shadow">
-                <CardHeader className="bg-transparent border-0">
-                  <h3 className="text-white mb-0">Accidents</h3>
-                </CardHeader>
+                      <CardHeader className="bg-transparent border-0">
+                        <h3 className="text-white mb-0">Accidents</h3>
+                      </CardHeader>
+                    
+                <div class="row justify-content-center">
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="#"><i class= "fas fa-angle-left"></i></a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class= "fas fa-angle-right"></i></a></li>
+                      </ul>
+                    </nav>
+                  </div>
+
+                  <div class="dropdown" align="right">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Sort by
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">Date/Hour</a>
+                      <a class="dropdown-item" href="#">Nº cars</a>
+                      <a class="dropdown-item" href="#">Nº people</a>
+                      <a class="dropdown-item" href="#">Nº injured</a>
+                      <a class="dropdown-item" href="#">Severity</a>
+                      <a class="dropdown-item" href="#">Status</a>
+                    </div>
+                  </div>
                 <Table bordered
                   className="align-items-center table-dark table-responsive"
                   hover
@@ -207,7 +233,7 @@ class Tables extends React.Component {
                            <i className="fas fa-users"/>
                        </div>
                       <div>
-                           <span className="ml-1">Nº persons</span>
+                           <span className="ml-1">Nº people</span>
                        </div>
                       </th>
                       <th scope="col" style={{textAlign:"center"}}>
@@ -241,6 +267,17 @@ class Tables extends React.Component {
                   <tbody>
                     {this.state["table_data"].map(this.renderArray)}
                   </tbody>
+                  <div class="row justify-content-center">
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="#"><i class= "fas fa-angle-left"></i></a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class= "fas fa-angle-right"></i></a></li>
+                      </ul>
+                    </nav>
+                  </div>
                 </Table>
               </Card>
             </div>
