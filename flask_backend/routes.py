@@ -132,6 +132,16 @@ def set_accident_status(id):
     status = int(request.json['status'])
     return change_accident_status(id,status)
 
+@app.route('/accident_icon/<id>',methods=['GET'])
+def get_accident_icon(id):
+    status = get_accident_by(id, filter="id_only_accident").status
+    if (status == 1):
+        return send_from_directory(app.config['UPLOAD_FOLDER'],"icon_map_yellow.png" , as_attachment=True)
+    elif(status == 2):
+        return send_from_directory(app.config['UPLOAD_FOLDER'],"icon_map_green.png" , as_attachment=True)
+    else:
+        return send_from_directory(app.config['UPLOAD_FOLDER'],"icon_map_red.png" , as_attachment=True)
+
 # See All Accident
 @app.route('/list_accidents', methods=['GET'])
 def get_accidents():

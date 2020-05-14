@@ -18,7 +18,7 @@ const MapWrapper = withScriptjs(
         >
         {props.markers.map(props =>
           <Marker position={{lat: props.lat, lng: props.lng}}
-           options={{icon:"http://maps.google.com/mapfiles/ms/icons/green.png"}}
+           options={{icon:`/accident_icon/${props.id}`}}
            onClick={(() => 
             { if(props.id)
                 {window.location.href =`/#admin/accident_details/${props.id}`}
