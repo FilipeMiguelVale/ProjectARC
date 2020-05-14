@@ -41,7 +41,8 @@ class Login extends React.Component {
     this.state = {
         email: "" ,
         passwd:"",
-        remember:"False"};
+        remember:"False",
+        error: false};
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this)
 
@@ -71,14 +72,16 @@ class Login extends React.Component {
           console.log(result)
           if(result['response']=="Done")
             this.props.history.push("/admin");
-          else
-            this.props.history.push("/");
+          else{
+            this.setState({ error: result['error'] });
+
+          }
         },
         (error) => {
           console.log("error")
           this.setState({
             isLoaded: true,
-            error
+            error: "error"
           });
         }
       )
@@ -120,6 +123,7 @@ class Login extends React.Component {
                     <Input placeholder="Password" type="password" name = "passwd" value = {this.state.passwd}  onChange={this.handleChange} autoComplete="new-password"/>
                   </InputGroup>
                 </FormGroup>
+                {this.state.error && <p style={{ color: 'red' }}> Login Failed. {this.state.error} </p>}
                 <div className="custom-control custom-control-alternative custom-checkbox">
                   <input
                     className="custom-control-input"
