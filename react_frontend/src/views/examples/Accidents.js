@@ -47,7 +47,9 @@ class Tables extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      table_data : []
+      table_data : [],
+      table_buttons:[],
+      table_page:1
     }
   }
 
@@ -55,9 +57,9 @@ class Tables extends React.Component {
     return <Redirect to={`/admin/accident_details/${index}`}/>
   }
 
-  getData = async () => {
+  getData = async (id) => {
     const response = await fetch(
-      '/range_accidents/1'
+        `/range_accidents/${id}`
     );
 
     const result = await response.json();
@@ -153,9 +155,18 @@ class Tables extends React.Component {
     )
   }
 
+
+
   componentDidMount() {
-    this.getData();
+    this.getData(1);
   }
+
+  handleClick = (e,id) => {
+    e.preventDefault();
+    console.log(e);
+    this.state.table_page=id
+    this.getData(id);
+  };
 
   render() {
     return (
@@ -167,35 +178,49 @@ class Tables extends React.Component {
           <Row className="mt-5">
             <div className="col">
               <Card className="bg-default shadow">
-                      <CardHeader className="bg-transparent border-0">
-                        <h3 className="text-white mb-0">Accidents</h3>
-                      </CardHeader>
-                    
-                <div class="row justify-content-center">
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#"><i class= "fas fa-angle-left"></i></a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i class= "fas fa-angle-right"></i></a></li>
-                      </ul>
-                    </nav>
-                  </div>
-
-                  <div class="dropdown" align="right">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Sort by
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" href="#">Date/Hour</a>
-                      <a class="dropdown-item" href="#">Nº cars</a>
-                      <a class="dropdown-item" href="#">Nº people</a>
-                      <a class="dropdown-item" href="#">Nº injured</a>
-                      <a class="dropdown-item" href="#">Severity</a>
-                      <a class="dropdown-item" href="#">Status</a>
-                    </div>
-                  </div>
+                  <CardHeader className="bg-transparent border-0">
+                    <Row >
+                      <Col>
+                          <div className="row ml">
+                          <h1 className="text-white mb-0" style={{ paddingLeft: 20}} >Accidents</h1>
+                              </div>
+                      </Col>
+                      <Col >
+                          <div className="row justify-content-center">
+                          <nav aria-label="Page navigation example">
+                              <ul className="pagination">
+                                  <li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,this.state.table_page-1)}><i
+                                      className="fas fa-angle-left"></i></a></li>
+                                  <li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,1)}>1</a></li>
+                                  <li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,2)} >2</a></li>
+                                  <li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,3)}>3</a></li>
+                                  <li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,this.state.table_page+1)}><i
+                                      className="fas fa-angle-right"></i></a></li>
+                              </ul>
+                          </nav>
+                          </div>
+                      </Col>
+                      <Col>
+                          <div className="row justify-content-end">
+                          <div className="dropdown" align="left">
+                              <button className="btn btn-secondary dropdown-toggle" type="button"
+                                      id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                      aria-expanded="false">
+                                  Sort by
+                              </button>
+                              <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a className="dropdown-item" href="#">Date/Hour</a>
+                                  <a className="dropdown-item" href="#">Nº cars</a>
+                                  <a className="dropdown-item" href="#">Nº people</a>
+                                  <a className="dropdown-item" href="#">Nº injured</a>
+                                  <a className="dropdown-item" href="#">Severity</a>
+                                  <a className="dropdown-item" href="#">Status</a>
+                              </div>
+                          </div>
+                          </div>
+                      </Col>
+                    </Row>
+                  </CardHeader>
                 <Table bordered
                   className="align-items-center table-dark table-responsive"
                   hover
@@ -267,18 +292,50 @@ class Tables extends React.Component {
                   <tbody>
                     {this.state["table_data"].map(this.renderArray)}
                   </tbody>
-                  <div class="row justify-content-center">
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#"><i class= "fas fa-angle-left"></i></a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i class= "fas fa-angle-right"></i></a></li>
-                      </ul>
-                    </nav>
-                  </div>
                 </Table>
+                <CardHeader className="bg-transparent border-0">
+                    <Row >
+                      <Col>
+                          <div className="row ml">
+                          <h1 className="text-white mb-0" style={{ paddingLeft: 20}} ></h1>
+                              </div>
+                      </Col>
+                      <Col >
+                          <div className="row justify-content-center">
+                          <nav aria-label="Page navigation example">
+                              <ul className="pagination">
+                                  <li className="page-item"><a className="page-link" href="#"><i
+                                      className="fas fa-angle-left"></i></a></li>
+                                  <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                  <li className="page-item"><a className="page-link" href="#">2</a></li>
+                                  <li className="page-item"><a className="page-link" href="#">3</a></li>
+                                  <li className="page-item"><a className="page-link" href="#"><i
+                                      className="fas fa-angle-right"></i></a></li>
+                              </ul>
+                          </nav>
+                          </div>
+                      </Col>
+                      <Col>
+                          <div className="row justify-content-end">
+                          <div className="dropdown" align="left">
+                              <button className="btn btn-secondary dropdown-toggle" type="button"
+                                      id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                      aria-expanded="false">
+                                  Sort by
+                              </button>
+                              <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a className="dropdown-item" href="#">Date/Hour</a>
+                                  <a className="dropdown-item" href="#">Nº cars</a>
+                                  <a className="dropdown-item" href="#">Nº people</a>
+                                  <a className="dropdown-item" href="#">Nº injured</a>
+                                  <a className="dropdown-item" href="#">Severity</a>
+                                  <a className="dropdown-item" href="#">Status</a>
+                              </div>
+                          </div>
+                          </div>
+                      </Col>
+                    </Row>
+                  </CardHeader>
               </Card>
             </div>
           </Row>
