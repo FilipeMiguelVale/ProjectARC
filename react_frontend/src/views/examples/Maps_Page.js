@@ -15,32 +15,62 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, {useState,useEffect} from "react";
 // react plugin used to create google maps
-import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 // reactstrap components
 import {Card, Container, Row} from "reactstrap";
 // core components
 import Header from "../../components/Headers/Header.js";
 import Maps from "./Maps_Component.js";
 
+const call_time = 2000;
 
-class Maps_Page extends React.Component {
 
-  constructor(props){
-    super(props)
+const Maps_Page = () => {
 
-    this.state = {
-      markers: [],
-      initial_position: {
-        lat: 0,
-        lng: 0
-      }
-    } 
+  const [myposition, setMyposition] = useState(
+    {
+    lat: 0,
+    lng: 0
+    });
+  
+  const [markers, setMarkers] = useState([]);
+
+  useEffect(() => {
+    get_my_location().then((value) => {
+     setMyposition(
+        {
+          lat: value.coords.latitude,
+          lng: value.coords.longitude
+        })}
+    )},[]);
+
+  useEffect(() => {
+
+    const interval = setInterval(
+      () => {
+        getAllLocations().then((value) => {
+          setMarkers(value)}
+        )
+      }, call_time);
+
+      return () => clearInterval(interval)
+    },[]
+  )
+
+  const  get_my_location = function () {
+    if (navigator.geolocation) {
+      return new Promise(
+        (resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject)
+      )
+    } else {
+      return new Promise(
+        resolve => resolve({})
+      )
+    }
   }
 
-  getAllLocations = async () => {
-    
+  const getAllLocations = async () => {
     let response = await fetch(
       `/list_accidents`);
     let result = await response.json();
@@ -57,39 +87,25 @@ class Maps_Page extends React.Component {
     return all_locations;
   }
 
-  get_my_location = function () {
-    if (navigator.geolocation) {
-      return new Promise(
-        (resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject)
-      )
-    } else {
-      return new Promise(
-        resolve => resolve({})
-      )
-    }
-  }
+  // componentDidMount() {
 
-  componentDidMount() {
-
-    Promise.all([this.get_my_location(),this.getAllLocations()]).then((
-      (values => 
-        {
-          this.setState(prevState => (
-            {
-              markers: values[1],
-              initial_position:{
-                lat: values[0].coords.latitude,
-                lng: values[0].coords.longitude
-              }
-            }))
-        }
-      )))
-  }
+  //   Promise.all([this.get_my_location(),this.getAllLocations()]).then((
+  //     (values => 
+  //       {
+  //         this.setState(prevState => (
+  //           {
+  //             markers: values[1],
+  //             initial_position:{
+  //               lat: values[0].coords.latitude,
+  //               lng: values[0].coords.longitude
+  //             }
+  //           }))
+  //       }
+  //     )))
+  // }
 
 
-  render() 
-  {
-    return (
+  return(
       <>
         <Header />
         {/* Page content */}
@@ -98,11 +114,11 @@ class Maps_Page extends React.Component {
             <div className="col">
               <Card className="shadow border-0">
                 <Maps
-                  markers={this.state.markers}
-                  Location={this.state.initial_position}
+                  markers={markers}
+                  Location={myposition}
                   googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aWR3SBGaa1oB0CuDf2vptnJfSMSguZU"
                   loadingElement={<div style={{ height: `100%` }} />}
-                  center = {this.state.initial_position}
+                  center = {myposition}
                   zoom = {10}
                   containerElement={
                     <div
@@ -122,6 +138,5 @@ class Maps_Page extends React.Component {
       </>
     );
   }
-}
 
 export default Maps_Page;
