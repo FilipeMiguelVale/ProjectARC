@@ -49,7 +49,9 @@ class Tables extends React.Component {
     this.state = {
       table_data : [],
       table_buttons:[],
-      table_page:1
+      curent_page:1,
+      num_accidents:0,
+      num_to_show:10
     }
   }
 
@@ -58,15 +60,27 @@ class Tables extends React.Component {
   }
 
   getData = async (id) => {
-    const response = await fetch(
-        `/range_accidents/${id}`
+     const response = await fetch(
+        `/num_accidents`
     );
 
     const result = await response.json();
     this.setState(
       prevState => (
         {
-          table_data : result
+          num_accidents : result
+        }
+      )
+    );
+    const response1 = await fetch(
+        `/range_accidents/${id}`
+    );
+
+    const result1 = await response1.json();
+    this.setState(
+      prevState => (
+        {
+          table_data : result1
         }
       )
     );
@@ -155,7 +169,33 @@ class Tables extends React.Component {
     )
   }
 
+  renderButtons(){
 
+     if(this.state.num_accidents > this.state.num_to_show){
+      const Buttons = []
+      if(this.state.curent_page >1)
+        Buttons.push(<li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,this.state.curent_page-1)}><i
+                       className="fas fa-angle-left"></i></a></li>)
+      for (let i = 1; i < Math.ceil(this.state.num_accidents/this.state.num_to_show)+1; i++) {
+        Buttons.push(<li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,`${i}`)}>{i}</a></li>)
+      }
+      if(this.state.curent_page < Math.ceil(this.state.num_accidents/this.state.num_to_show) )
+        Buttons.push(<li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,this.state.curent_page+1)}><i
+                       className="fas fa-angle-right"></i></a></li>)
+
+      return(
+              <div className="row justify-content-center">
+                 <nav aria-label="Page navigation example">
+                     <ul className="pagination">
+                        {Buttons}
+                     </ul>
+                 </nav>
+              </div>
+      )}
+      else{
+          return
+      }
+  }
 
   componentDidMount() {
     this.getData(1);
@@ -163,8 +203,7 @@ class Tables extends React.Component {
 
   handleClick = (e,id) => {
     e.preventDefault();
-    console.log(e);
-    this.state.table_page=id
+    this.state.curent_page=id
     this.getData(id);
   };
 
@@ -186,19 +225,7 @@ class Tables extends React.Component {
                               </div>
                       </Col>
                       <Col >
-                          <div className="row justify-content-center">
-                          <nav aria-label="Page navigation example">
-                              <ul className="pagination">
-                                  <li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,this.state.table_page-1)}><i
-                                      className="fas fa-angle-left"></i></a></li>
-                                  <li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,1)}>1</a></li>
-                                  <li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,2)} >2</a></li>
-                                  <li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,3)}>3</a></li>
-                                  <li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,this.state.table_page+1)}><i
-                                      className="fas fa-angle-right"></i></a></li>
-                              </ul>
-                          </nav>
-                          </div>
+                          {this.renderButtons()}
                       </Col>
                       <Col>
                           <div className="row justify-content-end">
@@ -301,19 +328,7 @@ class Tables extends React.Component {
                               </div>
                       </Col>
                       <Col >
-                          <div className="row justify-content-center">
-                          <nav aria-label="Page navigation example">
-                              <ul className="pagination">
-                                  <li className="page-item"><a className="page-link" href="#"><i
-                                      className="fas fa-angle-left"></i></a></li>
-                                  <li className="page-item"><a className="page-link" href="#">1</a></li>
-                                  <li className="page-item"><a className="page-link" href="#">2</a></li>
-                                  <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                  <li className="page-item"><a className="page-link" href="#"><i
-                                      className="fas fa-angle-right"></i></a></li>
-                              </ul>
-                          </nav>
-                          </div>
+                          {this.renderButtons()}
                       </Col>
                       <Col>
                           <div className="row justify-content-end">
