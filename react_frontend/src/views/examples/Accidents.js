@@ -47,7 +47,11 @@ class Tables extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      table_data : []
+      table_data : [],
+      table_buttons:[],
+      curent_page:1,
+      num_accidents:0,
+      num_to_show:10
     }
   }
 
@@ -55,16 +59,28 @@ class Tables extends React.Component {
     return <Redirect to={`/admin/accident_details/${index}`}/>
   }
 
-  getData = async () => {
-    const response = await fetch(
-      '/range_accidents/1'
+  getData = async (id) => {
+     const response = await fetch(
+        `/num_accidents`
     );
 
     const result = await response.json();
     this.setState(
       prevState => (
         {
-          table_data : result
+          num_accidents : result
+        }
+      )
+    );
+    const response1 = await fetch(
+        `/range_accidents/${id}`
+    );
+
+    const result1 = await response1.json();
+    this.setState(
+      prevState => (
+        {
+          table_data : result1
         }
       )
     );
@@ -153,9 +169,43 @@ class Tables extends React.Component {
     )
   }
 
-  componentDidMount() {
-    this.getData();
+  renderButtons(){
+
+     if(this.state.num_accidents > this.state.num_to_show){
+      const Buttons = []
+      if(this.state.curent_page >1)
+        Buttons.push(<li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,this.state.curent_page-1)}><i
+                       className="fas fa-angle-left"></i></a></li>)
+      for (let i = 1; i < Math.ceil(this.state.num_accidents/this.state.num_to_show)+1; i++) {
+        Buttons.push(<li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,`${i}`)}>{i}</a></li>)
+      }
+      if(this.state.curent_page < Math.ceil(this.state.num_accidents/this.state.num_to_show) )
+        Buttons.push(<li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,this.state.curent_page+1)}><i
+                       className="fas fa-angle-right"></i></a></li>)
+
+      return(
+              <div className="row justify-content-center">
+                 <nav aria-label="Page navigation example">
+                     <ul className="pagination">
+                        {Buttons}
+                     </ul>
+                 </nav>
+              </div>
+      )}
+      else{
+          return
+      }
   }
+
+  componentDidMount() {
+    this.getData(1);
+  }
+
+  handleClick = (e,id) => {
+    e.preventDefault();
+    this.state.curent_page=id
+    this.getData(id);
+  };
 
   render() {
     return (
@@ -167,35 +217,37 @@ class Tables extends React.Component {
           <Row className="mt-5">
             <div className="col">
               <Card className="bg-default shadow">
-                      <CardHeader className="bg-transparent border-0">
-                        <h3 className="text-white mb-0">Accidents</h3>
-                      </CardHeader>
-                    
-                <div class="row justify-content-center">
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#"><i class= "fas fa-angle-left"></i></a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i class= "fas fa-angle-right"></i></a></li>
-                      </ul>
-                    </nav>
-                  </div>
-
-                  <div class="dropdown" align="right">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Sort by
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" href="#">Date/Hour</a>
-                      <a class="dropdown-item" href="#">Nº cars</a>
-                      <a class="dropdown-item" href="#">Nº people</a>
-                      <a class="dropdown-item" href="#">Nº injured</a>
-                      <a class="dropdown-item" href="#">Severity</a>
-                      <a class="dropdown-item" href="#">Status</a>
-                    </div>
-                  </div>
+                  <CardHeader className="bg-transparent border-0">
+                    <Row >
+                      <Col>
+                          <div className="row ml">
+                          <h1 className="text-white mb-0" style={{ paddingLeft: 20}} >Accidents</h1>
+                              </div>
+                      </Col>
+                      <Col >
+                          {this.renderButtons()}
+                      </Col>
+                      <Col>
+                          <div className="row justify-content-end">
+                          <div className="dropdown" align="left">
+                              <button className="btn btn-secondary dropdown-toggle" type="button"
+                                      id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                      aria-expanded="false">
+                                  Sort by
+                              </button>
+                              <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a className="dropdown-item" href="#">Date/Hour</a>
+                                  <a className="dropdown-item" href="#">Nº cars</a>
+                                  <a className="dropdown-item" href="#">Nº people</a>
+                                  <a className="dropdown-item" href="#">Nº injured</a>
+                                  <a className="dropdown-item" href="#">Severity</a>
+                                  <a className="dropdown-item" href="#">Status</a>
+                              </div>
+                          </div>
+                          </div>
+                      </Col>
+                    </Row>
+                  </CardHeader>
                 <Table bordered
                   className="align-items-center table-dark table-responsive"
                   hover
@@ -267,18 +319,38 @@ class Tables extends React.Component {
                   <tbody>
                     {this.state["table_data"].map(this.renderArray)}
                   </tbody>
-                  <div class="row justify-content-center">
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#"><i class= "fas fa-angle-left"></i></a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i class= "fas fa-angle-right"></i></a></li>
-                      </ul>
-                    </nav>
-                  </div>
                 </Table>
+                <CardHeader className="bg-transparent border-0">
+                    <Row >
+                      <Col>
+                          <div className="row ml">
+                          <h1 className="text-white mb-0" style={{ paddingLeft: 20}} ></h1>
+                              </div>
+                      </Col>
+                      <Col >
+                          {this.renderButtons()}
+                      </Col>
+                      <Col>
+                          <div className="row justify-content-end">
+                          <div className="dropdown" align="left">
+                              <button className="btn btn-secondary dropdown-toggle" type="button"
+                                      id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                      aria-expanded="false">
+                                  Sort by
+                              </button>
+                              <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a className="dropdown-item" href="#">Date/Hour</a>
+                                  <a className="dropdown-item" href="#">Nº cars</a>
+                                  <a className="dropdown-item" href="#">Nº people</a>
+                                  <a className="dropdown-item" href="#">Nº injured</a>
+                                  <a className="dropdown-item" href="#">Severity</a>
+                                  <a className="dropdown-item" href="#">Status</a>
+                              </div>
+                          </div>
+                          </div>
+                      </Col>
+                    </Row>
+                  </CardHeader>
               </Card>
             </div>
           </Row>
