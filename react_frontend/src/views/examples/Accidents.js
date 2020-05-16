@@ -95,7 +95,7 @@ class Tables extends React.Component {
       if (value === 2) {
           return (
               <Badge color="" className="badge-dot badge-lg">
-                <i id="bg-lime" className="bg-lime" />
+                <i className="bg-lime" />
               </Badge>
           )
       }
@@ -149,7 +149,7 @@ class Tables extends React.Component {
                <Progress
                   max="100"
                   value={value["damage"]}
-                  barClassName="bg-gradient-severity"
+                  barClassName="bg-blue"
                 />
             </div>
         </th>

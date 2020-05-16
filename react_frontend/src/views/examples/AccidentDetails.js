@@ -17,6 +17,7 @@
 */
 import React from "react";
 import ImageGallery from './ImageGallery';
+import "../../assets/css/custom.css"
 
 // reactstrap components
 import {
@@ -28,7 +29,11 @@ import {
   Col,
   CardTitle,
   Button,
-  UncontrolledCollapse
+  UncontrolledCollapse,
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem, Badge
 } from "reactstrap";
 // core components
 import Header from "../../components/Headers/Header.js";
@@ -48,6 +53,8 @@ function fix_date(st) {
 class AccidentDetails extends React.Component {
   constructor(props) {
     super(props);
+    this.toggle = this.toggle.bind(this);
+    this.changeValue = this.changeValue.bind(this);
     this.state = {
       showIndex: false,
       showBullets: true,
@@ -75,7 +82,9 @@ class AccidentDetails extends React.Component {
         n_cars_involved: 0,
         n_people_involved: 0,
         n_people_injured: 0, 
-      }
+      },
+      dropDownValue: 0,
+      dropDownOpen: false,
     };
     this.numImg=0
     this.images = [
@@ -140,7 +149,8 @@ class AccidentDetails extends React.Component {
           n_cars_involved: result['n_cars_involved'],
           n_people_involved: result['n_people'],
           n_people_injured: result['n_people_injured'],
-        }
+        },
+        dropDownValue: result['status']
       }
     ));
     this.images[0]['source'] = `/media/${id}/video/1.mp4`
@@ -324,6 +334,69 @@ class AccidentDetails extends React.Component {
       return <Redirect to="/admin/accidents"/>
   }
 
+  /* Status dropdown functions */
+  toggle() {
+    this.setState({dropDownOpen: !this.state.dropDownOpen});
+  }
+
+  changeValue(e) {
+    this.setState({dropDownValue: e.currentTarget.textContent})
+  }
+
+  setStatusColor() {
+    if(this.state.dropDownValue === "Accident resolved"){
+      return(
+        <Badge color="" className="badge-dot badge-lg">
+          <i className="bg-lime" />
+        </Badge>
+      )
+    }
+    if(this.state.dropDownValue === "Emergency services are on their way"){
+      return(
+        <Badge color="" className="badge-dot badge-lg">
+          <i className="bg-yellow" />
+        </Badge>
+      )
+    }
+    else {
+       return(
+        <Badge color="" className="badge-dot badge-lg">
+          <i className="bg-red" />
+        </Badge>
+      )
+    }
+  }
+
+  updateDBToSelectedStatus(id) {
+    if(this.state.dropDownValue === "Accident resolved"){
+      fetch(`/set_accident_status/${id}`,{
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          "status": 2
+        })
+      })
+    }
+    if(this.state.dropDownValue === "Emergency services are on their way"){
+      fetch(`/set_accident_status/${id}`,{
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          "status": 1
+        })
+      })
+    }
+    else {
+      fetch(`/set_accident_status/${id}`,{
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          "status": 0
+        })
+      })
+    }
+  }
+
   render() {
     return (
       <>
@@ -333,16 +406,40 @@ class AccidentDetails extends React.Component {
             <Col className=" col">
               <Card className=" shadow">
                 <CardHeader className=" bg-transparent">
-                  <div className="d-flex">
-                    <Button
-                      className="icon icon-shape bg-info text-white rounded-circle shadow"
-                      href="/#admin/accidents"
-                      onClick= {this.onGoBack()}
-                    >
-                      <i className="fas fa-angle-left"/>
-                    </Button>
-                    <h2 className=" mb-0 ml-4 ">Accident Details</h2>
-                  </div>
+                  <Row>
+                    <Col>
+                      <div className="d-flex">
+                        <Button
+                          className="icon icon-shape bg-info text-white rounded-circle shadow"
+                          href="/#admin/accidents"
+                          onClick= {this.onGoBack()}
+                        >
+                          <i className="fas fa-angle-left"/>
+                        </Button>
+                        <h2 className=" mt-2 ml-4 ">Accident Details</h2>
+                      </div>
+                    </Col>
+                    <Col>
+                      <div className="row justify-content-end">
+                        <div className="mr-2">
+                          {this.setStatusColor()}
+                        </div>
+                        <div className="mr-2 ">
+                          <ButtonDropdown className="dropdown-width" isOpen={this.state.dropDownOpen} toggle={this.toggle}>
+                            <DropdownToggle caret>
+                              {this.state.dropDownValue}
+                            </DropdownToggle>
+                            <DropdownMenu right>
+                              <DropdownItem onClick={this.changeValue}>Accident still not answered</DropdownItem>
+                              <DropdownItem onClick={this.changeValue}>Emergency services are on their way</DropdownItem>
+                              <DropdownItem onClick={this.changeValue}>Accident resolved</DropdownItem>
+                            </DropdownMenu>
+                          </ButtonDropdown>
+                          {this.updateDBToSelectedStatus(this.props.match.params['id'])}
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
                 </CardHeader>
                 <CardBody>
                   <Row className="h-75 ">
