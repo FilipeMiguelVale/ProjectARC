@@ -28,47 +28,19 @@ const call_time = 2000;
 
 const Maps_Page = () => {
 
-  const [myposition, setMyposition] = useState(
-    {
-    lat: 0,
-    lng: 0
-    });
-  
   const [markers, setMarkers] = useState([]);
 
   useEffect(() => {
-    get_my_location().then((value) => {
-     setMyposition(
-        {
-          lat: value.coords.latitude,
-          lng: value.coords.longitude
-        })}
-    )},[]);
-
-  useEffect(() => {
-
     const interval = setInterval(
       () => {
         getAllLocations().then((value) => {
           setMarkers(value)}
-        )
+        );
       }, call_time);
 
       return () => clearInterval(interval)
     },[]
   )
-
-  const  get_my_location = function () {
-    if (navigator.geolocation) {
-      return new Promise(
-        (resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject)
-      )
-    } else {
-      return new Promise(
-        resolve => resolve({})
-      )
-    }
-  }
 
   const getAllLocations = async () => {
     let response = await fetch(
@@ -87,24 +59,6 @@ const Maps_Page = () => {
     return all_locations;
   }
 
-  // componentDidMount() {
-
-  //   Promise.all([this.get_my_location(),this.getAllLocations()]).then((
-  //     (values => 
-  //       {
-  //         this.setState(prevState => (
-  //           {
-  //             markers: values[1],
-  //             initial_position:{
-  //               lat: values[0].coords.latitude,
-  //               lng: values[0].coords.longitude
-  //             }
-  //           }))
-  //       }
-  //     )))
-  // }
-
-
   return(
       <>
         <Header />
@@ -115,18 +69,7 @@ const Maps_Page = () => {
               <Card className="shadow border-0">
                 <Maps
                   markers={markers}
-                  Location={myposition}
-                  googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aWR3SBGaa1oB0CuDf2vptnJfSMSguZU"
-                  loadingElement={<div style={{ height: `100%` }} />}
-                  center = {myposition}
                   zoom = {10}
-                  containerElement={
-                    <div
-                      style={{ height: `600px` }}
-                      className="map-canvas"
-                      id="map-canvas"
-                    />
-                  }
                   mapElement={
                     <div style={{ height: `100%`, borderRadius: "inherit" }} />
                   }
