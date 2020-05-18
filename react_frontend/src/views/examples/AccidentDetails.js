@@ -71,6 +71,8 @@ class AccidentDetails extends React.Component {
       slideOnThumbnailOver: false,
       thumbnailPosition: 'left',
       showVideo: {},
+      video_total:0,
+      photos_total:0,
       accident_data: {
         car: [],
         location: {
@@ -89,14 +91,14 @@ class AccidentDetails extends React.Component {
     this.numImg=0
     this.images = [
       {
-        thumbnail: `${PREFIX_URL}4v.jpg`,
-        original: `${PREFIX_URL}4v.jpg`,
+        thumbnail: ``,
+        original: ``,
         source: '',
         renderItem: this._renderVideo.bind(this)
       },
       {
-        original: `${PREFIX_URL}image_set_default.jpg`,
-        thumbnail: `${PREFIX_URL}image_set_thumb.jpg`,
+        original: ``,
+        thumbnail: ``,
         imageSet: [
           {
             srcSet: `${PREFIX_URL}image_set_cropped.jpg`,
@@ -113,20 +115,7 @@ class AccidentDetails extends React.Component {
         thumbnail: `${PREFIX_URL}1t.jpg`,
         originalClass: 'featured-slide',
         thumbnailClass: 'featured-thumb',
-
-      },
-      {
-        original: `${PREFIX_URL}1.jpg`,
-        thumbnail: `${PREFIX_URL}1t.jpg`,
-        originalClass: 'featured-slide',
-        thumbnailClass: 'featured-thumb',
-      },
-      {
-        original: `${PREFIX_URL}1.jpg`,
-        thumbnail: `${PREFIX_URL}1t.jpg`,
-        originalClass: 'featured-slide',
-        thumbnailClass: 'featured-thumb',
-      },
+      }
     ]
   }
 
@@ -150,22 +139,40 @@ class AccidentDetails extends React.Component {
           n_people_involved: result['n_people'],
           n_people_injured: result['n_people_injured'],
         },
+        video_total:parseInt(result['video_total']),
         dropDownValue: result['status']
       }
     ));
-    this.images[0]['source'] = `/media/${id}/video/1.mp4`
-    this.images[0]['thumbnail']= `/media/${id}/video/1T.jpg`
-    this.images[0]['original']= this.images[0]['thumbnail']
-     const resp =await fetch(
+    console.log(this.state.video_total)
+    const resp =await fetch(
       `/Nmedia/${id}/photos`);
     const res = await resp.json();
-    this.numImg = res
-    for (let i = 0; i < parseInt(this.numImg); i++) {
-      this.images[i+1]['original']= `/media/${id}/photos/${i}.jpeg`
-      this.images[i+1]['thumbnail']= `/media/${id}/photos/${i}.jpeg`
-      ;
+    this.numImg = parseInt(res)
+    const media=[]
+    if (this.state.video_total >0){
+      for (let i = 1; i < this.state.video_total+1; i++) {
+        media.push({
+        thumbnail: `/media/${id}/video/${i}T.jpg`,
+        original: `/media/${id}/video/${i}T.jpg`,
+        source: `/media/${id}/video/${i}.mp4`,
+        renderItem: this._renderVideo.bind(this)
+      })
     }
-    //this.images.concat(this._getStaticImages(id));
+    }else{
+      media.push({
+        thumbnail: `/media/novideo.png`,
+        original: `/media/novideo.png`
+      })
+    }
+    for (let i = 0; i < this.numImg; i++) {
+      media.push({
+        thumbnail: `/media/${id}/photos/${i}.jpeg`,
+        original: `/media/${id}/photos/${i}.jpeg`
+      })
+    }
+    this.setState(prevState => (
+        this.images= media
+    ));
   }
 
   componentDidMount() {
