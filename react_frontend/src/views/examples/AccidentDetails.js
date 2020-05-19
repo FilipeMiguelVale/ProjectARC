@@ -354,6 +354,13 @@ class AccidentDetails extends React.Component {
 
   }
 
+  getBarColor(damage){
+      if(damage<30){return"h2 font-weight-bold mb-0 text-success"
+      }else if(damage < 45){return"h2 font-weight-bold mb-0 text-teal"
+      }else if(damage < 75){return "h2 font-weight-bold mb-0 text-orange"
+      }else{return "h2 font-weight-bold mb-0 text-red"}
+  }
+
   setStatusColor() {
     if(this.state.dropDownValue === "Accident resolved"){
       return(
@@ -612,7 +619,7 @@ class AccidentDetails extends React.Component {
                                 >
                                   Severity of the accident
                                 </CardTitle>
-                                <span className="h2 font-weight-bold mb-0 text-success">
+                                <span className={this.getBarColor(this.state.accident_data.damage)}>
                                   {this.state.accident_data.damage}
                                 </span>
                               </div>
