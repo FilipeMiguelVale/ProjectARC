@@ -114,6 +114,12 @@ class Tables extends React.Component {
           )
       }
   }
+  getBarColor(damage){
+      if(damage<30){return"bg-gradient-success"
+      }else if(damage < 45){return"bg-gradient-info"
+      }else if(damage < 75){return"bg-gradient-warning"
+      }else{return"bg-gradient-danger"}
+  }
 
   renderArray = (value,index) => {
     return(
@@ -149,7 +155,7 @@ class Tables extends React.Component {
                <Progress
                   max="100"
                   value={value["damage"]}
-                  barClassName="bg-blue"
+                  barClassName={this.getBarColor(value["damage"])}
                 />
             </div>
         </th>

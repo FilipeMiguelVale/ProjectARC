@@ -140,10 +140,9 @@ class AccidentDetails extends React.Component {
           n_people_injured: result['n_people_injured'],
         },
         video_total:parseInt(result['video_total']),
-        dropDownValue: result['status']
+        dropDownValue: this.init_text_dropdown(parseInt(result['status']))
       }
     ));
-    console.log(this.state.video_total)
     const resp =await fetch(
       `/Nmedia/${id}/photos`);
     const res = await resp.json();
@@ -170,9 +169,12 @@ class AccidentDetails extends React.Component {
         original: `/media/${id}/photos/${i}.jpeg`
       })
     }
+
     this.setState(prevState => (
         this.images= media
     ));
+
+
   }
 
   componentDidMount() {
@@ -347,7 +349,16 @@ class AccidentDetails extends React.Component {
   }
 
   changeValue(e) {
+    this.updateDBToSelectedStatus(e.currentTarget.textContent)
     this.setState({dropDownValue: e.currentTarget.textContent})
+
+  }
+
+  getBarColor(damage){
+      if(damage<30){return"h2 font-weight-bold mb-0 text-success"
+      }else if(damage < 45){return"h2 font-weight-bold mb-0 text-teal"
+      }else if(damage < 75){return "h2 font-weight-bold mb-0 text-orange"
+      }else{return "h2 font-weight-bold mb-0 text-red"}
   }
 
   setStatusColor() {
@@ -374,9 +385,17 @@ class AccidentDetails extends React.Component {
     }
   }
 
-  updateDBToSelectedStatus(id) {
-    if(this.state.dropDownValue === "Accident resolved"){
-      fetch(`/set_accident_status/${id}`,{
+  init_text_dropdown(id) {
+    if(id === 2 ){
+      return("Accident resolved")
+    }else if(id ===1){
+      return("Emergency services are on their way")
+    }else{return("Accident still not answered")}
+  }
+
+  updateDBToSelectedStatus(value) {
+    if(value === "Accident resolved"){
+      fetch(`/set_accident_status/${this.props.match.params['id']}`,{
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -384,8 +403,8 @@ class AccidentDetails extends React.Component {
         })
       })
     }
-    if(this.state.dropDownValue === "Emergency services are on their way"){
-      fetch(`/set_accident_status/${id}`,{
+    if(value === "Emergency services are on their way"){
+      fetch(`/set_accident_status/${this.props.match.params['id']}`,{
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -394,7 +413,7 @@ class AccidentDetails extends React.Component {
       })
     }
     else {
-      fetch(`/set_accident_status/${id}`,{
+      fetch(`/set_accident_status/${this.props.match.params['id']}`,{
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -442,7 +461,6 @@ class AccidentDetails extends React.Component {
                               <DropdownItem onClick={this.changeValue}>Accident resolved</DropdownItem>
                             </DropdownMenu>
                           </ButtonDropdown>
-                          {this.updateDBToSelectedStatus(this.props.match.params['id'])}
                         </div>
                       </div>
                     </Col>
@@ -601,7 +619,7 @@ class AccidentDetails extends React.Component {
                                 >
                                   Severity of the accident
                                 </CardTitle>
-                                <span className="h2 font-weight-bold mb-0 text-success">
+                                <span className={this.getBarColor(this.state.accident_data.damage)}>
                                   {this.state.accident_data.damage}
                                 </span>
                               </div>
