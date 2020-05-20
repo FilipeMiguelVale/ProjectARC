@@ -58,7 +58,6 @@ class Maps extends React.Component {
   }
 
   componentDidMount(){
-
     Promise.all([this.get_my_location()]).then((value) => {
       this.setState(
         {
@@ -79,16 +78,11 @@ class Maps extends React.Component {
     }
   }
 
-  // map_center = (value,optional) => {
-  //   return value? value : optional
-  // }
-
   render() 
   {
     if (this.props.center)
       return(
         <MapWrapper_details
-        ref='map'
         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcLG_2KgktdQJXLaeyQZHJzmvcSjNwoPM"
         loadingElement={<div style={{ height: `100%` }} />}
         center = {this.props.center}
@@ -105,7 +99,6 @@ class Maps extends React.Component {
     )
     return (
     <MapWrapper
-        ref='map'
         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcLG_2KgktdQJXLaeyQZHJzmvcSjNwoPM"
         loadingElement={<div style={{ height: `100%` }} />}
         defaultCenter = {this.state}

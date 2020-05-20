@@ -470,8 +470,9 @@ class AccidentDetails extends React.Component {
                   <Row className="h-75 ">
                     <Col>
                       <Maps
-                        Location={this.state.accident_data.location.coords}
-                        markers = {[this.state.accident_data.location.coords]}
+                        markers = {[{id: this.props.match.params['id'],
+                                    lat:this.state.accident_data.location.coords.lat,
+                                    lng:this.state.accident_data.location.coords.lng}]}
                         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aWR3SBGaa1oB0CuDf2vptnJfSMSguZU"
                         loadingElement={<div style={{ height: `100%` }} />}
                         center = {this.state.accident_data.location.coords}
