@@ -55,6 +55,7 @@ class AccidentDetails extends React.Component {
     super(props);
     this.toggle = this.toggle.bind(this);
     this.changeValue = this.changeValue.bind(this);
+
     this.state = {
       showIndex: false,
       showBullets: true,
@@ -137,7 +138,7 @@ class AccidentDetails extends React.Component {
           date: fix_date(result['date']),
           n_cars_involved: result['n_cars_involved'],
           n_people_involved: result['n_people'],
-          n_people_injured: result['n_people_injured'],
+          n_people_injured: parseInt(result['n_people_injured']),
         },
         video_total:parseInt(result['video_total']),
         dropDownValue: this.init_text_dropdown(parseInt(result['status']))
@@ -253,18 +254,6 @@ class AccidentDetails extends React.Component {
 
   _onPlay(index) {
     console.debug('playing from index', index);
-  }
-
-  _getStaticImages(id){
-    let images = [];
-    for (let i = 0; i < parseInt(this.numImg); i++) {
-      images.push({
-        original: `/media/${id}/photos/${i}.jpeg`,
-        thumbnail: `${PREFIX_URL}image_set_thumb.jpg`
-      });
-    }
-
-    return images;
   }
 
   _resetVideo() {
@@ -422,6 +411,25 @@ class AccidentDetails extends React.Component {
       })
     }
   }
+  handleClick = (e,id,value) => {
+    e.preventDefault();
+    console.log(value)
+    let new_injured = this.state.accident_data.n_people_injured+value
+    if (new_injured >=0) {
+      this.setState(() => (this.state.accident_data.n_people_injured = new_injured))
+      this.set_injured(id, new_injured);
+    }
+  };
+
+  set_injured(id,value){
+      fetch(`/set_accident_injured/${id}`,{
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          "injured": `${value}`
+        })
+      })
+       }
 
   render() {
     return (
@@ -596,9 +604,17 @@ class AccidentDetails extends React.Component {
                                 >
                                   Number of persons injured
                                 </CardTitle>
+
                                 <span className="h2 font-weight-bold mb-0">
+                                  <Button className=" icon-sm icon-shapesm bg-warning text-dark shadow" onClick={(e)=>this.handleClick(e,this.props.match.params['id'],-1)}>
+                                      <i className="fas fa-minus"/>
+                                </Button>
                                   {this.state.accident_data.n_people_injured}
+                                  <Button className=" icon-sm icon-shapesm bg-success text-dark shadow"onClick={(e)=>this.handleClick(e,this.props.match.params['id'],1)}>
+                                      <i className="fas fa-plus"/>
+                                </Button>
                                 </span>
+
                               </div>
                               <Col className="col-auto">
                                 <div className="icon icon-shape bg-danger text-dark rounded-circle shadow">

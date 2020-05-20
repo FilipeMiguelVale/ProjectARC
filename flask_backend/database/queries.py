@@ -12,6 +12,11 @@ def change_accident_status(id,status):
     db.session.commit()
     return accident_schema.jsonify(accident)
 
+def change_accident_injured(id,injured):
+    accident = get_accident_by(id, filter="id_only_accident")
+    accident.n_people_injured = injured
+    db.session.commit()
+    return accident_schema.jsonify(accident)
 
 def add_video_to_database(id):
 

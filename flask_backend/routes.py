@@ -136,6 +136,12 @@ def set_accident_status(id):
     status = int(request.json['status'])
     return change_accident_status(id,status)
 
+@app.route('/set_accident_injured/<id>',methods=['POST'])
+def set_accident_injured(id):
+    status = int(request.json['injured'])
+    print(status)
+    return change_accident_injured(id,status)
+
 @app.route('/accident_icon/<id>',methods=['GET'])
 def get_accident_icon(id):
     status = get_accident_by(id, filter="id_only_accident").status
