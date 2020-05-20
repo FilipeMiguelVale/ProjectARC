@@ -6,7 +6,7 @@ import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps"
 
 const MapWrapper = withScriptjs(
     withGoogleMap(props => <GoogleMap
-            defaultCenter= {{lat: props.defaultCenter.lat, lng: props.defaultCenter.lng}}
+            defaultCenter= {props.defaultCenter}
             defaultZoom={props.zoom}
             defaultOptions={{
               scrollwheel: false,
@@ -23,13 +23,34 @@ const MapWrapper = withScriptjs(
              />
         )}
         </GoogleMap>
-
+    ));
+  
+  const MapWrapper_details = withScriptjs(
+    withGoogleMap(props => <GoogleMap
+            center= {props.center}
+            defaultZoom={props.zoom}
+            defaultOptions={{
+              scrollwheel: false,
+            }}
+        >
+        {props.markers.map(props =>
+          <Marker position={{lat: props.lat, lng: props.lng}}
+           options={{icon:`/accident_icon/${props.id}`}}
+           onClick={(() => 
+            { if(props.id)
+                {window.location.href =`/#admin/accident_details/${props.id}`}
+              }
+              )}
+             />
+        )}
+        </GoogleMap>
     ));
 
 class Maps extends React.Component {
 
   constructor(props){
     super(props);
+
     this.state = {
       lat: 0,
       lng: 0
@@ -37,6 +58,7 @@ class Maps extends React.Component {
   }
 
   componentDidMount(){
+
     Promise.all([this.get_my_location()]).then((value) => {
       this.setState(
         {
@@ -57,10 +79,33 @@ class Maps extends React.Component {
     }
   }
 
+  // map_center = (value,optional) => {
+  //   return value? value : optional
+  // }
+
   render() 
   {
+    if (this.props.center)
+      return(
+        <MapWrapper_details
+        ref='map'
+        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcLG_2KgktdQJXLaeyQZHJzmvcSjNwoPM"
+        loadingElement={<div style={{ height: `100%` }} />}
+        center = {this.props.center}
+        zoom = {this.props.zoom}
+        markers = {this.props.markers}
+        containerElement={
+            <div
+                className="map-canvas"
+                id="map-canvas"
+            />
+        }
+        mapElement={this.props.mapElement}
+    />
+    )
     return (
     <MapWrapper
+        ref='map'
         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcLG_2KgktdQJXLaeyQZHJzmvcSjNwoPM"
         loadingElement={<div style={{ height: `100%` }} />}
         defaultCenter = {this.state}
