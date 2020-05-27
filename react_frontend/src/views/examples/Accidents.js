@@ -28,7 +28,7 @@ import {
     Table,
     Container,
     Row,
-    Button, Col, Progress,
+    Button, Col, Progress, DropdownToggle, DropdownMenu, DropdownItem, ButtonDropdown,
 } from "reactstrap";
 // core components
 import Header from "../../components/Headers/Header.js";
@@ -42,16 +42,21 @@ function fix_date(st) {
   return [year,time];
 }
 
-class Tables extends React.Component {
+class Accidents extends React.Component {
 
   constructor(props) {
     super(props);
+    this.toggle = this.toggle.bind(this);
+    this.changeValue = this.changeValue.bind(this);
+
     this.state = {
       table_data : [],
       table_buttons:[],
       curent_page:1,
       num_accidents:0,
-      num_to_show:10
+      num_to_show:10,
+      dropDownValue: "Sort by",
+      dropDownOpen: false,
     }
   }
 
@@ -213,6 +218,17 @@ class Tables extends React.Component {
     this.getData(id);
   };
 
+    /* DropDown functions */
+  toggle() {
+    this.setState({dropDownOpen: !this.state.dropDownOpen});
+  }
+
+  changeValue(e) {
+    this.setState({dropDownValue: e.currentTarget.textContent})
+  }
+
+  /**************************/
+
   render() {
     return (
       <>
@@ -223,37 +239,35 @@ class Tables extends React.Component {
           <Row className="mt-5">
             <div className="col">
               <Card className="bg-default shadow">
-                  <CardHeader className="bg-transparent border-0">
-                    <Row >
-                      <Col>
-                          <div className="row ml">
-                          <h1 className="text-white mb-0" style={{ paddingLeft: 20}} >Accidents</h1>
-                              </div>
-                      </Col>
-                      <Col >
-                          {this.renderButtons()}
-                      </Col>
-                      <Col>
-                          <div className="row justify-content-end">
-                          <div className="dropdown" align="left">
-                              <button className="btn btn-secondary dropdown-toggle" type="button"
-                                      id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                      aria-expanded="false">
-                                  Sort by
-                              </button>
-                              <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                  <a className="dropdown-item" href="#">Date/Hour</a>
-                                  <a className="dropdown-item" href="#">Nº cars</a>
-                                  <a className="dropdown-item" href="#">Nº people</a>
-                                  <a className="dropdown-item" href="#">Nº injured</a>
-                                  <a className="dropdown-item" href="#">Severity</a>
-                                  <a className="dropdown-item" href="#">Status</a>
-                              </div>
-                          </div>
-                          </div>
-                      </Col>
-                    </Row>
-                  </CardHeader>
+                <CardHeader className="bg-transparent border-0">
+                  <Row >
+                    <Col>
+                      <div className="row ml">
+                        <h1 className="text-white mb-0" style={{ paddingLeft: 20}} >Accidents</h1>
+                      </div>
+                    </Col>
+                    <Col >
+                      {this.renderButtons()}
+                    </Col>
+                    <Col>
+                      <div className="row justify-content-end">
+                        <ButtonDropdown isOpen={this.state.dropDownOpen} toggle={this.toggle}>
+                          <DropdownToggle caret>
+                            {this.state.dropDownValue}
+                          </DropdownToggle>
+                          <DropdownMenu right>
+                            <DropdownItem onClick={this.changeValue}>Date/Hour</DropdownItem>
+                            <DropdownItem onClick={this.changeValue}>Nº cars</DropdownItem>
+                            <DropdownItem onClick={this.changeValue}>Nº people</DropdownItem>
+                            <DropdownItem onClick={this.changeValue}>Nº injured</DropdownItem>
+                            <DropdownItem onClick={this.changeValue}>Severity</DropdownItem>
+                            <DropdownItem onClick={this.changeValue}>Status</DropdownItem>
+                          </DropdownMenu>
+                        </ButtonDropdown>
+                      </div>
+                    </Col>
+                  </Row>
+                </CardHeader>
                 <Table bordered
                   className="align-items-center table-dark table-responsive"
                   hover
@@ -262,41 +276,39 @@ class Tables extends React.Component {
                     <tr >
                       <th scope="col-lg-3 " style={{textAlign:"center"}}>
                        <div align="center" className="icon icon-shape bg-transparent text-white rounded-circle">
-                           <i className="fas fa-calendar-alt"/>
+                         <i className="fas fa-calendar-alt"/>
                        </div>
                       <div >
-                           <span className="ml-1">Date/Hour</span>
+                         <span className="ml-1">Date/Hour</span>
                       </div>
-
                       </th>
                       <th scope="col-lg-3"  style={{textAlign:"center"}}>
                        <div  className="icon icon-shape bg-transparent text-white rounded-circle" >
-                           <i  className="fas fa-map-marked-alt"/>
+                         <i  className="fas fa-map-marked-alt"/>
                        </div>
                        <div >
-                           <span className="ml-1">Location</span>
+                         <span className="ml-1">Location</span>
                        </div>
                       </th>
                       <th scope="col" style={{textAlign:"center"}}>
                        <div className="icon icon-shape bg-transparent text-white rounded-circle">
-                           <i className="fas fa-car"/>
+                         <i className="fas fa-car"/>
                        </div>
-                          <div>
-                           <span className="ml-1">Nº cars</span>
+                       <div>
+                         <span className="ml-1">Nº cars</span>
                        </div>
-
                       </th>
                       <th scope="col" style={{textAlign:"center"}}>
                        <div className="icon icon-shape bg-transparent text-white rounded-circle">
-                           <i className="fas fa-users"/>
+                         <i className="fas fa-users"/>
                        </div>
                       <div>
-                           <span className="ml-1">Nº people</span>
+                         <span className="ml-1">Nº people</span>
                        </div>
                       </th>
                       <th scope="col" style={{textAlign:"center"}}>
                         <div className="icon icon-shape bg-transparent text-white rounded-circle">
-                           <i className="fas fa-user-injured"/>
+                          <i className="fas fa-user-injured"/>
                        </div>
                       <div>
                        <span className="ml-1">Nºinjured</span>
@@ -304,7 +316,7 @@ class Tables extends React.Component {
                       </th>
                       <th scope="col"style={{textAlign:"center"}}>
                        <div className="icon icon-shape bg-transparent text-white rounded-circle">
-                           <i className="fas fa-exclamation-triangle"/>
+                         <i className="fas fa-exclamation-triangle"/>
                        </div>
                       <div>
                        <span className="ml-1">Severity</span>
@@ -312,7 +324,7 @@ class Tables extends React.Component {
                       </th>
                       <th scope="col"style={{textAlign:"center"}}>
                        <div className="icon icon-shape bg-transparent text-white rounded-circle">
-                           <i className="fas fa-flag"/>
+                         <i className="fas fa-flag"/>
                        </div>
                       <div>
                        <span className="ml-1">Status</span>
@@ -327,36 +339,34 @@ class Tables extends React.Component {
                   </tbody>
                 </Table>
                 <CardHeader className="bg-transparent border-0">
-                    <Row >
-                      <Col>
-                          <div className="row ml">
-                          <h1 className="text-white mb-0" style={{ paddingLeft: 20}} ></h1>
-                              </div>
+                  <Row >
+                    <Col>
+                      <div className="row ml">
+                        <h1 className="text-white mb-0" style={{ paddingLeft: 20}} ></h1>
+                      </div>
                       </Col>
-                      <Col >
-                          {this.renderButtons()}
-                      </Col>
-                      <Col>
-                          <div className="row justify-content-end">
-                          <div className="dropdown" align="left">
-                              <button className="btn btn-secondary dropdown-toggle" type="button"
-                                      id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                      aria-expanded="false">
-                                  Sort by
-                              </button>
-                              <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                  <a className="dropdown-item" href="#">Date/Hour</a>
-                                  <a className="dropdown-item" href="#">Nº cars</a>
-                                  <a className="dropdown-item" href="#">Nº people</a>
-                                  <a className="dropdown-item" href="#">Nº injured</a>
-                                  <a className="dropdown-item" href="#">Severity</a>
-                                  <a className="dropdown-item" href="#">Status</a>
-                              </div>
-                          </div>
-                          </div>
-                      </Col>
-                    </Row>
-                  </CardHeader>
+                    <Col >
+                      {this.renderButtons()}
+                    </Col>
+                    <Col>
+                      <div className="row justify-content-end">
+                        <ButtonDropdown className="dropdown-width" isOpen={this.state.dropDownOpen} toggle={this.toggle}>
+                          <DropdownToggle caret>
+                            {this.state.dropDownValue}
+                          </DropdownToggle>
+                          <DropdownMenu right color="default" size="md" >
+                            <DropdownItem onClick={this.changeValue}>Date/Hour</DropdownItem>
+                            <DropdownItem onClick={this.changeValue}>Nº cars</DropdownItem>
+                            <DropdownItem onClick={this.changeValue}>Nº people</DropdownItem>
+                            <DropdownItem onClick={this.changeValue}>Nº injured</DropdownItem>
+                            <DropdownItem onClick={this.changeValue}>Severity</DropdownItem>
+                            <DropdownItem onClick={this.changeValue}>Status</DropdownItem>
+                          </DropdownMenu>
+                        </ButtonDropdown>
+                      </div>
+                    </Col>
+                  </Row>
+                </CardHeader>
               </Card>
             </div>
           </Row>
@@ -366,4 +376,4 @@ class Tables extends React.Component {
   }
 }
 
-export default Tables;
+export default Accidents;
