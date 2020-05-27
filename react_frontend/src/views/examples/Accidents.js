@@ -46,8 +46,8 @@ class Accidents extends React.Component {
 
   constructor(props) {
     super(props);
-    this.toggle = this.toggle.bind(this);
-    this.changeValue = this.changeValue.bind(this);
+    this.toggle2 = this.toggle2.bind(this);
+    this.changeValue2 = this.changeValue2.bind(this);
 
     this.state = {
       table_data : [],
@@ -56,7 +56,7 @@ class Accidents extends React.Component {
       num_accidents:0,
       num_to_show:10,
       dropDownValue: "Sort by",
-      dropDownOpen: false,
+      dropDownOpen: false
     }
   }
 
@@ -218,17 +218,19 @@ class Accidents extends React.Component {
   }
 
   handleClick = (e,id) => {
+    console.log(id)
     e.preventDefault();
     this.state.curent_page=id
     this.getData(id);
   };
 
-    /* DropDown functions */
-  toggle() {
+ /* DropDown functions */
+  toggle2() {
     this.setState({dropDownOpen: !this.state.dropDownOpen});
   }
 
-  changeValue(e) {
+  changeValue2(e) {
+      console.log(e)
     this.setState({dropDownValue: e.currentTarget.textContent})
   }
 
@@ -256,17 +258,17 @@ class Accidents extends React.Component {
                     </Col>
                     <Col>
                       <div className="row justify-content-end">
-                        <ButtonDropdown isOpen={this.state.dropDownOpen} toggle={this.toggle}>
+                        <ButtonDropdown isOpen={this.state.dropDownOpen} toggle={this.toggle2}>
                           <DropdownToggle caret>
                             {this.state.dropDownValue}
                           </DropdownToggle>
                           <DropdownMenu right>
-                            <DropdownItem onClick={this.changeValue}>Date/Hour</DropdownItem>
-                            <DropdownItem onClick={this.changeValue}>Nº cars</DropdownItem>
-                            <DropdownItem onClick={this.changeValue}>Nº people</DropdownItem>
-                            <DropdownItem onClick={this.changeValue}>Nº injured</DropdownItem>
-                            <DropdownItem onClick={this.changeValue}>Severity</DropdownItem>
-                            <DropdownItem onClick={this.changeValue}>Status</DropdownItem>
+                            <DropdownItem onClick={this.changeValue2}>Date/Hour</DropdownItem>
+                            <DropdownItem onClick={this.changeValue2}>Nº cars</DropdownItem>
+                            <DropdownItem onClick={this.changeValue2}>Nº people</DropdownItem>
+                            <DropdownItem onClick={this.changeValue2}>Nº injured</DropdownItem>
+                            <DropdownItem onClick={this.changeValue2}>Severity</DropdownItem>
+                            <DropdownItem onClick={this.changeValue2}>Status</DropdownItem>
                           </DropdownMenu>
                         </ButtonDropdown>
                       </div>
@@ -345,30 +347,8 @@ class Accidents extends React.Component {
                 </Table>
                 <CardHeader className="bg-transparent border-0">
                   <Row >
-                    <Col>
-                      <div className="row ml">
-                        <h1 className="text-white mb-0" style={{ paddingLeft: 20}} ></h1>
-                      </div>
-                      </Col>
-                    <Col >
+                    <Col className="row justify-content-center">
                       {this.renderButtons()}
-                    </Col>
-                    <Col>
-                      <div className="row justify-content-end">
-                        <ButtonDropdown className="dropdown-width" isOpen={this.state.dropDownOpen} toggle={this.toggle}>
-                          <DropdownToggle caret>
-                            {this.state.dropDownValue}
-                          </DropdownToggle>
-                          <DropdownMenu right color="default" size="md" >
-                            <DropdownItem onClick={this.changeValue}>Date/Hour</DropdownItem>
-                            <DropdownItem onClick={this.changeValue}>Nº cars</DropdownItem>
-                            <DropdownItem onClick={this.changeValue}>Nº people</DropdownItem>
-                            <DropdownItem onClick={this.changeValue}>Nº injured</DropdownItem>
-                            <DropdownItem onClick={this.changeValue}>Severity</DropdownItem>
-                            <DropdownItem onClick={this.changeValue}>Status</DropdownItem>
-                          </DropdownMenu>
-                        </ButtonDropdown>
-                      </div>
                     </Col>
                   </Row>
                 </CardHeader>
