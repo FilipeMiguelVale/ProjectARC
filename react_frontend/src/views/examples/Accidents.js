@@ -196,7 +196,7 @@ class Accidents extends React.Component {
         }
       }
       if(this.state.curent_page < Math.ceil(this.state.num_accidents/this.state.num_to_show) )
-        Buttons.push(<li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,this.state.curent_page+1)}><i
+        Buttons.push(<li className="page-item"><a className="page-link" onClick={(e)=>this.handleClick(e,parseInt(this.state.curent_page)+1)}><i
                        className="fas fa-angle-right"></i></a></li>)
 
       return(
