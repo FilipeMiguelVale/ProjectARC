@@ -8,6 +8,7 @@ from flask_backend.database.db_models import Accident, Car
 from flask_backend.database.queries import *
 from flask_backend.erros import *
 
+
 # data processing
 from flask_backend.data_processing import get_location_address
 
@@ -142,12 +143,11 @@ def set_accident_injured(id):
     print(status)
     return change_accident_injured(id,status)
 
-@app.route('/accident_icon/<id>',methods=['GET'])
-def get_accident_icon(id):
-    status = get_accident_by(id, filter="id_only_accident").status
-    if (status == 1):
+@app.route('/accident_icon/<status>',methods=['GET'])
+def get_accident_icon(status):
+    if (int(status) == 1):
         return send_from_directory(app.config['UPLOAD_FOLDER'],"icon_map_yellow.png" , as_attachment=True)
-    elif(status == 2):
+    if(int(status) == 2):
         return send_from_directory(app.config['UPLOAD_FOLDER'],"icon_map_green.png" , as_attachment=True)
     else:
         return send_from_directory(app.config['UPLOAD_FOLDER'],"icon_map_red.png" , as_attachment=True)

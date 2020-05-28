@@ -23,7 +23,6 @@ import Login from "views/Login.js";
 import Accidents from "views/examples/Accidents.js";
 import AccidentDetails from "views/examples/AccidentDetails";
 import Edit_profile from "views/examples/Edit_profile";
-import Tentativa2 from "./views/examples/Tentativa2";
 
 var routes = [
   {

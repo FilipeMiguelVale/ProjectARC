@@ -5,23 +5,28 @@ import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps"
 
 
 const MapWrapper = withScriptjs(
-    withGoogleMap(props => <GoogleMap
+    withGoogleMap(props => 
+    <GoogleMap
             defaultCenter= {props.defaultCenter}
             defaultZoom={props.zoom}
             defaultOptions={{
               scrollwheel: false,
             }}
         >
-        {props.markers.map(props =>
+        {props.markers.map((props,index) =>{
+
+          return(
           <Marker position={{lat: props.lat, lng: props.lng}}
-           options={{icon:`/accident_icon/${props.id}`}}
+           key={index}
+           id={index}
+           options={{icon:`/accident_icon/${props.stat}`}}
            onClick={(() => 
             { if(props.id)
                 {window.location.href =`/#admin/accident_details/${props.id}`}
               }
               )}
              />
-        )}
+            )})}
         </GoogleMap>
     ));
   
@@ -34,8 +39,9 @@ const MapWrapper = withScriptjs(
             }}
         >
         {props.markers.map(props =>
-          <Marker position={{lat: props.lat, lng: props.lng}}
-           options={{icon:`/accident_icon/${props.id}`}}
+          <Marker 
+          position={{lat: props.lat, lng: props.lng}}
+          options={{icon:`/accident_icon/${props.stat}`}}
            onClick={(() => 
             { if(props.id)
                 {window.location.href =`/#admin/accident_details/${props.id}`}

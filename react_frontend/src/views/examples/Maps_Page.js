@@ -34,7 +34,8 @@ const Maps_Page = () => {
     const interval = setInterval(
       () => {
         getAllLocations().then((value) => {
-          setMarkers(value)}
+          setMarkers(value)
+        }
         );
       }, call_time);
 
@@ -52,7 +53,8 @@ const Maps_Page = () => {
         {
           lat: result[i]["location"]["lat"],
           lng: result[i]["location"]["lng"],
-          id: result[i]["id"]
+          id: result[i]["id"],
+          status: result[i]["status"]
         }
       )
     }

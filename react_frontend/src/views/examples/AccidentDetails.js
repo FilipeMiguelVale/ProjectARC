@@ -139,6 +139,7 @@ class AccidentDetails extends React.Component {
           n_cars_involved: result['n_cars_involved'],
           n_people_involved: result['n_people'],
           n_people_injured: parseInt(result['n_people_injured']),
+          status: parseInt(result['status'])
         },
         video_total:parseInt(result['video_total']),
         dropDownValue: this.init_text_dropdown(parseInt(result['status']))
@@ -479,8 +480,9 @@ class AccidentDetails extends React.Component {
                     <Col>
                       <Maps
                         markers = {[{id: this.props.match.params['id'],
-                                    lat:this.state.accident_data.location.coords.lat,
-                                    lng:this.state.accident_data.location.coords.lng}]}
+                                    lat: this.state.accident_data.location.coords.lat,
+                                    lng: this.state.accident_data.location.coords.lng,
+                                    status: this.state.accident_data.status}]}
                         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aWR3SBGaa1oB0CuDf2vptnJfSMSguZU"
                         loadingElement={<div style={{ height: `100%` }} />}
                         center = {this.state.accident_data.location.coords}
