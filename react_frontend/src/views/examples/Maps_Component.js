@@ -19,7 +19,7 @@ const MapWrapper = withScriptjs(
           <Marker position={{lat: props.lat, lng: props.lng}}
            key={index}
            id={index}
-           options={{icon:`/accident_icon/${props.stat}`}}
+           options={{icon:`/accident_icon/${props.status}`}}
            onClick={(() => 
             { if(props.id)
                 {window.location.href =`/#admin/accident_details/${props.id}`}
@@ -41,7 +41,7 @@ const MapWrapper = withScriptjs(
         {props.markers.map(props =>
           <Marker 
           position={{lat: props.lat, lng: props.lng}}
-          options={{icon:`/accident_icon/${props.stat}`}}
+          options={{icon:`/accident_icon/${props.status}`}}
            onClick={(() => 
             { if(props.id)
                 {window.location.href =`/#admin/accident_details/${props.id}`}

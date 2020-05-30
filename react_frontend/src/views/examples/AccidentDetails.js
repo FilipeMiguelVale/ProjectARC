@@ -139,7 +139,7 @@ class AccidentDetails extends React.Component {
           n_cars_involved: result['n_cars_involved'],
           n_people_involved: result['n_people'],
           n_people_injured: parseInt(result['n_people_injured']),
-          status: parseInt(result['status'])
+          status: result['status']
         },
         video_total:parseInt(result['video_total']),
         dropDownValue: this.init_text_dropdown(parseInt(result['status']))
