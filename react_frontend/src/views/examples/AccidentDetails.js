@@ -53,6 +53,9 @@ function fix_date(st) {
 class AccidentDetails extends React.Component {
   constructor(props) {
     super(props);
+
+    this.timer = null;
+
     this.toggle = this.toggle.bind(this);
     this.changeValue = this.changeValue.bind(this);
 
@@ -182,6 +185,7 @@ class AccidentDetails extends React.Component {
   componentDidMount() {
     let id = this.props.match.params['id']
     this.get_data(id)
+    this.timer = setInterval(() => this.get_data(id),5000)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -191,6 +195,11 @@ class AccidentDetails extends React.Component {
       this._imageGallery.pause();
       this._imageGallery.play();
     };
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.timer)
+    this.timer = null
   }
 
   renderCars = (value,index) => {
