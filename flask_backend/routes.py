@@ -157,9 +157,17 @@ def get_accident_icon(status):
 def get_accidents():
     return get_accident_by(None, filter="all")
 
-@app.route('/range_accidents/<int:id>', methods=['GET'])
-def get_range_accidents(id):
-    return get_accident_by(((id-1)*10,id*10), filter="between")
+#Available filters:
+# default = between -> show accidents by date
+#cars,people,injured,severity,status
+#usage "range_accidents?id=x&filter=X"
+#
+@app.route('/range_accidents', methods=['GET'])
+def get_range_accidents():
+    id = request.args.get('id', 1, type=int)
+    filter = request.args.get('filter', "between", type=str)
+    return get_accident_by(((id - 1) * 10, id * 10), filter=filter)
+
 
 @app.route('/num_accidents', methods=['GET'])
 def get_number_accidents():

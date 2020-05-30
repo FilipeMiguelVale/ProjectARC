@@ -56,6 +56,7 @@ class Accidents extends React.Component {
       num_accidents:0,
       num_to_show:10,
       dropDownValue: "Sort by",
+      dropdownIndex:"between",
       dropDownOpen: false
     }
   }
@@ -78,7 +79,7 @@ class Accidents extends React.Component {
       )
     );
     const response1 = await fetch(
-        `/range_accidents/${id}`
+        `/range_accidents?id=${id}&filter=${this.state.dropdownIndex}`
     );
 
     const result1 = await response1.json();
@@ -229,9 +230,59 @@ class Accidents extends React.Component {
     this.setState({dropDownOpen: !this.state.dropDownOpen});
   }
 
-  changeValue2(e) {
-      console.log(e)
-    this.setState({dropDownValue: e.currentTarget.textContent})
+  changeValue2(e,id) {
+
+      const a = ["","between","cars","people","injured","severity","status"]
+      console.log(a[id])
+      this.setState({dropDownValue: e.currentTarget.textContent,dropdownIndex:`${a[id]}`})
+      this.getSortData(id)
+  }
+  getSortData = async (id) => {
+     const response = await fetch(
+        `/num_accidents`
+    );
+
+    const result = await response.json();
+    this.setState(
+      prevState => (
+        {
+          num_accidents : result
+        }
+      )
+    );
+    const response1=[];
+    if(id==1) {
+        const response1 = await fetch(
+            `/range_accidents?id=${this.state.curent_page}&filter=between`
+        );
+    }else if(id ==2){
+        const response1 = await fetch(
+            `/range_accidents?id=${this.state.curent_page}&filter=cars`
+        );
+    }else if(id ==3){
+        const response1 = await fetch(
+            `/range_accidents?id=${this.state.curent_page}&filter=people`
+        );
+    }else if(id ==4){
+        const response1 = await fetch(
+            `/range_accidents?id=${this.state.curent_page}&filter=injured`
+        );
+    }else if(id ==5){
+        const response1 = await fetch(
+            `/range_accidents?id=${this.state.curent_page}&filter=severity`
+        );
+    }else {
+        const response1 = await fetch(
+            `/range_accidents?id=${this.state.curent_page}&filter=status`
+        )}
+    const result1 = await response1.json();
+    this.setState(
+      prevState => (
+        {
+          table_data : result1
+        }
+      )
+    );
   }
 
   /**************************/
@@ -263,12 +314,12 @@ class Accidents extends React.Component {
                             {this.state.dropDownValue}
                           </DropdownToggle>
                           <DropdownMenu right>
-                            <DropdownItem onClick={this.changeValue2}>Date/Hour</DropdownItem>
-                            <DropdownItem onClick={this.changeValue2}>Nº cars</DropdownItem>
-                            <DropdownItem onClick={this.changeValue2}>Nº people</DropdownItem>
-                            <DropdownItem onClick={this.changeValue2}>Nº injured</DropdownItem>
-                            <DropdownItem onClick={this.changeValue2}>Severity</DropdownItem>
-                            <DropdownItem onClick={this.changeValue2}>Status</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValue2(e,1)}>Date/Hour</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValue2(e,2)}>Nº cars</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValue2(e,3)}>Nº people</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValue2(e,4)}>Nº injured</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValue2(e,5)}>Severity</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValue2(e,6)}>Status</DropdownItem>
                           </DropdownMenu>
                         </ButtonDropdown>
                       </div>

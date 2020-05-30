@@ -85,8 +85,44 @@ def get_accident_by(value,**options):
         result = accidents_schema.dump(accident)
         v = result[-value[1]:len(result)-value[0]]
         return jsonify(v[::-1])
+
+    if filter == "cars":
+        accident = Accident.query.all()
+        result = accidents_schema.dump(accident)
+        result.sort(key=lambda x: x.get('n_cars_involved'))
+        v = result[-value[1]:len(result)-value[0]]
+        return jsonify(v[::-1])
+
+    if filter == "people":
+        accident = Accident.query.all()
+        result = accidents_schema.dump(accident)
+        result.sort(key=lambda x: x.get('n_people'))
+        v = result[-value[1]:len(result)-value[0]]
+        return jsonify(v[::-1])
+
+    if filter == "injured":
+        accident = Accident.query.all()
+        result = accidents_schema.dump(accident)
+        result.sort(key=lambda x: x.get('n_people_injured'))
+        v = result[-value[1]:len(result) - value[0]]
+        return jsonify(v[::-1])
+
+    if filter == "severity":
+        accident = Accident.query.all()
+        result = accidents_schema.dump(accident)
+        result.sort(key=lambda x: x.get('damage'))
+        v = result[-value[1]:len(result) - value[0]]
+        return jsonify(v[::-1])
+
+    if filter == "status":
+        accident = Accident.query.all()
+        result = accidents_schema.dump(accident)
+        result.sort(key=lambda x: x.get('status'),reverse=True)
+        v = result[-value[1]:len(result) - value[0]]
+        return jsonify(v[::-1])
 #Login queries
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
