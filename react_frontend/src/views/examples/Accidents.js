@@ -57,7 +57,8 @@ class Accidents extends React.Component {
       num_to_show:10,
       dropDownValue: "Sort by",
       dropdownIndex:"between",
-      dropDownOpen: false
+      dropDownOpen: false,
+      error:false
     }
   }
 
@@ -66,30 +67,42 @@ class Accidents extends React.Component {
   }
 
   getData = async (id) => {
-     const response = await fetch(
-        `/num_accidents`
-    );
+      try {
+          const response = await fetch(
+              `/num_accidents`
+          );
 
-    const result = await response.json();
-    this.setState(
-      prevState => (
-        {
-          num_accidents : result
-        }
-      )
-    );
-    const response1 = await fetch(
-        `/range_accidents?id=${id}&filter=${this.state.dropdownIndex}`
-    );
+          const result = await response.json();
+          this.setState(
+              prevState => (
+                  {
+                      num_accidents: result
+                  }
+              )
+          );
+          const response1 = await fetch(
+              `/range_accidents?id=${id}&filter=${this.state.dropdownIndex}`
+          );
 
-    const result1 = await response1.json();
-    this.setState(
-      prevState => (
-        {
-          table_data : result1
-        }
-      )
-    );
+          const result1 = await response1.json();
+          this.setState(
+              prevState => (
+                  {
+                      table_data: result1,
+                      error: false
+                  }
+              )
+          );
+      }
+    catch(e){
+         this.setState(
+             prevState => (
+                 {
+                     error: "No accidents do Show"
+                 }
+             )
+         );
+     }
   }
 
   /* Sets status colors
@@ -238,56 +251,95 @@ class Accidents extends React.Component {
       this.getSortData(id)
   }
   getSortData = async (id) => {
-     const response = await fetch(
-        `/num_accidents`
-    );
+     try {
+         const response = await fetch(
+             `/num_accidents`
+         );
 
-    const result = await response.json();
-    this.setState(
-      prevState => (
-        {
-          num_accidents : result
-        }
-      )
-    );
-    const response1=[];
-    if(id==1) {
-        const response1 = await fetch(
-            `/range_accidents?id=${this.state.curent_page}&filter=between`
-        );
-    }else if(id ==2){
-        const response1 = await fetch(
-            `/range_accidents?id=${this.state.curent_page}&filter=cars`
-        );
-    }else if(id ==3){
-        const response1 = await fetch(
-            `/range_accidents?id=${this.state.curent_page}&filter=people`
-        );
-    }else if(id ==4){
-        const response1 = await fetch(
-            `/range_accidents?id=${this.state.curent_page}&filter=injured`
-        );
-    }else if(id ==5){
-        const response1 = await fetch(
-            `/range_accidents?id=${this.state.curent_page}&filter=severity`
-        );
-    }else {
-        const response1 = await fetch(
-            `/range_accidents?id=${this.state.curent_page}&filter=status`
-        )}
-    const result1 = await response1.json();
-    this.setState(
-      prevState => (
-        {
-          table_data : result1
-        }
-      )
-    );
+         const result = await response.json();
+         this.setState(
+             prevState => (
+                 {
+                     num_accidents: result
+                 }
+             )
+         );
+         const response1 = [];
+         if (id == 1) {
+             const response1 = await fetch(
+                 `/range_accidents?id=${this.state.curent_page}&filter=between`
+             );
+         } else if (id == 2) {
+             const response1 = await fetch(
+                 `/range_accidents?id=${this.state.curent_page}&filter=cars`
+             );
+         } else if (id == 3) {
+             const response1 = await fetch(
+                 `/range_accidents?id=${this.state.curent_page}&filter=people`
+             );
+         } else if (id == 4) {
+             const response1 = await fetch(
+                 `/range_accidents?id=${this.state.curent_page}&filter=injured`
+             );
+         } else if (id == 5) {
+             const response1 = await fetch(
+                 `/range_accidents?id=${this.state.curent_page}&filter=severity`
+             );
+         } else {
+             const response1 = await fetch(
+                 `/range_accidents?id=${this.state.curent_page}&filter=status`
+             )
+         }
+         const result1 = await response1.json();
+         this.setState(
+             prevState => (
+                 {
+                     table_data: result1,
+                     error:false
+                 }
+             )
+         );
+     }catch(e){
+         this.setState(
+             prevState => (
+                 {
+                     error: "No accidents do Show"
+                 }
+             )
+         );
+     }
   }
 
   /**************************/
 
   render() {
+    if(this.state.error){
+        return (
+         <>
+        <Header />
+        {/* Page content */}
+        <Container className="mt--7" fluid>
+          {/* Dark table */}
+          <Row className="mt-5">
+            <div className="col">
+              <Card className="bg-default shadow">
+                <CardHeader className="bg-transparent border-0">
+                  <Row >
+                    <Col>
+                      <div className="row ml">
+                        <h1 className="text-white mb-0" style={{ paddingLeft: 20}} >Accidents</h1>
+                      </div>
+                    </Col>
+                  </Row>
+                </CardHeader>
+                <h1 className="text-white mb-0" style={{textAlign:"center"}}> {this.state.error}</h1>
+                  <br/>
+              </Card>
+            </div>
+          </Row>
+        </Container>
+             </>);
+    }else{
     return (
       <>
         <Header />
@@ -332,7 +384,7 @@ class Accidents extends React.Component {
                 >
                   <thead className="thead-dark">
                     <tr >
-                      <th scope="col-lg-3 " style={{textAlign:"center"}}>
+                      <th scope="col " style={{textAlign:"center"}}>
                        <div align="center" className="icon icon-shape bg-transparent text-white rounded-circle">
                          <i className="fas fa-calendar-alt"/>
                        </div>
@@ -340,7 +392,7 @@ class Accidents extends React.Component {
                          <span className="ml-1">Date/Hour</span>
                       </div>
                       </th>
-                      <th scope="col-lg-3"  style={{textAlign:"center"}}>
+                      <th scope="col"  style={{textAlign:"center"}}>
                        <div  className="icon icon-shape bg-transparent text-white rounded-circle" >
                          <i  className="fas fa-map-marked-alt"/>
                        </div>
@@ -409,7 +461,7 @@ class Accidents extends React.Component {
         </Container>
       </>
     );
-  }
+  }}
 }
 
 export default Accidents;
