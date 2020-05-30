@@ -46,7 +46,10 @@ class Accidents extends React.Component {
 
   constructor(props) {
     super(props);
-   this.toggleDrop1 = this.toggleDrop1.bind(this);
+
+    this.timer = null
+
+    this.toggleDrop1 = this.toggleDrop1.bind(this);
     this.changeValueDrop1 = this.changeValueDrop1.bind(this);
 
     this.toggleDrop2 = this.toggleDrop2.bind(this);
@@ -238,7 +241,13 @@ class Accidents extends React.Component {
   }
 
   componentDidMount() {
-    this.getData(1);
+    this.getData(this.state.curent_page);
+    this.timer = setInterval(() => this.getData(this.state.curent_page), 10000)
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.timer)
+    this.timer = null
   }
 
   handleClick = (e,id) => {
