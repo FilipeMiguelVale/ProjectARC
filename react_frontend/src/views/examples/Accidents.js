@@ -46,8 +46,14 @@ class Accidents extends React.Component {
 
   constructor(props) {
     super(props);
-    this.toggle2 = this.toggle2.bind(this);
-    this.changeValue2 = this.changeValue2.bind(this);
+   this.toggleDrop1 = this.toggleDrop1.bind(this);
+    this.changeValueDrop1 = this.changeValueDrop1.bind(this);
+
+    this.toggleDrop2 = this.toggleDrop2.bind(this);
+    this.changeValueDrop2 = this.changeValueDrop2.bind(this);
+
+    this.toggleDrop3 = this.toggleDrop3.bind(this);
+    this.changeValueDrop3 = this.changeValueDrop3.bind(this);
 
     this.state = {
       table_data : [],
@@ -55,9 +61,13 @@ class Accidents extends React.Component {
       curent_page:1,
       num_accidents:0,
       num_to_show:10,
-      dropDownValue: "Sort by",
+      dropDown1Value: "Date/Hour",
       dropdownIndex:"between",
-      dropDownOpen: false,
+      dropDown1Open: false,
+      dropDown2Value: "From",
+      dropDown2Open: false,
+      dropDown3Value: "Order by",
+      dropDown3Open: false,
       error:false
     }
   }
@@ -239,17 +249,34 @@ class Accidents extends React.Component {
   };
 
  /* DropDown functions */
-  toggle2() {
-    this.setState({dropDownOpen: !this.state.dropDownOpen});
+  toggleDrop1() {
+    this.setState({dropDown1Open: !this.state.dropDown1Open});
   }
 
-  changeValue2(e,id) {
+  toggleDrop2() {
+      this.setState({dropDown2Open: !this.state.dropDown2Open});
+  }
+
+  toggleDrop3() {
+      this.setState({dropDown3Open: !this.state.dropDown3Open});
+  }
+
+  changeValueDrop1(e,id) {
 
       const a = ["","between","cars","people","injured","severity","status"]
       console.log(a[id])
-      this.setState({dropDownValue: e.currentTarget.textContent,dropdownIndex:`${a[id]}`})
+      this.setState({dropDown1Value: e.currentTarget.textContent,dropdownIndex:`${a[id]}`})
       this.getSortData(id)
   }
+
+  changeValueDrop2(e) {
+      this.setState({dropDown2Value: e.currentTarget.textContent});
+  }
+
+  changeValueDrop3(e) {
+      this.setState({dropDown3Value: e.currentTarget.textContent});
+  }
+
   getSortData = async (id) => {
      try {
          const response = await fetch(
@@ -361,17 +388,37 @@ class Accidents extends React.Component {
                     </Col>
                     <Col>
                       <div className="row justify-content-end">
-                        <ButtonDropdown isOpen={this.state.dropDownOpen} toggle={this.toggle2}>
+                        <h4 className="mr-2 mt-2 text-white">Sort by: </h4>
+                        <ButtonDropdown isOpen={this.state.dropDown1Open} toggle={this.toggleDrop1}>
                           <DropdownToggle caret>
-                            {this.state.dropDownValue}
+                            {this.state.dropDown1Value}
                           </DropdownToggle>
                           <DropdownMenu right>
-                            <DropdownItem onClick={(e)=>this.changeValue2(e,1)}>Date/Hour</DropdownItem>
-                            <DropdownItem onClick={(e)=>this.changeValue2(e,2)}>Nº cars</DropdownItem>
-                            <DropdownItem onClick={(e)=>this.changeValue2(e,3)}>Nº people</DropdownItem>
-                            <DropdownItem onClick={(e)=>this.changeValue2(e,4)}>Nº injured</DropdownItem>
-                            <DropdownItem onClick={(e)=>this.changeValue2(e,5)}>Severity</DropdownItem>
-                            <DropdownItem onClick={(e)=>this.changeValue2(e,6)}>Status</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop1(e,1)}>Date/Hour</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop1(e,2)}>Nº cars</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop1(e,3)}>Nº people</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop1(e,4)}>Nº injured</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop1(e,5)}>Severity</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop1(e,6)}>Status</DropdownItem>
+                          </DropdownMenu>
+                        </ButtonDropdown>
+                        <ButtonDropdown className={"mr-2 ml-2"} isOpen={this.state.dropDown2Open} toggle={this.toggleDrop2}>
+                          <DropdownToggle caret>
+                            {this.state.dropDown2Value}
+                          </DropdownToggle>
+                          <DropdownMenu right>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop2(e)}>Today</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop2(e)}>Yesterday</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop2(e)}>Last month</DropdownItem>
+                          </DropdownMenu>
+                        </ButtonDropdown>
+                        <ButtonDropdown isOpen={this.state.dropDown3Open} toggle={this.toggleDrop3}>
+                          <DropdownToggle caret>
+                            {this.state.dropDown3Value}
+                          </DropdownToggle>
+                          <DropdownMenu right>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop3(e)}>Descending</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop3(e)}>Ascending</DropdownItem>
                           </DropdownMenu>
                         </ButtonDropdown>
                       </div>
