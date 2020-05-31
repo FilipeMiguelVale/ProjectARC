@@ -138,7 +138,7 @@ def get_accident_by(value, filter="all",quantity="All",order="Ascending"):
     if filter == "people":
         accident = Accident.query.all()
         result = accidents_schema.dump(accident)
-        result.sort(key=lambda x: x.get('n_people'),reverse=(order!="Ascending"))
+        result.sort(key=lambda x: x.get('n_people'),reverse=(order=="Ascending"))
         if quantity == "Today":
             result = [accident for accident in result if
                       datetime.datetime.strptime(accident['date'].replace('T', " "), '%Y-%m-%d %H:%M:%S.%f')
@@ -157,7 +157,7 @@ def get_accident_by(value, filter="all",quantity="All",order="Ascending"):
     if filter == "injured":
         accident = Accident.query.all()
         result = accidents_schema.dump(accident)
-        result.sort(key=lambda x: x.get('n_people_injured'),reverse=(order!="Ascending"))
+        result.sort(key=lambda x: x.get('n_people_injured'),reverse=(order=="Ascending"))
         if quantity == "Today":
             result = [accident for accident in result if
                       datetime.datetime.strptime(accident['date'].replace('T', " "), '%Y-%m-%d %H:%M:%S.%f')
@@ -176,7 +176,7 @@ def get_accident_by(value, filter="all",quantity="All",order="Ascending"):
     if filter == "severity":
         accident = Accident.query.all()
         result = accidents_schema.dump(accident)
-        result.sort(key=lambda x: x.get('damage'),reverse=(order!="Ascending"))
+        result.sort(key=lambda x: x.get('damage'),reverse=(order=="Ascending"))
         if quantity == "Today":
             result = [accident for accident in result if
                       datetime.datetime.strptime(accident['date'].replace('T', " "), '%Y-%m-%d %H:%M:%S.%f')

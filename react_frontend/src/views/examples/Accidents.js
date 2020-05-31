@@ -67,7 +67,7 @@ class Accidents extends React.Component {
       dropDown1Value: "Date/Hour",
       dropdownIndex:"between",
       dropdownIndex2:"Today",
-      dropdownIndex3:"Ascending",
+      dropdownIndex3:"Descending",
       dropDown1Open: false,
       dropDown2Value: "From",
       dropDown2Open: false,
