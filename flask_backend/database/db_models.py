@@ -49,4 +49,26 @@ class Car(db.Model):
 
 class User(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(30), unique=True)
+    Username = db.Column(db.String(30), unique=True)
+    email = db.Column(db.String, nullable=False)
+    password = db.Column(db.String, nullable=False)
+    first_name = db.Column(db.String)
+    last_name = db.Column(db.String)
+    birth_date = db.Column(db.Date)
+    address = db.Column(db.String)
+    city = db.Column(db.String)
+    country = db.Column(db.String)
+    postal_code = db.Column(db.String)
+    telephone = db.Column(db.String)
+    work_institution = db.Column(db.String)
+    profession = db.Column(db.String)
+    about = db.Column(db.String)
+    role = db.Column(db.Integer, nullable=False)
+    role_type = db.Column(db.String, nullable=False)
+
+    def __init__(self, Username,email,password,role,role_type):
+        self.Username = Username
+        self.email = email
+        self.password = password
+        self.role = role
+        self.role_type = role_type

@@ -35,9 +35,50 @@ import UserHeader from "../../components/Headers/UserHeader.js";
 import {Redirect} from "react-router-dom";
 
 class Profile extends React.Component {
+
+   constructor(props) {
+    super(props);
+
+    this.state = {
+      user:[]
+
+    }
+   }
+
   onEditProfile = () => {
       return <Redirect to="/admin/edit_profile"/>
   }
+
+  getData = async () => {
+      try {
+           const response = await fetch(
+              `/home`
+          );
+
+          const result = await response.json();
+          console.log(result)
+          this.setState(
+              prevState => (
+                  {
+                      user: result
+                  }
+              )
+          );
+      }
+    catch(e){
+         this.setState(
+             prevState => (
+                 {
+                     error: "No accidents do Show"
+                 }
+             )
+         );
+     }
+  }
+  componentDidMount() {
+    this.getData();
+  }
+
   render() {
     return (
       <>
@@ -81,26 +122,24 @@ class Profile extends React.Component {
                   </Row>
                   <div className="text-center">
                     <h3>
-                      Rose
+                        {this.state.user["first_name"]}
                       <span className="font-weight-light">, 27</span>
                     </h3>
                     <div className="h5 font-weight-300">
                       <i className="ni location_pin mr-2" />
-                      Aveiro
+                      {this.state.user["city"]}
                     </div>
                     <div className="h5 mt-4">
                       <i className="ni business_briefcase-24 mr-2" />
-                      System Manager
+                      {this.state.user["profession"]}
                     </div>
                     <div>
                       <i className="ni education_hat mr-2" />
-                      University of Aveiro
+                      {this.state.user["work_institution"]}
                     </div>
                     <hr className="my-4" />
                     <p>
-                      Ryan — the name taken by Melbourne-raised, Brooklyn-based
-                      Nick Murphy — writes, performs and records all of his own
-                      music.
+                      {this.state.user["about"]}
                     </p>
                     <a href="#pablo" onClick={e => e.preventDefault()}>
                       Show more

@@ -35,6 +35,46 @@ import UserHeader from "../../components/Headers/UserHeader.js";
 import {Redirect} from "react-router-dom";
 
 class Edit_profile extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      user:[]
+
+    }
+   }
+
+  getData = async () => {
+      try {
+           const response = await fetch(
+              `/home`
+          );
+
+          const result = await response.json();
+          console.log(result)
+          this.setState(
+              prevState => (
+                  {
+                      user: result
+                  }
+              )
+          );
+      }
+    catch(e){
+         this.setState(
+             prevState => (
+                 {
+                     error: "No accidents do Show"
+                 }
+             )
+         );
+     }
+  }
+  componentDidMount() {
+    this.getData();
+  }
+
    onSaveChanges = () => {
       return <Redirect to="/admin/user-profile"/>
   }
@@ -52,7 +92,7 @@ class Edit_profile extends React.Component {
                     <Col xs="8">
                       <h3 className="mb-0">My account</h3>
                     </Col>
-                    <Col className="text-right" xs="4">
+                    {/*<Col className="text-right" xs="4">
                       <Button
                         color="primary"
                         href="#pablo"
@@ -61,7 +101,7 @@ class Edit_profile extends React.Component {
                       >
                         Settings
                       </Button>
-                    </Col>
+                    </Col>*/}
                   </Row>
                 </CardHeader>
                 <CardBody>
@@ -82,7 +122,7 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-username"
-                              placeholder="Username"
+                              placeholder={this.state.user["Username"]}
                               type="text"
                             />
                           </FormGroup>
@@ -98,7 +138,7 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-email"
-                              placeholder="xpto@example.com"
+                              placeholder={this.state.user["email"]}
                               type="email"
                             />
                           </FormGroup>
@@ -116,7 +156,7 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-first-name"
-                              placeholder="First name"
+                              placeholder={this.state.user["first_name"]}
                               type="text"
                             />
                           </FormGroup>
@@ -132,7 +172,7 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-last-name"
-                              placeholder="Last name"
+                              placeholder={this.state.user["last_name"]}
                               type="text"
                             />
                           </FormGroup>
@@ -172,7 +212,7 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-address"
-                              placeholder="Address"
+                              placeholder={this.state.user["address"]}
                               type="text"
                             />
                           </FormGroup>
@@ -190,7 +230,7 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-city"
-                              placeholder="City"
+                              placeholder={this.state.user["city"]}
                               type="text"
                             />
                           </FormGroup>
@@ -207,7 +247,7 @@ class Edit_profile extends React.Component {
                               className="form-control-alternative"
                               defaultValue="Portugal"
                               id="input-country"
-                              placeholder="Country"
+                              placeholder={this.state.user["country"]}
                               type="text"
                             />
                           </FormGroup>
@@ -224,7 +264,7 @@ class Edit_profile extends React.Component {
                               className="form-control-alternative"
                               id="input-postal-code"
                               placeholder="Postal code"
-                              type="number"
+                              type={this.state.user["postal_code"]}
                             />
                           </FormGroup>
                         </Col>
@@ -241,7 +281,7 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-postal-code"
-                              placeholder="Phone number"
+                              placeholder={this.state.user["telephone"]}
                               type="number"
                             />
                           </FormGroup>
@@ -266,7 +306,7 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-username"
-                              placeholder="Please insert your work institution name"
+                              placeholder={this.state.user["work_institution"]}
                               type="text"
                             />
                           </FormGroup>
@@ -282,7 +322,7 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-email"
-                              placeholder="Profession"
+                              placeholder={this.state.user["profession"]}
                               type="email"
                             />
                           </FormGroup>
@@ -299,8 +339,7 @@ class Edit_profile extends React.Component {
                           className="form-control-alternative"
                           placeholder="A few words about you ..."
                           rows="4"
-                          defaultValue="A beautiful Dashboard for Bootstrap 4. It is Free and
-                          Open Source."
+                          defaultValue={this.state.user["about"]}
                           type="textarea"
                         />
                       </FormGroup>

@@ -26,9 +26,9 @@ def login():
     password = request.json['passwd']
     print(email)
     print(password)
-    if email == "admin@admin" and password == "admin" :
-        user = User.query.filter_by(username='admin').first()
-        login_user(user)
+    if can_login(email,password):
+        print(user_schema.dump(User.query.filter_by(email=email,password=password).first()))
+        login_user(can_login(email,password))
         return jsonify({"response":"Done"})
     else:
         return jsonify({"error":"Invalid username or password"})
@@ -52,7 +52,7 @@ def logout():
 @app.route('/home')
 @login_required
 def home():
-    return "The current user is " + current_user.username
+    return user_schema.dump(current_user)
 
 
 # Add video

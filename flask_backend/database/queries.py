@@ -38,6 +38,9 @@ def add_accident_to_database(accident,car):
     db.session.commit()
     print(car.accident_id)
 
+def can_login(email,password):
+    return User.query.filter_by(email=email, password=password).first()
+
 def get_num_accidents(quantity):
     current_time = datetime.datetime.now()
     accident = Accident.query.all()
