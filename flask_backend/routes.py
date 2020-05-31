@@ -166,12 +166,15 @@ def get_accidents():
 def get_range_accidents():
     id = request.args.get('id', 1, type=int)
     filter = request.args.get('filter', "between", type=str)
-    return get_accident_by(((id - 1) * 10, id * 10), filter=filter)
+    quantity=request.args.get('quantity',"All",type=str)
+    order=request.args.get('order',"Ascending",type=str)
+    return get_accident_by(((id - 1) * 10, id * 10), filter=filter,quantity=quantity,order=order)
 
 
 @app.route('/num_accidents', methods=['GET'])
 def get_number_accidents():
-    return str(get_num_accidents())
+    quantity = request.args.get('quantity', "All", type=str)
+    return str(get_num_accidents(quantity))
 
 #accident media
 @app.route('/media/<path:path_to_file>', methods=['GET'])

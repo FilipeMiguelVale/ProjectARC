@@ -66,6 +66,8 @@ class Accidents extends React.Component {
       num_to_show:10,
       dropDown1Value: "Date/Hour",
       dropdownIndex:"between",
+      dropdownIndex2:"Today",
+      dropdownIndex3:"Ascending",
       dropDown1Open: false,
       dropDown2Value: "From",
       dropDown2Open: false,
@@ -81,8 +83,8 @@ class Accidents extends React.Component {
 
   getData = async (id) => {
       try {
-          const response = await fetch(
-              `/num_accidents`
+           const response = await fetch(
+              `/num_accidents?quantity=${this.state.dropdownIndex2}`
           );
 
           const result = await response.json();
@@ -94,18 +96,27 @@ class Accidents extends React.Component {
               )
           );
           const response1 = await fetch(
-              `/range_accidents?id=${id}&filter=${this.state.dropdownIndex}`
+              `/range_accidents?id=${id}&filter=${this.state.dropdownIndex}&quantity=${this.state.dropdownIndex2}&order=${this.state.dropdownIndex3}`
           );
 
           const result1 = await response1.json();
-          this.setState(
-              prevState => (
-                  {
-                      table_data: result1,
-                      error: false
-                  }
-              )
-          );
+          if(result1.length==0)
+              this.setState(
+             prevState => (
+                 {
+                     error: "No accidents do Show"
+                 }
+             )
+         );
+          else
+              this.setState(
+                  prevState => (
+                      {
+                          table_data: result1,
+                          error: false
+                      }
+                  )
+              );
       }
     catch(e){
          this.setState(
@@ -274,82 +285,31 @@ class Accidents extends React.Component {
 
       const a = ["","between","cars","people","injured","severity","status"]
       console.log(a[id])
-      this.setState({dropDown1Value: e.currentTarget.textContent,dropdownIndex:`${a[id]}`})
-      this.getSortData(id)
+      this.state.dropDown1Value= e.currentTarget.textContent
+      this.state.dropdownIndex= `${a[id]}`
+      this.getData(this.state.curent_page)
   }
 
-  changeValueDrop2(e) {
-      this.setState({dropDown2Value: e.currentTarget.textContent});
+  changeValueDrop2(e,id) {
+      console.log(id)
+      this.state.dropDown2Value= e.currentTarget.textContent
+      this.state.dropdownIndex2= `${id}`
+      this.getData(this.state.curent_page)
+
   }
 
-  changeValueDrop3(e) {
-      this.setState({dropDown3Value: e.currentTarget.textContent});
+  changeValueDrop3(e,id) {
+      console.log(id)
+      this.state.dropDown3Value= e.currentTarget.textContent
+      this.state.dropdownIndex3= `${id}`
+      this.getData(this.state.curent_page)
   }
 
-  getSortData = async (id) => {
-     try {
-         const response = await fetch(
-             `/num_accidents`
-         );
-
-         const result = await response.json();
-         this.setState(
-             prevState => (
-                 {
-                     num_accidents: result
-                 }
-             )
-         );
-         const response1 = [];
-         if (id == 1) {
-             const response1 = await fetch(
-                 `/range_accidents?id=${this.state.curent_page}&filter=between`
-             );
-         } else if (id == 2) {
-             const response1 = await fetch(
-                 `/range_accidents?id=${this.state.curent_page}&filter=cars`
-             );
-         } else if (id == 3) {
-             const response1 = await fetch(
-                 `/range_accidents?id=${this.state.curent_page}&filter=people`
-             );
-         } else if (id == 4) {
-             const response1 = await fetch(
-                 `/range_accidents?id=${this.state.curent_page}&filter=injured`
-             );
-         } else if (id == 5) {
-             const response1 = await fetch(
-                 `/range_accidents?id=${this.state.curent_page}&filter=severity`
-             );
-         } else {
-             const response1 = await fetch(
-                 `/range_accidents?id=${this.state.curent_page}&filter=status`
-             )
-         }
-         const result1 = await response1.json();
-         this.setState(
-             prevState => (
-                 {
-                     table_data: result1,
-                     error:false
-                 }
-             )
-         );
-     }catch(e){
-         this.setState(
-             prevState => (
-                 {
-                     error: "No accidents do Show"
-                 }
-             )
-         );
-     }
-  }
 
   /**************************/
 
   render() {
-    if(this.state.error){
+    if(this.state.error ){
         return (
          <>
         <Header />
@@ -364,6 +324,47 @@ class Accidents extends React.Component {
                     <Col>
                       <div className="row ml">
                         <h1 className="text-white mb-0" style={{ paddingLeft: 20}} >Accidents</h1>
+                      </div>
+                    </Col>
+                    <Col >
+                      {this.renderButtons()}
+                    </Col>
+                    <Col>
+                      <div className="row justify-content-end">
+                        <h4 className="mr-2 mt-2 text-white">Sort by: </h4>
+                        <ButtonDropdown isOpen={this.state.dropDown1Open} toggle={this.toggleDrop1}>
+                          <DropdownToggle caret>
+                            {this.state.dropDown1Value}
+                          </DropdownToggle>
+                          <DropdownMenu right>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop1(e,1)}>Date/Hour</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop1(e,2)}>Nº cars</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop1(e,3)}>Nº people</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop1(e,4)}>Nº injured</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop1(e,5)}>Severity</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop1(e,6)}>Status</DropdownItem>
+                          </DropdownMenu>
+                        </ButtonDropdown>
+                        <ButtonDropdown className={"mr-2 ml-2"} isOpen={this.state.dropDown2Open} toggle={this.toggleDrop2}>
+                          <DropdownToggle caret>
+                            {this.state.dropDown2Value}
+                          </DropdownToggle>
+                          <DropdownMenu right>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop2(e,"Today")}>Today</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop2(e,"Yesterday")}>Yesterday</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop2(e,"Last Month")}>Last Month</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop2(e,"All")}>All</DropdownItem>
+                          </DropdownMenu>
+                        </ButtonDropdown>
+                        <ButtonDropdown isOpen={this.state.dropDown3Open} toggle={this.toggleDrop3}>
+                          <DropdownToggle caret>
+                            {this.state.dropDown3Value}
+                          </DropdownToggle>
+                          <DropdownMenu right>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop3(e,"Ascending")}>Ascending</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop3(e,"Descending")}>Descending</DropdownItem>
+                          </DropdownMenu>
+                        </ButtonDropdown>
                       </div>
                     </Col>
                   </Row>
@@ -416,9 +417,10 @@ class Accidents extends React.Component {
                             {this.state.dropDown2Value}
                           </DropdownToggle>
                           <DropdownMenu right>
-                            <DropdownItem onClick={(e)=>this.changeValueDrop2(e)}>Today</DropdownItem>
-                            <DropdownItem onClick={(e)=>this.changeValueDrop2(e)}>Yesterday</DropdownItem>
-                            <DropdownItem onClick={(e)=>this.changeValueDrop2(e)}>Last month</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop2(e,"Today")}>Today</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop2(e,"Yesterday")}>Yesterday</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop2(e,"Last Month")}>Last Month</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop2(e,"All")}>All</DropdownItem>
                           </DropdownMenu>
                         </ButtonDropdown>
                         <ButtonDropdown isOpen={this.state.dropDown3Open} toggle={this.toggleDrop3}>
@@ -426,8 +428,8 @@ class Accidents extends React.Component {
                             {this.state.dropDown3Value}
                           </DropdownToggle>
                           <DropdownMenu right>
-                            <DropdownItem onClick={(e)=>this.changeValueDrop3(e)}>Descending</DropdownItem>
-                            <DropdownItem onClick={(e)=>this.changeValueDrop3(e)}>Ascending</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop3(e,"Ascending")}>Ascending</DropdownItem>
+                            <DropdownItem onClick={(e)=>this.changeValueDrop3(e,"Descending")}>Descending</DropdownItem>
                           </DropdownMenu>
                         </ButtonDropdown>
                       </div>
