@@ -110,7 +110,7 @@ def add_accident():
     temperature = request.json["temperature"]
     airbag = True #request.json["airbag"]
     overturned = request.json["overturned"]
-    hazard_ligths = request.json["hazard_ligths"]
+    hazard_ligths = request.json["hazard_lights"]
     num_seatbelts = request.json["all_seatbelts"]
 
     severity = severity_calc(n_people,velocity, ABS, airbag, overturned, num_seatbelts)    
