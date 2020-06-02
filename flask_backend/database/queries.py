@@ -36,7 +36,6 @@ def add_accident_to_database(accident,car):
     car.accident_id = accident.id
     db.session.add(car)
     db.session.commit()
-    print(car.accident_id)
 
 def can_login(email,password):
     return User.query.filter_by(email=email, password=password).first()

@@ -24,26 +24,27 @@ class Accident(db.Model):
         self.n_people_injured = n_people_injured
         self.damage = damage
 
-
 class Car(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     velocity = db.Column(db.Float, default=0.0)
     n_people = db.Column(db.Integer, default=0)
     temperature = db.Column(db.Float, default=0.0)
-    airbag = db.Column(db.Boolean)
-    ABS = db.Column(db.Boolean)  # , nullable=False)
-    overturned = db.Column(db.Boolean)  # , nullable=False)
+    airbag = db.Column(db.Integer)
+    ABS = db.Column(db.Boolean)
+    hazard_ligths = db.Column(db.Boolean)
+    overturned = db.Column(db.Boolean)
     damage = db.Column(db.Float, default=0.0)
 
     accident_id = db.Column(db.Integer, db.ForeignKey('accident.id'), nullable=False)
 
-    def __init__(self, velocity, n_people, temperature,airbag, ABS, overturned, damage):
+    def __init__(self, velocity, n_people, temperature,airbag, ABS, hazard_lights, overturned, damage):
         self.velocity = velocity
         self.n_people = n_people
         self.temperature = temperature
         self.airbag = airbag
         self.ABS = ABS
+        self.hazard_ligths = hazard_lights
         self.overturned = overturned
         self.damage = damage
 

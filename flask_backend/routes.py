@@ -10,7 +10,7 @@ from flask_backend.erros import *
 
 
 # data processing
-from flask_backend.data_processing import get_location_address
+from flask_backend.data_processing import get_location_address, severity_calc
 
 #media
 from flask_backend.media_processing import init_media,convert_avi_to_mp4
@@ -94,14 +94,12 @@ def add_accident():
     location = request.json['location']
     video_id = int(request.json['video_id'])
 
-    
     accident = get_accident_by(location, filter="belongs")
 
     if not accident:
         location["address"] = get_location_address(location["lat"],location["lng"])
         accident = Accident(location,video_id)
-
-
+ 
     accident.n_cars_involved += 1
 
     n_people = request.json["n_people"]
@@ -112,11 +110,17 @@ def add_accident():
     temperature = request.json["temperature"]
     airbag = request.json["airbag"]
     overturned = request.json["overturned"]
-    damage = request.json["damage"]
-    accident.damage += damage
+    hazard_ligths = request.json["hazard_ligths"]
+    num_seatbelts = request.json["all_seatbelts"]
+
+    severity = severity_calc(n_people,velocity, ABS, airbag, overturned, num_seatbelts)    
+
+    if accident.n_cars_involved > 1:
+        accident.damage = (((accident.damage) * (accident.n_cars_involved - 1)) + severity) / accident.n_cars_involved
+    else :
+        accident.damage = severity
     
-    car = Car(velocity,n_people,temperature,airbag,
-    ABS,overturned,damage)
+    car = Car(velocity,n_people,temperature,airbag,ABS,hazard_ligths,overturned,severity)
 
     add_accident_to_database(accident,car)
     init_media(accident.id, (location["lat"], location["lng"]))

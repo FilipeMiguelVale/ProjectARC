@@ -10,6 +10,7 @@ class CarSchema(ma.SQLAlchemySchema):
     temperature = ma.auto_field()
     airbag = ma.auto_field()
     ABS = ma.auto_field()
+    hazard_ligths = ma.auto_field()
     overturned = ma.auto_field()
     damage = ma.auto_field()
 
@@ -27,6 +28,7 @@ class AccidentSchema(ma.SQLAlchemySchema):
     video_total = ma.auto_field()
     date = ma.auto_field()
     status = ma.auto_field()
+    
     cars = ma.Nested(CarSchema, many=True)
 
 class UserSchema(ma.SQLAlchemySchema):
