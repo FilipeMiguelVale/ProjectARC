@@ -423,7 +423,6 @@ class AccidentDetails extends React.Component {
   }
   handleClick = (e,id,value) => {
     e.preventDefault();
-    console.log(value)
     let new_injured = this.state.accident_data.n_people_injured+value
     if (new_injured >=0) {
       this.setState(() => (this.state.accident_data.n_people_injured = new_injured))

@@ -127,6 +127,59 @@ def add_accident():
     return accident_schema.jsonify(accident)
 
 
+@app.route('/add_user', methods=['POST'])
+def add_user():
+    email = request.json['email']
+    role = int(request.json['role'])
+    role_type = request.json['role_type']
+    user = User(email,role,role_type)
+    add_user_to_database(user)
+    return user_schema.jsonify(user)
+
+@app.route('/register_user', methods=['POST'])
+def register_user():
+
+    username = request.json['username']
+    email = request.json['email']
+    password = request.json['password']
+
+    return register_user_to_database(username,email,password)
+
+@app.route('/update_user', methods=['POST'])
+def update_user():
+    user = get_user_by(email=request.json["email"])
+    print(request.json)
+    if "Username" in request.json:
+        user.Username = request.json["Username"]
+    if "password" in request.json:
+        user.password = request.json["password"]
+    if "first_name" in request.json:
+        user.first_name = request.json["first_name"]
+    if "last_name" in request.json:
+        user.last_name = request.json["last_name"]
+   # if "birth_date" in request.json:
+    #    user.birth_date = request.json["birth_date"]
+    if "address" in request.json:
+        user.address = request.json["address"]
+    # if "city" in request.json:
+    #     user.city = request.json["city"]
+    if "country" in request.json:
+        user.country = request.json["country"]
+    if "postal_code" in request.json:
+        user.postal_code = request.json["postal_code"]
+    if "telephone" in request.json:
+        user.telephone = request.json["telephone"]
+    if "work_institution" in request.json:
+        user.work_institution = request.json["work_institution"]
+    if "profession" in request.json:
+        user.profession = request.json["profession"]
+    if "about" in request.json:
+        user.about = request.json["about"]
+
+    print(user)
+    return add_user_to_database(user)
+
+
 # See Accident
 @app.route('/accident/<id>', methods=['GET'])
 def get_accident(id):

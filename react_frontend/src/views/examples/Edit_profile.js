@@ -40,9 +40,24 @@ class Edit_profile extends React.Component {
     super(props);
 
     this.state = {
-      user:[]
+        user: [],
+        Username: "",
+        about: "",
+        address: "",
+        birth_date: "",
+        city: "",
+        country: "",
+        email: "",
+        first_name: "",
+        last_name: "",
+        postal_code: "",
+        profession: "",
+        telephone: "",
+        work_institution: ""
 
     }
+    this.handleChange = this.handleChange.bind(this);
+
    }
 
   getData = async () => {
@@ -52,11 +67,22 @@ class Edit_profile extends React.Component {
           );
 
           const result = await response.json();
-          console.log(result)
           this.setState(
               prevState => (
                   {
-                      user: result
+                      Username: result["Username"],
+                      email:result["email"],
+                      about:result["about"],
+                      address:result["address"],
+                      birth_date:result["birth_date"],
+                      country:result["country"],
+                      city:result["city"],
+                      first_name:result["first_name"],
+                      last_name:result["last_name"],
+                      postal_code:result["postal_code"],
+                      profession:result["profession"],
+                      telephone:result["telephone"],
+                      work_institution:result["work_institution"],
                   }
               )
           );
@@ -75,8 +101,51 @@ class Edit_profile extends React.Component {
     this.getData();
   }
 
+  handleChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+     this.setState({
+          [name]: value
+    });
+    }
+
    onSaveChanges = () => {
-      return <Redirect to="/admin/user-profile"/>
+      fetch('/update_user', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+
+          Username: this.state.Username,
+          email:this.state.email,
+          about:this.state.about,
+          address:this.state.address,
+          birth_date:this.state.birth_date,
+          country:this.state.country,
+          first_name:this.state.first_name,
+          last_name:this.state.last_name,
+          postal_code:this.state.postal_code,
+          profession:this.state.profession,
+          telephone:this.state.telephone,
+          work_institution:this.state.work_institution,
+    }),
+    }).then(res => res.json())
+      .then(
+        (result) => {
+          if(result['response']=="Done")
+            this.props.history.push("/admin");
+          else{
+            this.setState({ error: result['error'] });
+
+          }
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error: "error"
+          });
+        }
+      )
   }
   render() {
     return (
@@ -122,8 +191,11 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-username"
-                              placeholder={this.state.user["Username"]}
+                              placeholder={this.state.Username}
                               type="text"
+                              name="Username"
+                              value={this.state.Username}
+                              onChange={this.handleChange}
                             />
                           </FormGroup>
                         </Col>
@@ -138,8 +210,10 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-email"
-                              placeholder={this.state.user["email"]}
+                              name = "email"
+                              placeholder={this.state.email}
                               type="email"
+                              disabled
                             />
                           </FormGroup>
                         </Col>
@@ -156,8 +230,11 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-first-name"
-                              placeholder={this.state.user["first_name"]}
+                              placeholder={this.state.first_name}
                               type="text"
+                              name={"first_name"}
+                              value={this.state.first_name}
+                              onChange={this.handleChange}
                             />
                           </FormGroup>
                         </Col>
@@ -172,8 +249,11 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-last-name"
-                              placeholder={this.state.user["last_name"]}
+                              placeholder={this.state.last_name}
                               type="text"
+                              name="last_name"
+                              value={this.state.last_name}
+                              onChange={this.handleChange}
                             />
                           </FormGroup>
                         </Col>
@@ -189,7 +269,9 @@ class Edit_profile extends React.Component {
                               className="form-control-alternative"
                               id="dateofbirth"
                               type="date"
-                              value={this.state.user["birth_date"]}
+                              name="birth_date"
+                              value={this.state.birth_date}
+                              onChange={this.handleChange}
                             />
                           </FormGroup>
                         </Col>
@@ -213,8 +295,11 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-address"
-                              placeholder={this.state.user["address"]}
+                              placeholder={this.state.address}
                               type="text"
+                              name="address"
+                              value={this.state.address}
+                              onChange={this.handleChange}
                             />
                           </FormGroup>
                         </Col>
@@ -231,8 +316,10 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-city"
-                              placeholder={this.state.user["city"]}
+                              name="city"
+                              placeholder={this.state.city}
                               type="text"
+                              disabled
                             />
                           </FormGroup>
                         </Col>
@@ -248,8 +335,11 @@ class Edit_profile extends React.Component {
                               className="form-control-alternative"
                               defaultValue="Portugal"
                               id="input-country"
-                              placeholder={this.state.user["country"]}
+                              placeholder={this.state.country}
                               type="text"
+                              name="country"
+                              value={this.state.country}
+                              onChange={this.handleChange}
                             />
                           </FormGroup>
                         </Col>
@@ -265,7 +355,10 @@ class Edit_profile extends React.Component {
                               className="form-control-alternative"
                               id="input-postal-code"
                               placeholder="Postal code"
-                              type={this.state.user["postal_code"]}
+                              type={this.state.postal_code}
+                              value={this.state.postal_code}
+                              name="postal_code"
+                              onChange={this.handleChange}
                             />
                           </FormGroup>
                         </Col>
@@ -282,7 +375,10 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-postal-code"
-                              placeholder={this.state.user["telephone"]}
+                              placeholder={this.state.telephone}
+                              value={this.state.telephone}
+                              onChange={this.handleChange}
+                              name="telephone"
                               type="number"
                             />
                           </FormGroup>
@@ -307,7 +403,10 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-username"
-                              placeholder={this.state.user["work_institution"]}
+                              placeholder={this.state.work_institution}
+                              value={this.state.work_institution}
+                              onChange={this.handleChange}
+                              name="work_institution"
                               type="text"
                             />
                           </FormGroup>
@@ -323,8 +422,11 @@ class Edit_profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-email"
-                              placeholder={this.state.user["profession"]}
+                              placeholder={this.state.profession}
+                              value={this.state.profession}
+                              onChange={this.handleChange}
                               type="email"
+                              name="profession"
                             />
                           </FormGroup>
                         </Col>
@@ -340,8 +442,11 @@ class Edit_profile extends React.Component {
                           className="form-control-alternative"
                           placeholder="A few words about you ..."
                           rows="4"
-                          defaultValue={this.state.user["about"]}
+                          defaultValue={this.state.about}
+                          value={this.state.about}
+                          onChange={this.handleChange}
                           type="textarea"
+                          name="about"
                         />
                       </FormGroup>
                     </div>

@@ -262,7 +262,6 @@ class Accidents extends React.Component {
   }
 
   handleClick = (e,id) => {
-    console.log(id)
     e.preventDefault();
     this.state.curent_page=id
     this.getData(id);
@@ -284,14 +283,12 @@ class Accidents extends React.Component {
   changeValueDrop1(e,id) {
 
       const a = ["","between","cars","people","injured","severity","status"]
-      console.log(a[id])
       this.state.dropDown1Value= e.currentTarget.textContent
       this.state.dropdownIndex= `${a[id]}`
       this.getData(this.state.curent_page)
   }
 
   changeValueDrop2(e,id) {
-      console.log(id)
       this.state.dropDown2Value= e.currentTarget.textContent
       this.state.dropdownIndex2= `${id}`
       this.getData(this.state.curent_page)
@@ -299,7 +296,6 @@ class Accidents extends React.Component {
   }
 
   changeValueDrop3(e,id) {
-      console.log(id)
       this.state.dropDown3Value= e.currentTarget.textContent
       this.state.dropdownIndex3= `${id}`
       this.getData(this.state.curent_page)

@@ -37,6 +37,53 @@ def add_accident_to_database(accident,car):
     db.session.add(car)
     db.session.commit()
 
+def register_user_to_database(username,email,password):
+    user = User.query.filter_by(email=email).first()
+    user.Username = username
+    user.password = password
+    db.session.commit()
+    return user_schema.jsonify(user)
+
+def get_user_by(**options):
+    if options.get("email"):
+        return User.query.filter_by(email=options.get("email")).first()
+    if options.get("username"):
+        return User.query.filter_by(email=options.get("username")).first()
+    if options.get("password"):
+        return User.query.filter_by(email=options.get("password")).first()
+    if options.get("first_name"):
+        return User.query.filter_by(email=options.get("first_name")).first()
+    if options.get("last_name"):
+        return User.query.filter_by(email=options.get("last_name")).first()
+    if options.get("birth_date"):
+        return User.query.filter_by(email=options.get("birth_date")).first()
+    if options.get("address"):
+        return User.query.filter_by(email=options.get("address")).first()
+    if options.get("city"):
+        return User.query.filter_by(email=options.get("city")).first()
+    if options.get("country"):
+        return User.query.filter_by(email=options.get("country")).first()
+    if options.get("postal_code"):
+        return User.query.filter_by(email=options.get("postal_code")).first()
+    if options.get("telephone"):
+        return User.query.filter_by(email=options.get("telephone")).first()
+    if options.get("work_institution"):
+        return User.query.filter_by(email=options.get("work_institution")).first()
+    if options.get("profession"):
+        return User.query.filter_by(email=options.get("profession")).first()
+    if options.get("about"):
+        return User.query.filter_by(email=options.get("about")).first()
+
+    #db.session.commit()
+    #return user_schema.jsonify(user)
+
+
+def add_user_to_database(user):
+
+    db.session.add(user)
+    db.session.commit()
+    return user_schema.jsonify(user)
+
 def can_login(email,password):
     return User.query.filter_by(email=email, password=password).first()
 

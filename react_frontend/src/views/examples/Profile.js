@@ -56,7 +56,7 @@ class Profile extends React.Component {
           );
 
           const result = await response.json();
-          console.log(result)
+
           this.setState(
               prevState => (
                   {
@@ -95,7 +95,7 @@ class Profile extends React.Component {
                         <img
                           alt="..."
                           className="rounded-circle"
-                          src={require("../../assets/img/theme/administrative.png")}
+                          src={require("../../assets/img/theme/administrative1.png")}
                         />
                       </a>
                     </div>

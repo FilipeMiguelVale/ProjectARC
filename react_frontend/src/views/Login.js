@@ -68,8 +68,7 @@ class Login extends React.Component {
     }),
     }).then(res => res.json())
       .then(
-        (result) => {console.log("teste")
-          console.log(result)
+        (result) => {
           if(result['response']=="Done")
             this.props.history.push("/admin");
           else{
@@ -78,7 +77,6 @@ class Login extends React.Component {
           }
         },
         (error) => {
-          console.log("error")
           this.setState({
             isLoaded: true,
             error: "error"

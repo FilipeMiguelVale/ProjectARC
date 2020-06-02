@@ -50,8 +50,8 @@ class Car(db.Model):
 
 class User(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    Username = db.Column(db.String(30), unique=True)
-    email = db.Column(db.String, nullable=False)
+    Username = db.Column(db.String(30))
+    email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
     first_name = db.Column(db.String)
     last_name = db.Column(db.String)
@@ -67,9 +67,7 @@ class User(UserMixin,db.Model):
     role = db.Column(db.Integer, nullable=False)
     role_type = db.Column(db.String, nullable=False)
 
-    def __init__(self, Username,email,password,role,role_type):
-        self.Username = Username
+    def __init__(self,email,role,role_type):
         self.email = email
-        self.password = password
         self.role = role
         self.role_type = role_type

@@ -37,7 +37,6 @@ class UserHeader extends React.Component {
           );
 
           const result = await response.json();
-          console.log(result)
           this.setState(
               prevState => (
                   {
