@@ -21,6 +21,44 @@ import React from "react";
 import { Button, Container, Row, Col } from "reactstrap";
 
 class UserHeader extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      user:[]
+
+    }
+   }
+
+  getData = async () => {
+      try {
+           const response = await fetch(
+              `/home`
+          );
+
+          const result = await response.json();
+          console.log(result)
+          this.setState(
+              prevState => (
+                  {
+                      user: result
+                  }
+              )
+          );
+      }
+    catch(e){
+         this.setState(
+             prevState => (
+                 {
+                     error: "No accidents do Show"
+                 }
+             )
+         );
+     }
+  }
+  componentDidMount() {
+    this.getData();
+  }
   render() {
     return (
       <>
@@ -40,7 +78,7 @@ class UserHeader extends React.Component {
           <Container className="d-flex align-items-center" fluid>
             <Row>
               <Col lg="7" md="10">
-                <h1 className="display-2 text-white">Hello Jessica</h1>
+                <h1 className="display-2 text-white">Hello {this.state.user["first_name"]}</h1>
               </Col>
             </Row>
           </Container>

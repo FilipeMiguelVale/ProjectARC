@@ -11,6 +11,7 @@ from flask_backend.erros import *
 
 # data processing
 from flask_backend.data_processing import get_location_address, severity_calc
+import random
 
 #media
 from flask_backend.media_processing import init_media,convert_avi_to_mp4
@@ -27,7 +28,6 @@ def login():
     print(email)
     print(password)
     if can_login(email,password):
-        print(user_schema.dump(User.query.filter_by(email=email,password=password).first()))
         login_user(can_login(email,password))
         return jsonify({"response":"Done"})
     else:
@@ -108,7 +108,7 @@ def add_accident():
     velocity = request.json["velocity"]
     ABS = request.json["ABS"]
     temperature = request.json["temperature"]
-    airbag = request.json["airbag"]
+    airbag = True #request.json["airbag"]
     overturned = request.json["overturned"]
     hazard_ligths = request.json["hazard_ligths"]
     num_seatbelts = request.json["all_seatbelts"]

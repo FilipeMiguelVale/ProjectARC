@@ -189,6 +189,7 @@ class Edit_profile extends React.Component {
                               className="form-control-alternative"
                               id="dateofbirth"
                               type="date"
+                              value={this.state.user["birth_date"]}
                             />
                           </FormGroup>
                         </Col>
