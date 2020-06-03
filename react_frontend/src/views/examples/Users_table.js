@@ -35,13 +35,6 @@ import Header from "../../components/Headers/Header.js";
 import Maps from "./Maps_Component.js"
 
 
-function fix_date(st) {
-  let date = st.split('T');
-  let year = date[0];
-  let time  = date[1].split('.')[0];
-  return [year,time];
-}
-
 class Users_table extends React.Component {
 
   constructor(props) {
@@ -69,7 +62,8 @@ class Users_table extends React.Component {
       addUser:false,
       new_email:"",
       new_role:"",
-      new_roleType:""
+      new_roleType:"",
+      new_city:""
     }
   }
 
@@ -81,22 +75,34 @@ class Users_table extends React.Component {
       [name]: value
     });
 
-    }
-    handleSubmit(event) {
-     event.preventDefault();
+  }
+   
+  handleSubmit(event) {
+    event.preventDefault();
     fetch('/add_user', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       email: this.state.new_email,
       role: this.state.new_role,
-      role_type: this.state.new_roleType
+      role_type: this.state.new_roleType,
+      city: this.state.new_city
     }),
     }).then(res => res.json())
       .then(
         (result) => {
-          if(result['response']=="Done")
-            this.props.history.push("/admin");
+          if(result['response']=="Done"){
+            this.setState({
+                addUser: false,
+                new_email:"",
+                new_role:"",
+                new_roleType:"",
+                new_city:""
+              }
+            )
+            this.getData()
+          }
+            
           else{
             this.setState({ error: result['error'] });
 
@@ -109,43 +115,37 @@ class Users_table extends React.Component {
           });
         }
       )
-
   }
 
-  redirect_to_details = (index) => {
-    return <Redirect to={`/admin/accident_details/${index}`}/>
+  handleDelete(mail){
+    fetch('/delete_user/' + mail,{method: 'POST'}).then(
+      response => response.json()
+    ).then(
+     result =>{
+      console.log(result) 
+      this.getData()
+     } 
+    )
+
   }
 
   getData = async () => {
       console.log(this.state)
       try {
-           /*const response = await fetch(
-              `/num_accidents?quantity=${this.state.dropdownIndex2}`
-          );
+        const response1 = await fetch(
+          `/all_users`
+        );
 
-          const result = await response.json();
-          this.setState(
-              prevState => (
-                  {
-                      num_accidents: result
-                  }
-              )
-          );*/
-          const response1 = await fetch(
-              `/all_users`
-          );
-
-          const result1 = await response1.json();
-         if(result1.length===0){
-
-              this.setState(
+        const result1 = await response1.json();
+        if(result1.length===0){
+            this.setState(
              prevState => (
                  {
                      error: "No users to Show"
                  }
              )
          );}
-          else
+        else
               if (this.state.edit_mode.length==0){
                  for (let i = 0; i < result1.length; i++) {
                       this.state.edit_mode.push(false)
@@ -171,8 +171,6 @@ class Users_table extends React.Component {
      }
   }
 
-
-
   renderArray = (value,index) => {
     return(
       <tr key={index} >
@@ -189,6 +187,11 @@ class Users_table extends React.Component {
         <th scope = "row" style={{textAlign:"center"}}>
           <span className="mb-0 text-sm">
             {value["email"]}
+          </span>
+        </th>
+        <th scope = "row" style={{textAlign:"center"}}>
+          <span className="mb-0 text-sm">
+            {value["city"]}
           </span>
         </th>
         <th scope = "row" style={{textAlign:"center"}}>
@@ -216,15 +219,18 @@ class Users_table extends React.Component {
                <i className="fas fa-check"></i>
            </Button>
             ) }
-           <Button
+           <Button 
                 className="icon icon-shape bg-yellow text-white rounded-circle"
                 type="button"
                 onClick={(e)=>this.setEditMode(index,true)}
             >
                <i className="fas fa-pencil-alt"></i>
            </Button>
+           {/* delete button */}
            <Button
                 className="icon icon-shape bg-danger text-white rounded-circle"
+                type="button"
+                onClick={(e) => this.handleDelete(value["email"])}
             >
              <i className="fas fa-trash"/>
            </Button>
@@ -276,7 +282,6 @@ class Users_table extends React.Component {
   }
 
   componentDidMount() {
-    //this.getData(this.state.curent_page);
     this.getData();
     this.timer = setInterval(() => this.getData(), 10000)
   }
@@ -396,6 +401,7 @@ submitNewUser(){
                       <th scope="col " style={{textAlign:"center"}}>ID</th>
                       <th scope="col"  style={{textAlign:"center"}}>Username</th>
                       <th scope="col" style={{textAlign:"center"}}>Email</th>
+                      <th scope="col" style={{textAlign:"center"}}>City</th>
                       <th scope="col" style={{textAlign:"center"}}>Role</th>
                       <th scope="col" style={{textAlign:"center"}}>Role ID</th>
                       <th scope="col" style={{textAlign:"center"}}>Last Login</th>
@@ -413,6 +419,9 @@ submitNewUser(){
                             </th>
                             <th scope = "row" style={{textAlign:"center"}}>
                                 <Input placeholder="email" type="email" name = "new_email" value = {this.state.new_email}  onChange={this.handleChange} autoComplete="new-password"/>
+                            </th>
+                            <th scope = "row" style={{textAlign:"center"}}>
+                               <Input placeholder="City" type="email" name = "new_city" value = {this.state.new_city}  onChange={this.handleChange} autoComplete="new-password"/>
                             </th>
                             <th scope = "row" style={{textAlign:"center"}}>
                                <Input placeholder="Role" type="email" name = "new_role" value = {this.state.new_role}  onChange={this.handleChange} autoComplete="new-password"/>

@@ -136,10 +136,22 @@ def add_user():
     email = request.json['email']
     role = int(request.json['role'])
     role_type = request.json['role_type']
-    city=request.json_module['city']
+    city= request.json['city']
     user = User(email,role,role_type,city)
-    add_user_to_database(user)
-    return user_schema.jsonify(user)
+    if add_user_to_database(user):
+        return jsonify({"response":"Done"})
+    
+
+@app.route('/delete_user/<mail>', methods=['POST'])
+def delete_user(mail):
+    delete_user_from_database(mail)
+    if not get_user_by(email=mail):
+        return jsonify(
+            {"succes": True }
+        )
+    return jsonify(
+            {"succes": False }
+    )
 
 @app.route('/register_user', methods=['POST'])
 def register_user():

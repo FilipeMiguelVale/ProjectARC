@@ -84,6 +84,12 @@ def get_user_by(**options):
     #return user_schema.jsonify(user)
 
 
+def delete_user_from_database(mail):
+
+    user = get_user_by(email=mail)
+    db.session.delete(user)
+    db.session.commit()
+
 def add_user_to_database(user):
 
     db.session.add(user)
