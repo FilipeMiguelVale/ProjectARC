@@ -80,7 +80,7 @@ class Register extends React.Component {
         (error) => {
           this.setState({
             isLoaded: true,
-            error: "error"
+            error: "Invalid user or email. Please contact the Administrator"
           });
         }
       )
@@ -126,7 +126,7 @@ class Register extends React.Component {
                     <Input placeholder="Password" type="password" name = "passwd" value = {this.state.passwd}  onChange={this.handleChange} autoComplete="new-password"/>
                   </InputGroup>
                 </FormGroup>
-                {this.state.error && <p style={{ color: 'red' }}> Login Failed. {this.state.error} </p>}
+                {this.state.error && <p style={{ color: 'red' }}> Register Failed. {this.state.error} </p>}
                 <Row className="my-4">
                   <Col xs="12">
                     <div className="custom-control custom-control-alternative custom-checkbox">
