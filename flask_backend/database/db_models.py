@@ -68,7 +68,8 @@ class User(UserMixin,db.Model):
     role_type = db.Column(db.String, nullable=False)
     last_login = db.Column(db.String)
 
-    def __init__(self,email,role,role_type):
+    def __init__(self,email,role,role_type,city):
         self.email = email
         self.role = role
         self.role_type = role_type
+        self.city=city

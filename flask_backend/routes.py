@@ -136,7 +136,8 @@ def add_user():
     email = request.json['email']
     role = int(request.json['role'])
     role_type = request.json['role_type']
-    user = User(email,role,role_type)
+    city=request.json_module['city']
+    user = User(email,role,role_type,city)
     add_user_to_database(user)
     return user_schema.jsonify(user)
 
