@@ -146,8 +146,16 @@ def register_user():
     username = request.json['username']
     email = request.json['email']
     password = request.json['password']
+    if register_user_to_database(username,email,password):
+        login_user(can_login(email, password))
+        user = get_user_by(email=email)
+        user.last_login = f"{datetime.now():%Y-%m-%d %H:%M}"
+        print(user_schema.dump(user))
+        add_user_to_database(user)
+        return jsonify({"response": "Done"})
+    else:
+        return jsonify({"error": "Invalid user or email. Please contact the Administrator"})
 
-    return register_user_to_database(username,email,password)
 
 @app.route('/all_users', methods=['GET'])
 def get_users():
