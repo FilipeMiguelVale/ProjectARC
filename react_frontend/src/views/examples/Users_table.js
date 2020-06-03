@@ -28,7 +28,7 @@ import {
     Table,
     Container,
     Row,
-    Button, Col, Progress, DropdownToggle, DropdownMenu, DropdownItem, ButtonDropdown,
+    Button, Col, Progress, DropdownToggle, DropdownMenu, DropdownItem, ButtonDropdown, Input,
 } from "reactstrap";
 // core components
 import Header from "../../components/Headers/Header.js";
@@ -51,8 +51,10 @@ class Users_table extends React.Component {
 
     this.toggleDrop1 = this.toggleDrop1.bind(this);
     this.changeValueDrop1 = this.changeValueDrop1.bind(this);
-
-
+    this.setEditMode=this.setEditMode.bind(this)
+    this.NewUser = this.NewUser.bind(this)
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this)
     this.state = {
       table_data : [],
       table_buttons:[],
@@ -62,8 +64,52 @@ class Users_table extends React.Component {
       dropDown1Value: "Date/Hour",
       dropdownIndex:"between",
       dropDown1Open: false,
-      error:false
+      error:false,
+      edit_mode:[],
+      addUser:false,
+      new_email:"",
+      new_role:"",
+      new_roleType:""
     }
+  }
+
+  handleChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+     this.setState({
+      [name]: value
+    });
+
+    }
+    handleSubmit(event) {
+     event.preventDefault();
+    fetch('/add_user', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email: this.state.new_email,
+      role: this.state.new_role,
+      role_type: this.state.new_roleType
+    }),
+    }).then(res => res.json())
+      .then(
+        (result) => {
+          if(result['response']=="Done")
+            this.props.history.push("/admin");
+          else{
+            this.setState({ error: result['error'] });
+
+          }
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error: "error"
+          });
+        }
+      )
+
   }
 
   redirect_to_details = (index) => {
@@ -90,15 +136,21 @@ class Users_table extends React.Component {
           );
 
           const result1 = await response1.json();
-         if(result1.length===0)
+         if(result1.length===0){
+
               this.setState(
              prevState => (
                  {
                      error: "No users to Show"
                  }
              )
-         );
+         );}
           else
+              if (this.state.edit_mode.length==0){
+                 for (let i = 0; i < result1.length; i++) {
+                      this.state.edit_mode.push(false)
+                    }
+             }
               this.setState(
                   prevState => (
                       {
@@ -119,39 +171,63 @@ class Users_table extends React.Component {
      }
   }
 
+
+
   renderArray = (value,index) => {
-      console.log(this.state["table_data"])
     return(
       <tr key={index} >
-        <th>
+        <th scope = "row" style={{textAlign:"center"}}>
           <span className="mb-0 text-sm">
             {value["id"]}
           </span>
         </th>
-        <th>
+        <th scope = "row" style={{textAlign:"center"}}>
           <span className="mb-0 text-sm">
             {value["Username"]}
           </span>
         </th>
-        <th>
+        <th scope = "row" style={{textAlign:"center"}}>
           <span className="mb-0 text-sm">
             {value["email"]}
           </span>
         </th>
-        <th>
+        <th scope = "row" style={{textAlign:"center"}}>
           <span className="mb-0 text-sm">
             {value["role"]}
           </span>
         </th>
-        <th>
+        <th scope = "row" style={{textAlign:"center"}}>
           <span className="mb-0 text-sm">
             {value["role_type"]}
           </span>
         </th>
-        <th>
-           <div className="icon icon-shape bg-transparent rounded-circle">
+        <th scope = "row" style={{textAlign:"center"}}>
+          <span className="mb-0 text-sm">
+            {value["last_login"]}
+          </span>
+        </th>
+        <th scope = "row" style={{textAlign:"center"}}>
+            {this.state.edit_mode[index] && (
+                <Button
+                className="icon icon-shape bg-success text-white rounded-circle"
+                type="button"
+                onClick={(e)=>this.setEditMode(index,false)}
+            >
+               <i className="fas fa-check"></i>
+           </Button>
+            ) }
+           <Button
+                className="icon icon-shape bg-yellow text-white rounded-circle"
+                type="button"
+                onClick={(e)=>this.setEditMode(index,true)}
+            >
+               <i className="fas fa-pencil-alt"></i>
+           </Button>
+           <Button
+                className="icon icon-shape bg-danger text-white rounded-circle"
+            >
              <i className="fas fa-trash"/>
-           </div>
+           </Button>
         </th>
       </tr>
     )
@@ -228,7 +304,30 @@ class Users_table extends React.Component {
       this.state.dropdownIndex= `${a[id]}`
       this.getData(id)
   }
+  setEditMode(index,value){
+      this.state.edit_mode[parseInt(index)]=value
+      this.setState(
+                  prevState => (
+                      {
 
+                      }
+                  )
+              );
+  }
+  NewUser(){
+      console.log(this.state)
+      this.setState(
+                  prevState => (
+                      {
+                        addUser:!this.state.addUser
+                      }
+                  )
+              );
+  }
+submitNewUser(){
+      console.log("sucesso")
+    this.handleSubmit()
+}
 
   /**************************/
 
@@ -273,7 +372,14 @@ class Users_table extends React.Component {
                   <Row >
                     <Col>
                       <div className="row ml">
-                        <h1 className="mb-0" style={{ paddingLeft: 20}} >Users</h1>
+                        <h1 className="mb-0" style={{ paddingLeft: 20, paddingRight: 20}} >Users</h1>
+                        <Button
+                            className="icon icon-shape bg-green text-white rounded-circle"
+                            type="button"
+                            onClick={(e)=>this.NewUser()}
+                        >
+                         <i className="fas fa-plus"/>
+                       </Button>
                       </div>
                     </Col>
                     <Col >
@@ -292,10 +398,42 @@ class Users_table extends React.Component {
                       <th scope="col" style={{textAlign:"center"}}>Email</th>
                       <th scope="col" style={{textAlign:"center"}}>Role</th>
                       <th scope="col" style={{textAlign:"center"}}>Role ID</th>
+                      <th scope="col" style={{textAlign:"center"}}>Last Login</th>
                       <th scope="col" style={{textAlign:"center"}}   />
                     </tr>
                   </thead>
                   <tbody>
+                    {this.state.addUser && (
+                        <tr  >
+                            <th scope = "row" style={{textAlign:"center"}}>
+                                {/*id*/}
+                            </th>
+                            <th scope = "row" style={{textAlign:"center"}}>
+                            {/*Username*/}
+                            </th>
+                            <th scope = "row" style={{textAlign:"center"}}>
+                                <Input placeholder="email" type="email" name = "new_email" value = {this.state.new_email}  onChange={this.handleChange} autoComplete="new-password"/>
+                            </th>
+                            <th scope = "row" style={{textAlign:"center"}}>
+                               <Input placeholder="Role" type="email" name = "new_role" value = {this.state.new_role}  onChange={this.handleChange} autoComplete="new-password"/>
+                            </th>
+                            <th scope = "row" style={{textAlign:"center"}}>
+                                <Input placeholder="Role ID" type="email" name = "new_roleType" value = {this.state.new_roleType}  onChange={this.handleChange} autoComplete="new-password"/>
+                            </th>
+                            <th scope = "row" style={{textAlign:"center"}}>
+
+                            </th>
+                            <th scope = "row" style={{textAlign:"center"}}>
+                                <Button
+                                    className="icon icon-shape bg-green text-white rounded-circle"
+                                    type="button"
+                                    onClick={this.handleSubmit}
+                                >
+                                    <i className="fas fa-arrow-right"></i>
+                               </Button>
+                            </th>
+                          </tr>
+                    )}
                     {this.state["table_data"].map(this.renderArray)}
                   </tbody>
                 </Table>

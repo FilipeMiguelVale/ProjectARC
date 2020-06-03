@@ -52,6 +52,7 @@ class UserSchema(ma.SQLAlchemySchema):
     about = ma.auto_field()
     role = ma.auto_field()
     role_type = ma.auto_field()
+    last_login = ma.auto_field()
 
 # init schema
 accident_schema = AccidentSchema()

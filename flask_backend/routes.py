@@ -7,7 +7,7 @@ from flask_backend.database.db_schemas import accident_schema, accidents_schema
 from flask_backend.database.db_models import Accident, Car
 from flask_backend.database.queries import *
 from flask_backend.erros import *
-
+from datetime import datetime
 
 # data processing
 from flask_backend.data_processing import get_location_address, severity_calc
@@ -29,6 +29,10 @@ def login():
     print(password)
     if can_login(email,password):
         login_user(can_login(email,password))
+        user = get_user_by(email=email)
+        user.last_login=f"{datetime.now():%Y-%m-%d %H:%M}"
+        print(user_schema.dump(user))
+        add_user_to_database(user)
         return jsonify({"response":"Done"})
     else:
         return jsonify({"error":"Invalid username or password"})

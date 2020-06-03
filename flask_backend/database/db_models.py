@@ -66,6 +66,7 @@ class User(UserMixin,db.Model):
     about = db.Column(db.String)
     role = db.Column(db.Integer, nullable=False)
     role_type = db.Column(db.String, nullable=False)
+    last_login = db.Column(db.String)
 
     def __init__(self,email,role,role_type):
         self.email = email
