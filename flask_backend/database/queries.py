@@ -46,7 +46,7 @@ def register_user_to_database(username,email,password):
 
 def get_all_users():
     users = User.query.all()
-    result = accidents_schema.dump(users)
+    result = users_schema.dump(users)
     return jsonify(result)
 
 

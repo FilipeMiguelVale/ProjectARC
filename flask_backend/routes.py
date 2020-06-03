@@ -145,7 +145,7 @@ def register_user():
 
     return register_user_to_database(username,email,password)
 
-@app.route('/all_users', methods=['POST'])
+@app.route('/all_users', methods=['GET'])
 def get_users():
     return get_all_users()
 
