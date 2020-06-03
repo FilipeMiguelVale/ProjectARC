@@ -44,6 +44,12 @@ def register_user_to_database(username,email,password):
     db.session.commit()
     return user_schema.jsonify(user)
 
+def get_all_users():
+    users = User.query.all()
+    result = accidents_schema.dump(users)
+    return jsonify(result)
+
+
 def get_user_by(**options):
     if options.get("email"):
         return User.query.filter_by(email=options.get("email")).first()
@@ -159,7 +165,7 @@ def get_accident_by(value, filter="all",quantity="All",order="Ascending"):
                       datetime.datetime.strptime(accident['date'].replace('T', " "), '%Y-%m-%d %H:%M:%S.%f')
                           .date() >= (current_time - datetime.timedelta(30)).date()]
         v = result[-value[1]:len(result)-value[0]]
-        if order == "Ascending":
+        if order != "Ascending":
             return jsonify(v[::-1])
         else:
             return jsonify(v)

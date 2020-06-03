@@ -145,6 +145,11 @@ def register_user():
 
     return register_user_to_database(username,email,password)
 
+@app.route('/all_users', methods=['POST'])
+def get_users():
+    return get_all_users()
+
+
 @app.route('/update_user', methods=['POST'])
 def update_user():
     user = get_user_by(email=request.json["email"])
