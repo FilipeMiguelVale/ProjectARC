@@ -61,6 +61,23 @@ class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.activeRoute.bind(this);
+    this.state = {
+      user: [],
+      Username: "",
+      about: "",
+      address: "",
+      birth_date: "",
+      city: "",
+      country: "",
+      email: "",
+      first_name: "",
+      last_name: "",
+      postal_code: "",
+      profession: "",
+      telephone: "",
+      work_institution: "",
+      role: ""
+    }
   }
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
@@ -83,6 +100,8 @@ class Sidebar extends React.Component {
     return routes.map((prop, key) => {
       if (prop['path'] == "/edit_profile" ||prop['path'] == "/register" ||prop['path'] == "/user-profile" || prop['path'] == "/accident_details/:id" || prop['path'] == "/login")
         return
+      if (this.state.role != 0 && prop['path'] === '/users_table')
+        return
       return (
         <NavItem key={key}>
           <NavLink
@@ -98,6 +117,50 @@ class Sidebar extends React.Component {
       );
     });
   };
+
+  getData = async () => {
+      try {
+           const response = await fetch(
+              '/home'
+          );
+
+          const result = await response.json();
+          this.setState(
+              prevState => (
+                  {
+                      Username: result["Username"],
+                      email:result["email"],
+                      about:result["about"],
+                      address:result["address"],
+                      birth_date:result["birth_date"],
+                      country:result["country"],
+                      city:result["city"],
+                      first_name:result["first_name"],
+                      last_name:result["last_name"],
+                      postal_code:result["postal_code"],
+                      profession:result["profession"],
+                      telephone:result["telephone"],
+                      work_institution:result["work_institution"],
+                      role:result["role"]
+                  }
+              )
+          );
+      }
+    catch(e){
+         this.setState(
+             prevState => (
+                 {
+                     error: "No accidents do Show"
+                 }
+             )
+         );
+     }
+  }
+
+  componentDidMount() {
+    this.getData();
+  }
+
   render() {
     const { bgColor, routes, logo } = this.props;
     let navbarBrandProps;

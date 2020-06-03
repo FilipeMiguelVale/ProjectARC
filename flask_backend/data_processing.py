@@ -10,7 +10,7 @@ def severity_calc(n_people,velocity, ABS, airbag, overturned, all_seatbelts_on):
 
     severity = 0
 
-    severity += velocity * (0.2+(100/320)) + n_people * (0.20*(100/5))
+    severity += velocity * (0.2*(100/320)) + n_people * (0.20*(100/5))
 
     if not all_seatbelts_on:
         severity += 20 * (n_people/5)

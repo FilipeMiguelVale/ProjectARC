@@ -23,6 +23,7 @@ import Login from "views/Login.js";
 import Accidents from "views/examples/Accidents.js";
 import AccidentDetails from "views/examples/AccidentDetails";
 import Edit_profile from "views/examples/Edit_profile";
+import Users_table from "views/examples/Users_table";
 
 var routes = [
   {
@@ -79,6 +80,13 @@ var routes = [
     name: "Edit Profile",
     icon: "ni ni-single-02 text-yellow",
     component: Edit_profile,
+    layout: "/admin"
+  },
+  {
+    path: "/users_table",
+    name: "Users Table",
+    icon: "ni ni-single-02 text-yellow",
+    component: Users_table,
     layout: "/admin"
   },
 ];
