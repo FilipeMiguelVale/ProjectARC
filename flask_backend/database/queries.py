@@ -37,6 +37,17 @@ def add_accident_to_database(accident,car):
     db.session.add(car)
     db.session.commit()
 
+def delete_accident_from_database(id):
+
+    accident = Accident.query.get(id)
+    print(accident_schema.dump(accident))
+    for car in accident.cars:
+        db.session.delete(car)
+    db.session.delete(accident)
+    db.session.commit()
+
+
+
 def register_user_to_database(username,email,password):
     user = User.query.filter_by(email=email).first()
     user.Username = username

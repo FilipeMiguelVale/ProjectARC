@@ -14,7 +14,7 @@ from flask_backend.data_processing import get_location_address, severity_calc
 import random
 
 #media
-from flask_backend.media_processing import init_media,convert_avi_to_mp4
+from flask_backend.media_processing import init_media,convert_avi_to_mp4,rmMedia
 
 # video adding 
 import os,re
@@ -209,6 +209,14 @@ def update_user():
     print(user)
     return add_user_to_database(user)
 
+@app.route('/delete_accident/<id>', methods=['POST'])
+def delete_accident(id):
+    print("delete accident:"+id)
+    delete_accident_from_database(id)
+    rmMedia(id)
+    return jsonify(
+        {"succes": True }
+    )
 
 # See Accident
 @app.route('/accident/<id>', methods=['GET'])

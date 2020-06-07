@@ -73,7 +73,9 @@ class Accidents extends React.Component {
       dropDown2Open: false,
       dropDown3Value: "Order by",
       dropDown3Open: false,
-      error:false
+      error:false,
+      role:1
+
     }
   }
 
@@ -117,6 +119,18 @@ class Accidents extends React.Component {
                       }
                   )
               );
+          const req = await fetch(
+              '/home'
+          );
+
+          const rep = await req.json();
+          this.setState(
+              prevState => (
+                  {
+                      role:rep["role"]
+                  }
+              )
+          );
       }
     catch(e){
          this.setState(
@@ -162,6 +176,18 @@ class Accidents extends React.Component {
       }else if(damage < 45){return"bg-gradient-info"
       }else if(damage < 75){return"bg-gradient-warning"
       }else{return"bg-gradient-danger"}
+  }
+
+  handleDelete(id){
+    fetch('/delete_accident/' + id,{method: 'POST'}).then(
+      response => response.json()
+    ).then(
+     result =>{
+      console.log(result)
+      this.getData()
+     }
+    )
+
   }
 
   renderArray = (value,index) => {
@@ -213,6 +239,15 @@ class Accidents extends React.Component {
             >
               <i className="fas fa-ellipsis-h"/>
             </Button>
+            {/* delete button */}
+           {this.state.role==0 && (
+           <Button
+                className="icon icon-shape border-default bg-transparent text-danger "
+                type="button"
+                onClick={(e) => this.handleDelete(value['id'])}
+            >
+             <i className="fas fa-trash"/>
+           </Button>)}
         </th>
       </tr>
     )
