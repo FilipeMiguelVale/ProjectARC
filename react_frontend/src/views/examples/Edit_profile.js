@@ -117,7 +117,7 @@ class Edit_profile extends React.Component {
     body: JSON.stringify({
 
           Username: this.state.Username,
-          email:this.state.email,
+          last_email:this.state.email,
           about:this.state.about,
           address:this.state.address,
           birth_date:this.state.birth_date,
