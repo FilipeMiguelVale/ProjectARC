@@ -200,7 +200,12 @@ class Accidents extends React.Component {
         </th>
         <th scope="row" width="5%">
           <span className="mb-0 text-sm">
-            {value["location"]["address"]}
+            {value["location"]["address"].substring(0,45)}
+          </span>
+        </th>
+        <th scope="row" width="5%">
+          <span className="mb-0 text-sm">
+            {value["city"]}
           </span>
         </th>
         <th scope = "row" style={{textAlign:"center"}}>
@@ -487,6 +492,14 @@ class Accidents extends React.Component {
                        </div>
                        <div >
                          <span className="ml-1">Location</span>
+                       </div>
+                      </th>
+                      <th scope="col"  style={{textAlign:"center"}}>
+                       <div  className="icon icon-shape bg-transparent text-white rounded-circle" >
+                         <i  className="fas fa-building"/>
+                       </div>
+                       <div >
+                         <span className="ml-1">City</span>
                        </div>
                       </th>
                       <th scope="col" style={{textAlign:"center"}}>

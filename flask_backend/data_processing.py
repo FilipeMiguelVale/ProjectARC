@@ -62,18 +62,22 @@ def get_location_address(lat,lng):
         location_object = geolocator.reverse(
             (lat,lng), exactly_one=True, language="en-US", addressdetails=True, timeout=3)
     except KeyError == exc.GeocoderTimedOut:
-        return "ERRO DETECTING THE ADDRESS"
+        return "ERRO DETECTING THE ADDRESS",None
         
     if location_object is None or location_object.address is None: # retornar erro em caso de dados inexistentes
-        return "ADDRESS NOT FOUND"
+        return "ADDRESS NOT FOUND",None
     
     # retornar endereço
+    city=None
+    print(location_object.raw)
+    if "county"in list(location_object.raw["address"]):
+        city = location_object.raw["address"]["county"]
 
     if "address" in list(location_object.raw):
         if "city" in list(location_object.raw["address"]):
             if "road" in list(location_object.raw["address"]):
-                return location_object.raw["address"]["road"] + ", " + location_object.raw["address"]["city"]
+               return location_object.raw["address"]["road"] + ", " + location_object.raw["address"]["city"],city
             else:
-                return location_object.raw["address"]["city"]
+                return location_object.raw["address"]["city"],city
 
-    return location_object.address
+    return location_object.address,city

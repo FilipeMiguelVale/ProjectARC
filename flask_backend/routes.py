@@ -101,11 +101,10 @@ def add_accident():
     accident = get_accident_by(location, filter="belongs")
 
     if not accident:
-        location["address"] = get_location_address(location["lat"],location["lng"])
-        accident = Accident(location,video_id)
+        location["address"],city = get_location_address(location["lat"],location["lng"])
+        accident = Accident(location,city,video_id)
  
     accident.n_cars_involved += 1
-
     n_people = request.json["n_people"]
     accident.n_people += request.json["n_people"]
 
@@ -177,7 +176,7 @@ def get_users():
 
 @app.route('/update_user', methods=['POST'])
 def update_user():
-    user = get_user_by(email=request.json["email"])
+    user = get_user_by(email=request.json["last_email"])
     print(request.json)
     if "Username" in request.json:
         user.Username = request.json["Username"]
@@ -191,8 +190,8 @@ def update_user():
     #    user.birth_date = request.json["birth_date"]
     if "address" in request.json:
         user.address = request.json["address"]
-    # if "city" in request.json:
-    #     user.city = request.json["city"]
+    if "city" in request.json:
+         user.city = request.json["city"]
     if "country" in request.json:
         user.country = request.json["country"]
     if "postal_code" in request.json:
@@ -205,9 +204,18 @@ def update_user():
         user.profession = request.json["profession"]
     if "about" in request.json:
         user.about = request.json["about"]
+    if "role" in request.json:
+        user.role = request.json["role"]
+    if "role_type" in request.json:
+        user.role_type = request.json["role_type"]
+    if "email" in request.json:
+        user.email = request.json["email"]
 
-    print(user)
-    return add_user_to_database(user)
+    print(user_schema.dump(user))
+    add_user_to_database(user)
+    return jsonify(
+        {"succes": True }
+    )
 
 @app.route('/delete_accident/<id>', methods=['POST'])
 def delete_accident(id):
@@ -250,7 +258,10 @@ def get_accident_icon(status):
 # See All Accident
 @app.route('/list_accidents', methods=['GET'])
 def get_accidents():
-    return get_accident_by(None, filter="all")
+    if int(current_user.role) == 0:
+        return get_accident_by(None, filter="all")
+    else:
+        return get_accident_by(None, filter="all",city=current_user.city)
 
 #Available filters:
 # default = between -> show accidents by date
@@ -263,13 +274,20 @@ def get_range_accidents():
     filter = request.args.get('filter', "between", type=str)
     quantity=request.args.get('quantity',"All",type=str)
     order=request.args.get('order',"Ascending",type=str)
-    return get_accident_by(((id - 1) * 10, id * 10), filter=filter,quantity=quantity,order=order)
+    if int(current_user.role) == 0:
+        return get_accident_by(((id - 1) * 10, id * 10), filter=filter,quantity=quantity,order=order)
+    else:
+        return get_accident_by(((id - 1) * 10, id * 10), filter=filter,quantity=quantity,order=order,city=current_user.city)
+
 
 
 @app.route('/num_accidents', methods=['GET'])
 def get_number_accidents():
     quantity = request.args.get('quantity', "All", type=str)
-    return str(get_num_accidents(quantity))
+    if int(current_user.role) == 0:
+        return str(get_num_accidents(quantity))
+    else:
+        return str(get_num_accidents(quantity,city=current_user.city))
 
 #accident media
 @app.route('/media/<path:path_to_file>', methods=['GET'])

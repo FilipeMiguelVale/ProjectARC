@@ -110,11 +110,13 @@ def add_user_to_database(user):
 def can_login(email,password):
     return User.query.filter_by(email=email, password=password).first()
 
-def get_num_accidents(quantity):
+def get_num_accidents(quantity,city=None):
     current_time = datetime.datetime.now()
-    accident = Accident.query.all()
+    if city is None:
+        accident = Accident.query.all()
+    else:
+        accident = Accident.query.filter_by(city=city)
     result = accidents_schema.dump(accident)
-
     if quantity == "Today":
         result = [accident for accident in result if
                   datetime.datetime.strptime(accident['date'].replace('T', " "), '%Y-%m-%d %H:%M:%S.%f')
@@ -130,7 +132,7 @@ def get_num_accidents(quantity):
 
     return len(result)
 
-def get_accident_by(value, filter="all",quantity="All",order="Ascending"):
+def get_accident_by(value, filter="all",quantity="All",order="Ascending",city=None):
 
     if filter == "belongs":
         location = (float(value["lat"]),float(value["lng"]))
@@ -153,7 +155,10 @@ def get_accident_by(value, filter="all",quantity="All",order="Ascending"):
         return accident
 
     if filter == "all":
-        all_accidents = Accident.query.all()
+        if city==None:
+            all_accidents = Accident.query.all()
+        else:
+            all_accidents = Accident.query.filter_by(city=city)
         result = accidents_schema.dump(all_accidents)
         return jsonify(result)
         
@@ -167,7 +172,10 @@ def get_accident_by(value, filter="all",quantity="All",order="Ascending"):
 
     current_time = datetime.datetime.now()
     if filter == "between":
-        accident = Accident.query.all()
+        if city is None:
+            accident = Accident.query.all()
+        else:
+            accident = Accident.query.filter_by(city=city)
         result = accidents_schema.dump(accident)
 
         if quantity == "Today":
@@ -189,7 +197,10 @@ def get_accident_by(value, filter="all",quantity="All",order="Ascending"):
 
     if filter == "cars":
 
-        accident = Accident.query.all()
+        if city == None:
+            accident = Accident.query.all()
+        else:
+            accident = Accident.query.filter_by(city=city)
         result = accidents_schema.dump(accident)
         result.sort(key=lambda x: x.get('n_cars_involved'),reverse=(order!="Ascending"))
         if quantity == "Today":
@@ -208,7 +219,10 @@ def get_accident_by(value, filter="all",quantity="All",order="Ascending"):
 
 
     if filter == "people":
-        accident = Accident.query.all()
+        if city == None:
+            accident = Accident.query.all()
+        else:
+            accident = Accident.query.filter_by(city=city)
         result = accidents_schema.dump(accident)
         result.sort(key=lambda x: x.get('n_people'),reverse=(order=="Ascending"))
         if quantity == "Today":
@@ -227,7 +241,10 @@ def get_accident_by(value, filter="all",quantity="All",order="Ascending"):
         return jsonify(v[::-1])
 
     if filter == "injured":
-        accident = Accident.query.all()
+        if city == None:
+            accident = Accident.query.all()
+        else:
+            accident = Accident.query.filter_by(city=city)
         result = accidents_schema.dump(accident)
         result.sort(key=lambda x: x.get('n_people_injured'),reverse=(order=="Ascending"))
         if quantity == "Today":
@@ -246,7 +263,10 @@ def get_accident_by(value, filter="all",quantity="All",order="Ascending"):
         return jsonify(v[::-1])
 
     if filter == "severity":
-        accident = Accident.query.all()
+        if city == None:
+            accident = Accident.query.all()
+        else:
+            accident = Accident.query.filter_by(city=city)
         result = accidents_schema.dump(accident)
         result.sort(key=lambda x: x.get('damage'),reverse=(order=="Ascending"))
         if quantity == "Today":
@@ -265,7 +285,10 @@ def get_accident_by(value, filter="all",quantity="All",order="Ascending"):
         return jsonify(v[::-1])
 
     if filter == "status":
-        accident = Accident.query.all()
+        if city == None:
+            accident = Accident.query.all()
+        else:
+            accident = Accident.query.filter_by(city=city)
         result = accidents_schema.dump(accident)
         result.sort(key=lambda x: x.get('status'),reverse=(order=="Ascending"))
         if quantity == "Today":

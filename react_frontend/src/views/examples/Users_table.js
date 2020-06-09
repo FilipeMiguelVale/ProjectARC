@@ -47,9 +47,12 @@ class Users_table extends React.Component {
     this.setEditMode=this.setEditMode.bind(this)
     this.NewUser = this.NewUser.bind(this)
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange2 = this.handleChange2.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+
     this.state = {
       table_data : [],
+      table_data_original : [],
       table_buttons:[],
       curent_page:1,
       num_accidents:0,
@@ -75,6 +78,17 @@ class Users_table extends React.Component {
       [name]: value
     });
 
+  }
+
+  handleChange2(event,id) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.state.table_data[id][name]=value
+    this.setState({
+      //table_data[0]=value
+    });
   }
    
   handleSubmit(event) {
@@ -122,7 +136,6 @@ class Users_table extends React.Component {
       response => response.json()
     ).then(
      result =>{
-      console.log(result) 
       this.getData()
      } 
     )
@@ -130,7 +143,6 @@ class Users_table extends React.Component {
   }
 
   getData = async () => {
-      console.log(this.state)
       try {
         const response1 = await fetch(
           `/all_users`
@@ -155,6 +167,7 @@ class Users_table extends React.Component {
                   prevState => (
                       {
                           table_data: result1,
+                          table_data_original:JSON.parse(JSON.stringify(result1)),
                           error: false
                       }
                   )
@@ -172,71 +185,192 @@ class Users_table extends React.Component {
   }
 
   renderArray = (value,index) => {
-    return(
-      <tr key={index} >
-        <th scope = "row" style={{textAlign:"center"}}>
+    if (this.state.edit_mode[parseInt(index)]){
+        return (
+            <tr key={index}>
+                <th scope="row" style={{textAlign: "center"}}>
+                  <span className="mb-0 text-sm">
+                    {value["id"]}
+                  </span>
+                </th>
+                <th scope="row" style={{textAlign: "center"}}>
+                  <span className="mb-0 text-sm">
+                    <Input
+                      className="form-control-alternative"
+                      id="Username"
+                      placeholder={value["Username"]}
+                      type="text"
+                      name="Username"
+                      value={value["Username"]}
+                      onChange={(e) => this.handleChange2(e,index)}
+                    />
+                  </span>
+                </th>
+                <th scope="row" style={{textAlign: "center"}}>
           <span className="mb-0 text-sm">
-            {value["id"]}
+              <Input
+                      className="form-control-alternative"
+                      id="email"
+                      placeholder={value["email"]}
+                      type="text"
+                      name="email"
+                      value={value["email"]}
+                      onChange={(e) => this.handleChange2(e,index)}
+                    />
           </span>
-        </th>
-        <th scope = "row" style={{textAlign:"center"}}>
+                </th>
+                <th scope="row" style={{textAlign: "center"}}>
           <span className="mb-0 text-sm">
-            {value["Username"]}
+              <Input
+                      className="form-control-alternative"
+                      id="city"
+                      placeholder={value["city"]}
+                      type="text"
+                      name="city"
+                      value={value["city"]}
+                      onChange={(e) => this.handleChange2(e,index)}
+                    />
           </span>
-        </th>
-        <th scope = "row" style={{textAlign:"center"}}>
+                </th>
+                <th scope="row" style={{textAlign: "center"}}>
           <span className="mb-0 text-sm">
-            {value["email"]}
+              <Input
+                      className="form-control-alternative"
+                      id="role"
+                      placeholder={value["role"]}
+                      type="text"
+                      name="role"
+                      value={value["role"]}
+                      onChange={(e) => this.handleChange2(e,index)}
+                    />
           </span>
-        </th>
-        <th scope = "row" style={{textAlign:"center"}}>
+                </th>
+                <th scope="row" style={{textAlign: "center"}}>
           <span className="mb-0 text-sm">
-            {value["city"]}
+              <Input
+                      className="form-control-alternative"
+                      id="input-username"
+                      placeholder={value["role_type"]}
+                      type="text"
+                      name="role_type"
+                      value={value["role_type"]}
+                      onChange={(e) => this.handleChange2(e,index)}
+                    />
           </span>
-        </th>
-        <th scope = "row" style={{textAlign:"center"}}>
-          <span className="mb-0 text-sm">
-            {value["role"]}
-          </span>
-        </th>
-        <th scope = "row" style={{textAlign:"center"}}>
-          <span className="mb-0 text-sm">
-            {value["role_type"]}
-          </span>
-        </th>
-        <th scope = "row" style={{textAlign:"center"}}>
+                </th>
+                <th scope="row" style={{textAlign: "center"}}>
           <span className="mb-0 text-sm">
             {value["last_login"]}
           </span>
-        </th>
-        <th scope = "row" style={{textAlign:"center"}}>
-            {this.state.edit_mode[index] && (
-                <Button
-                className="icon icon-shape bg-success text-white rounded-circle"
-                type="button"
-                onClick={(e)=>this.setEditMode(index,false)}
-            >
-               <i className="fas fa-check"></i>
-           </Button>
-            ) }
-           <Button 
-                className="icon icon-shape bg-yellow text-white rounded-circle"
-                type="button"
-                onClick={(e)=>this.setEditMode(index,true)}
-            >
-               <i className="fas fa-pencil-alt"></i>
-           </Button>
-           {/* delete button */}
-           <Button
-                className="icon icon-shape bg-danger text-white rounded-circle"
-                type="button"
-                onClick={(e) => this.handleDelete(value["email"])}
-            >
-             <i className="fas fa-trash"/>
-           </Button>
-        </th>
-      </tr>
-    )
+                </th>
+                <th scope="row" style={{textAlign: "center"}}>
+                    {this.state.edit_mode[index] && (
+                        <Button
+                            className="icon icon-shape bg-success text-white rounded-circle"
+                            type="button"
+                            onClick={(e) => this.changeUserInfo(e,index)}
+                        >
+                            <i className="fas fa-check"></i>
+                        </Button>
+                    )}
+                    {this.state.edit_mode[index] && (
+                        <Button
+                            className="icon icon-shape bg-warning text-white rounded-circle"
+                            type="button"
+                            onClick={(e) => this.setEditMode(index, false)}
+                        >
+                            <i className="fas fa-times"></i>
+                        </Button>
+                    )}
+                    {/* delete button */}
+                    <Button
+                        className="icon icon-shape bg-danger text-white rounded-circle"
+                        type="button"
+                        onClick={(e) => this.handleDelete(value["email"])}
+                    >
+                        <i className="fas fa-trash"/>
+                    </Button>
+                </th>
+            </tr>
+        )
+    }
+    else {
+        return (
+
+            <tr key={index}>
+                <th scope="row" style={{textAlign: "center"}}>
+          <span className="mb-0 text-sm">
+            {value["id"]}
+          </span>
+                </th>
+                <th scope="row" style={{textAlign: "center"}}>
+          <span className="mb-0 text-sm">
+            {value["Username"]}
+          </span>
+                </th>
+                <th scope="row" style={{textAlign: "center"}}>
+          <span className="mb-0 text-sm">
+            {value["email"]}
+          </span>
+                </th>
+                <th scope="row" style={{textAlign: "center"}}>
+          <span className="mb-0 text-sm">
+            {value["city"]}
+          </span>
+                </th>
+                <th scope="row" style={{textAlign: "center"}}>
+          <span className="mb-0 text-sm">
+            {value["role"]}
+          </span>
+                </th>
+                <th scope="row" style={{textAlign: "center"}}>
+          <span className="mb-0 text-sm">
+            {value["role_type"]}
+          </span>
+                </th>
+                <th scope="row" style={{textAlign: "center"}}>
+          <span className="mb-0 text-sm">
+            {value["last_login"]}
+          </span>
+                </th>
+                <th scope="row" style={{textAlign: "center"}}>
+                    {this.state.edit_mode[index] && (
+                        <Button
+                            className="icon icon-shape bg-success text-white rounded-circle"
+                            type="button"
+                            onClick={(e) => this.setEditMode(index, false)}
+                        >
+                            <i className="fas fa-check"></i>
+                        </Button>
+                    )}
+                    {this.state.edit_mode[index] && (
+                        <Button
+                            className="icon icon-shape bg-warning text-white rounded-circle"
+                            type="button"
+                            onClick={(e) => this.setEditMode(index, false)}
+                        >
+                            <i className="fas fa-times"></i>
+                        </Button>
+                    )}
+                    <Button
+                        className="icon icon-shape bg-yellow text-white rounded-circle"
+                        type="button"
+                        onClick={(e) => this.setEditMode(index, true)}
+                    >
+                        <i className="fas fa-pencil-alt"></i>
+                    </Button>
+                    {/* delete button */}
+                    <Button
+                        className="icon icon-shape bg-danger text-white rounded-circle"
+                        type="button"
+                        onClick={(e) => this.handleDelete(value["email"])}
+                    >
+                        <i className="fas fa-trash"/>
+                    </Button>
+                </th>
+            </tr>
+        )
+    }
   }
 
   renderButtons(){
@@ -283,7 +417,7 @@ class Users_table extends React.Component {
 
   componentDidMount() {
     this.getData();
-    this.timer = setInterval(() => this.getData(), 10000)
+    //this.timer = setInterval(() => this.getData(), 10000)
   }
 
   componentWillUnmount(){
@@ -303,24 +437,49 @@ class Users_table extends React.Component {
   }
 
   changeValueDrop1(e,id) {
-
       const a = ["","between","cars","people","injured","severity","status"]
       this.state.dropDown1Value= e.currentTarget.textContent
       this.state.dropdownIndex= `${a[id]}`
       this.getData(id)
   }
   setEditMode(index,value){
+      //console.log(this.state.table_data_original[parseInt(index)])
+      if (value==false){
+          this.state.table_data[parseInt(index)]=JSON.parse(JSON.stringify(this.state.table_data_original[parseInt(index)]))
+      }
       this.state.edit_mode[parseInt(index)]=value
       this.setState(
                   prevState => (
                       {
-
                       }
                   )
               );
   }
+
+  changeUserInfo(e,index){
+   // event.preventDefault();
+    this.state.edit_mode[parseInt(index)]=false;
+    fetch('/update_user', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      Username: this.state.table_data[index]["Username"],
+      email:this.state.table_data[index]["email"],
+      role: this.state.table_data[index]["role"],
+      role_type: this.state.table_data[index]["role_type"],
+      city: this.state.table_data[index]["city"],
+      last_email:this.state.table_data_original[index]["email"]
+    }),
+    }).then(res => res.json())
+       .then(
+        (result) => {
+          this.getData()
+
+          })
+  }
+
+
   NewUser(){
-      console.log(this.state)
       this.setState(
                   prevState => (
                       {
@@ -329,10 +488,7 @@ class Users_table extends React.Component {
                   )
               );
   }
-submitNewUser(){
-      console.log("sucesso")
-    this.handleSubmit()
-}
+
 
   /**************************/
 
@@ -433,6 +589,14 @@ submitNewUser(){
 
                             </th>
                             <th scope = "row" style={{textAlign:"center"}}>
+                                <Button
+                                    className="icon icon-shape bg-warning text-white rounded-circle"
+                                    type="button"
+                                    onClick={(e) => this.NewUser()}
+                                >
+                                    <i className="fas fa-times"></i>
+                                </Button>
+
                                 <Button
                                     className="icon icon-shape bg-green text-white rounded-circle"
                                     type="button"

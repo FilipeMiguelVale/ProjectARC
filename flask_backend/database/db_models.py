@@ -15,9 +15,11 @@ class Accident(db.Model):
     date = db.Column(db.DateTime, default=datetime.now)
     status = db.Column(db.Integer, nullable=False, default=0)
     cars = db.relationship('Car', backref='car', lazy=True)
+    city= db.Column(db.String)
 
-    def __init__(self, location,video_id,n_people=0,n_cars_involved=0,n_people_injured=0,damage=0.0):
+    def __init__(self, location,city,video_id,n_people=0,n_cars_involved=0,n_people_injured=0,damage=0.0):
         self.location = location
+        self.city = city
         self.video_id = video_id
         self.n_people = n_people
         self.n_cars_involved = n_cars_involved
