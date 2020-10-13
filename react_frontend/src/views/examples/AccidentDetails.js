@@ -486,28 +486,11 @@ class AccidentDetails extends React.Component {
                 <CardBody>
                   <Row className="h-75 ">
                     <Col>
-                      <Maps
-                        markers = {[{id: this.props.match.params['id'],
-                                    lat: this.state.accident_data.location.coords.lat,
-                                    lng: this.state.accident_data.location.coords.lng,
-                                    status: this.state.accident_data.status}]}
-                        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aWR3SBGaa1oB0CuDf2vptnJfSMSguZU"
-                        loadingElement={<div style={{ height: `100%` }} />}
-                        center = {this.state.accident_data.location.coords}
-                        zoom = {17}
-
-                        containerElement={
-                          <div
-                            className="map-canvas"
-                            id="map-canvas"
-                          />
-                        }
-                        mapElement={
-                          <div style={{ height: `85%`, borderRadius: "inherit" }} />
-                        }
-
-                      />
-
+                      <Row >
+                        <div className="col">
+                          <img src={require("../../assets/img/brand/accident.png")} style={{height:"100%",width:"100%"}} />
+                        </div>
+                      </Row>
                       <Row>
                         <div className="col">
                           <p><strong>Address:</strong> {this.state.accident_data.location.address}</p>
@@ -551,6 +534,27 @@ class AccidentDetails extends React.Component {
                       </CardBody>
                     </Col>
                   </Row>
+                  <Maps
+                        markers = {[{id: this.props.match.params['id'],
+                                    lat: this.state.accident_data.location.coords.lat,
+                                    lng: this.state.accident_data.location.coords.lng,
+                                    status: this.state.accident_data.status}]}
+                        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aWR3SBGaa1oB0CuDf2vptnJfSMSguZU"
+                        loadingElement={<div style={{ height: `100%` }} />}
+                        center = {this.state.accident_data.location.coords}
+                        zoom = {17}
+
+                        containerElement={
+                          <div
+                            className="map-canvas"
+                            id="map-canvas"
+                          />
+                        }
+                        mapElement={
+                          <div style={{ height: `100%`, borderRadius: "inherit" }} />
+                        }
+
+                      />
                   <CardHeader>
                     <h3> MORE DETAILS... </h3>
                   </CardHeader>
