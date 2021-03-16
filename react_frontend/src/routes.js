@@ -17,11 +17,13 @@
 */
 import Index from "views/Index.js";
 import Profile from "views/examples/Profile.js";
-import Maps from "views/examples/Maps.js";
+import Maps from "views/examples/Maps_Page.js";
 import Register from "views/examples/Register.js";
-import Login from "views/examples/Login.js";
+import Login from "views/Login.js";
 import Accidents from "views/examples/Accidents.js";
-import Icons from "views/examples/Icons.js";
+import AccidentDetails from "views/examples/AccidentDetails";
+import Edit_profile from "views/examples/Edit_profile";
+import Users_table from "views/examples/Users_table";
 
 var routes = [
   {
@@ -32,13 +34,13 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/icons",
-    name: "Icons",
+    path: "/accident_details/:id",
+    name: "Accident Details",
     icon: "ni ni-planet text-blue",
-    component: Icons,
+    component: AccidentDetails,
     layout: "/admin"
   },
-  {
+   {
     path: "/maps",
     name: "Maps",
     icon: "ni ni-pin-3 text-orange",
@@ -72,7 +74,20 @@ var routes = [
     icon: "ni ni-circle-08 text-pink",
     component: Register,
     layout: "/auth"
-  }
-
+  },
+  {
+    path: "/edit_profile",
+    name: "Edit Profile",
+    icon: "ni ni-single-02 text-yellow",
+    component: Edit_profile,
+    layout: "/admin"
+  },
+  {
+    path: "/users_table",
+    name: "Users Table",
+    icon: "ni ni-single-02 text-yellow",
+    component: Users_table,
+    layout: "/admin"
+  },
 ];
 export default routes;

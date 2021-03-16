@@ -61,6 +61,23 @@ class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.activeRoute.bind(this);
+    this.state = {
+      user: [],
+      Username: "",
+      about: "",
+      address: "",
+      birth_date: "",
+      city: "",
+      country: "",
+      email: "",
+      first_name: "",
+      last_name: "",
+      postal_code: "",
+      profession: "",
+      telephone: "",
+      work_institution: "",
+      role: ""
+    }
   }
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
@@ -81,6 +98,10 @@ class Sidebar extends React.Component {
   // creates the links that appear in the left menu / Sidebar
   createLinks = routes => {
     return routes.map((prop, key) => {
+      if (prop['path'] == "/edit_profile" ||prop['path'] == "/register" ||prop['path'] == "/user-profile" || prop['path'] == "/accident_details/:id" || prop['path'] == "/login")
+        return
+      if (this.state.role != 0 && prop['path'] === '/users_table')
+        return
       return (
         <NavItem key={key}>
           <NavLink
@@ -96,6 +117,50 @@ class Sidebar extends React.Component {
       );
     });
   };
+
+  getData = async () => {
+      try {
+           const response = await fetch(
+              '/home'
+          );
+
+          const result = await response.json();
+          this.setState(
+              prevState => (
+                  {
+                      Username: result["Username"],
+                      email:result["email"],
+                      about:result["about"],
+                      address:result["address"],
+                      birth_date:result["birth_date"],
+                      country:result["country"],
+                      city:result["city"],
+                      first_name:result["first_name"],
+                      last_name:result["last_name"],
+                      postal_code:result["postal_code"],
+                      profession:result["profession"],
+                      telephone:result["telephone"],
+                      work_institution:result["work_institution"],
+                      role:result["role"]
+                  }
+              )
+          );
+      }
+    catch(e){
+         this.setState(
+             prevState => (
+                 {
+                     error: "No accidents do Show"
+                 }
+             )
+         );
+     }
+  }
+
+  componentDidMount() {
+    this.getData();
+  }
+
   render() {
     const { bgColor, routes, logo } = this.props;
     let navbarBrandProps;
@@ -158,7 +223,7 @@ class Sidebar extends React.Component {
                   <span className="avatar avatar-sm rounded-circle">
                     <img
                       alt="..."
-                      src={require("../../assets/img/theme/team-1-800x800.jpg")}
+                      // src={require("../../assets/img/theme/team-1-800x800.jpg")}
                     />
                   </span>
                 </Media>
@@ -239,39 +304,6 @@ class Sidebar extends React.Component {
             </Form>
             {/* Navigation */}
             <Nav navbar>{this.createLinks(routes)}</Nav>
-            {/* Divider */}
-            <hr className="my-3" />
-            {/* Heading */}
-            <h6 className="navbar-heading text-muted">Documentation</h6>
-            {/* Navigation */}
-            <Nav className="mb-md-3" navbar>
-              <NavItem>
-                <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/#/documentation/overview?ref=adr-admin-sidebar">
-                  <i className="ni ni-spaceship" />
-                  Getting started
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/#/documentation/colors?ref=adr-admin-sidebar">
-                  <i className="ni ni-palette" />
-                  Foundation
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/#/documentation/alerts?ref=adr-admin-sidebar">
-                  <i className="ni ni-ui-04" />
-                  Components
-                </NavLink>
-              </NavItem>
-            </Nav>
-            <Nav className="mb-md-3" navbar>
-              <NavItem className="active-pro active">
-                <NavLink href="https://www.creative-tim.com/product/argon-dashboard-pro-react?ref=adr-admin-sidebar">
-                  <i className="ni ni-spaceship" />
-                  Upgrade to PRO
-                </NavLink>
-              </NavItem>
-            </Nav>
           </Collapse>
         </Container>
       </Navbar>

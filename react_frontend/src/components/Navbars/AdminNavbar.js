@@ -19,6 +19,67 @@ import {
 } from "reactstrap";
 
 class AdminNavbar extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+        user: [],
+        Username: "",
+        about: "",
+        address: "",
+        birth_date: "",
+        city: "",
+        country: "",
+        email: "",
+        first_name: "",
+        last_name: "",
+        postal_code: "",
+        profession: "",
+        telephone: "",
+        work_institution: ""
+    }
+   }
+
+  getData = async () => {
+      try {
+           const response = await fetch(
+              `/home`
+          );
+
+          const result = await response.json();
+
+          this.setState(
+              prevState => (
+                  {
+                      Username: result["Username"],
+                      email:result["email"],
+                      about:result["about"],
+                      address:result["address"],
+                      birth_date:result["birth_date"],
+                      country:result["country"],
+                      first_name:result["first_name"],
+                      last_name:result["last_name"],
+                      postal_code:result["postal_code"],
+                      profession:result["profession"],
+                      telephone:result["telephone"],
+                      work_institution:result["work_institution"],
+                  }
+              )
+          );
+      }
+    catch(e){
+         this.setState(
+             prevState => (
+                 {
+                     error: "No accidents do Show"
+                 }
+             )
+         );
+     }
+  }
+  componentDidMount() {
+    this.getData();
+  }
   render() {
     return (
       <>
@@ -49,12 +110,12 @@ class AdminNavbar extends React.Component {
                     <span className="avatar avatar-sm rounded-circle">
                       <img
                         alt="..."
-                        src={require("assets/img/theme/team-4-800x800.jpg")}
+                        src={require("assets/img/theme/administrative1.png")}
                       />
                     </span>
                     <Media className="ml-2 d-none d-lg-block">
                       <span className="mb-0 text-sm font-weight-bold">
-                        Jessica Jones
+                        {this.state.Username}
                       </span>
                     </Media>
                   </Media>
@@ -67,20 +128,20 @@ class AdminNavbar extends React.Component {
                     <i className="ni ni-single-02" />
                     <span>My profile</span>
                   </DropdownItem>
-                  <DropdownItem to="/admin/user-profile" tag={Link}>
-                    <i className="ni ni-settings-gear-65" />
-                    <span>Settings</span>
-                  </DropdownItem>
-                  <DropdownItem to="/admin/user-profile" tag={Link}>
-                    <i className="ni ni-calendar-grid-58" />
-                    <span>Activity</span>
-                  </DropdownItem>
-                  <DropdownItem to="/admin/user-profile" tag={Link}>
-                    <i className="ni ni-support-16" />
-                    <span>Support</span>
-                  </DropdownItem>
+                  {/*<DropdownItem to="/admin/user-profile" tag={Link}>*/}
+                  {/*  <i className="ni ni-settings-gear-65" />*/}
+                  {/*  <span>Settings</span>*/}
+                  {/*</DropdownItem>*/}
+                  {/*<DropdownItem to="/admin/user-profile" tag={Link}>*/}
+                  {/*  <i className="ni ni-calendar-grid-58" />*/}
+                  {/*  <span>Activity</span>*/}
+                  {/*</DropdownItem>*/}
+                  {/*<DropdownItem to="/admin/user-profile" tag={Link}>*/}
+                  {/*  <i className="ni ni-support-16" />*/}
+                  {/*  <span>Support</span>*/}
+                  {/*</DropdownItem>*/}
                   <DropdownItem divider />
-                  <DropdownItem href="#pablo" onClick={e => e.preventDefault()}>
+                  <DropdownItem to="/auth/login" tag={Link}>>
                     <i className="ni ni-user-run" />
                     <span>Logout</span>
                   </DropdownItem>

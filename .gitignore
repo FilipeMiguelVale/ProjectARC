@@ -11,8 +11,5 @@ flask_backend/templates/*
 
 #react Frontend
 /react_frontend/node_modules/*
-venv/bin/python
-
-venv/bin/python3
-
-venv/bin/python3.6
+venv/*
+.idea/*
